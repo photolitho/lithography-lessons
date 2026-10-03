@@ -247,7 +247,7 @@ details p { margin-top: 8px; color: var(--muted); }
 
 <section class="step">
   <h1>The two real materials: molybdenum and silicon</h1>
-  <p>These are the CXRO tables used by the project scripts, interpolated here at the wavelength you choose. Move the wavelength and read <span class="mono">n</span> and <span class="mono">k</span> for <span class="mo">Mo</span> and <span class="si">Si</span>.</p>
+  <p>These are measured optical constants from the CXRO database, interpolated here at the wavelength you choose. Move the wavelength and read <span class="mono">n</span> and <span class="mono">k</span> for <span class="mo">Mo</span> and <span class="si">Si</span>.</p>
   <div class="lab">
     <div class="pair">
       <div><canvas id="c-mn" style="height:200px"></canvas><div class="cap">n, real part. The dashed line is vacuum.</div></div>
@@ -324,7 +324,7 @@ details p { margin-top: 8px; color: var(--muted); }
   </div>
   <div class="after" hidden>
     <p><strong>At 13.5 nm the index of molybdenum is close to 1, and that of silicon is closer still.</strong> The Fresnel numerator, <span class="mono">n₁ − n₂</span>, is small, and squaring makes it tiny.</p>
-    <p>Comparison with the project scripts, at 6° and s polarization: this lesson gives 0.1618%, <span class="mono">02_fresnel_single_interface.py</span> gives 0.1615%. The difference comes from the optical data. The lesson interpolates the CXRO tables at exactly 13.500 nm; the scripts use the nearest table point, which falls at 13.4948 nm.</p>
+    <p>A note on the data, at 6° and s polarization. This lesson interpolates the CXRO tables at exactly 13.500 nm and gives 0.1618%. Taking the nearest tabulated point instead, at 13.4948 nm, gives 0.1615%. Both are legitimate readings of the same tables; the choice moves the result in the fourth digit.</p>
   </div>
 </section>
 
@@ -387,7 +387,7 @@ details p { margin-top: 8px; color: var(--muted); }
     <div class="fb"></div>
   </div>
   <div class="after" hidden>
-    <p><strong>The sum saturates.</strong> The real mirror stops at 74.2% with 40 pairs: that is the number the script <span class="mono">04_tmm.py</span> reproduces. Understanding where that 74% comes from is the work of the next two modules.</p>
+    <p><strong>The sum saturates.</strong> The nominal model, an ideal stack of 40 pairs with perfectly sharp and smooth interfaces, reaches 74.2%. That number comes from a transfer-matrix calculation, the method the next modules build up to. Real mirrors reflect somewhat less, because their interfaces are not perfect.</p>
     <h2>The module is closed if you can answer without looking</h2>
     <div>
       <details><summary>What do n and k represent?</summary><p>n says how different the material is from vacuum for light, and so how much it reflects and bends. k says how much it absorbs.</p></details>
@@ -486,7 +486,7 @@ const IT = {
   "It drops to a quarter": "Diventa un quarto",
   "<strong>The larger k is, the shorter the distance light travels.</strong> It is an inverse proportion: twice the k, half the L.": "<strong>Più k è grande, meno strada fa la luce.</strong> È una proporzionalità inversa: doppio k, metà L.",
   "The two real materials: molybdenum and silicon": "I due materiali veri: molibdeno e silicio",
-  "These are the CXRO tables used by the project scripts, interpolated here at the wavelength you choose. Move the wavelength and read <span class=\"mono\">n</span> and <span class=\"mono\">k</span> for <span class=\"mo\">Mo</span> and <span class=\"si\">Si</span>.": "Queste sono le tabelle CXRO usate dagli script del progetto, qui interpolate alla lunghezza d'onda che scegli. Muovi la lunghezza d'onda e leggi <span class=\"mono\">n</span> e <span class=\"mono\">k</span> per <span class=\"mo\">Mo</span> e <span class=\"si\">Si</span>.",
+  "These are measured optical constants from the CXRO database, interpolated here at the wavelength you choose. Move the wavelength and read <span class=\"mono\">n</span> and <span class=\"mono\">k</span> for <span class=\"mo\">Mo</span> and <span class=\"si\">Si</span>.": "Queste sono costanti ottiche misurate, dal database CXRO, qui interpolate alla lunghezza d'onda che scegli. Muovi la lunghezza d'onda e leggi <span class=\"mono\">n</span> e <span class=\"mono\">k</span> per <span class=\"mo\">Mo</span> e <span class=\"si\">Si</span>.",
   "n, real part. The dashed line is vacuum.": "n, parte reale. La linea tratteggiata è il vuoto.",
   "k, absorption (logarithmic scale).": "k, assorbimento (scala logaritmica).",
   "λ": "λ",
@@ -524,7 +524,7 @@ const IT = {
   "Because its n is only 0.076 away from vacuum": "Perché il suo n dista dal vuoto solo di 0,076",
   "Because the light arrives at an angle": "Perché la luce arriva inclinata",
   "<strong>At 13.5 nm the index of molybdenum is close to 1, and that of silicon is closer still.</strong> The Fresnel numerator, <span class=\"mono\">n₁ − n₂</span>, is small, and squaring makes it tiny.": "<strong>A 13,5 nm l'indice del molibdeno è vicino a 1, e quello del silicio lo è ancora di più.</strong> Il numeratore di Fresnel, <span class=\"mono\">n₁ − n₂</span>, è piccolo, e il quadrato lo rende minuscolo.",
-  "Comparison with the project scripts, at 6° and s polarization: this lesson gives 0.1618%, <span class=\"mono\">02_fresnel_single_interface.py</span> gives 0.1615%. The difference comes from the optical data. The lesson interpolates the CXRO tables at exactly 13.500 nm; the scripts use the nearest table point, which falls at 13.4948 nm.": "Confronto con gli script del progetto, a 6° e polarizzazione s: questa lezione dà 0,1618%, <span class=\"mono\">02_fresnel_single_interface.py</span> dà 0,1615%. La differenza viene dai dati ottici. La lezione interpola le tabelle CXRO esattamente a 13,500 nm; gli script usano il punto di tabella più vicino, che cade a 13,4948 nm.",
+  "A note on the data, at 6° and s polarization. This lesson interpolates the CXRO tables at exactly 13.500 nm and gives 0.1618%. Taking the nearest tabulated point instead, at 13.4948 nm, gives 0.1615%. Both are legitimate readings of the same tables; the choice moves the result in the fourth digit.": "Una nota sui dati, a 6° e polarizzazione s. Questa lezione interpola le tabelle CXRO esattamente a 13,500 nm e dà 0,1618%. Prendendo invece il punto di tabella più vicino, a 13,4948 nm, si ottiene 0,1615%. Sono due letture legittime delle stesse tabelle; la scelta sposta il risultato sulla quarta cifra.",
   "Direction matters: Si to Mo, or Mo to Si": "Il verso conta: da Si a Mo, o da Mo a Si",
   "Inside the mirror, light does not meet vacuum: it goes from silicon to molybdenum and back, dozens of times. Swap the order of the two layers and watch <span class=\"mono\">r</span>.": "Dentro lo specchio la luce non incontra il vuoto: passa da silicio a molibdeno e viceversa, decine di volte. Scambia l'ordine dei due strati e guarda <span class=\"mono\">r</span>.",
   "Si on top, Mo below": "Si sopra, Mo sotto",
@@ -557,7 +557,7 @@ const IT = {
   "Deep layers receive less light: part has already been reflected and part absorbed": "Gli strati profondi ricevono meno luce: una parte è già stata riflessa e una parte assorbita",
   "The Fresnel formula stops holding below the first surface": "La formula di Fresnel smette di valere sotto la prima superficie",
   "Silicon surfaces do not reflect": "Le superfici del silicio non riflettono",
-  "<strong>The sum saturates.</strong> The real mirror stops at 74.2% with 40 pairs: that is the number the script <span class=\"mono\">04_tmm.py</span> reproduces. Understanding where that 74% comes from is the work of the next two modules.": "<strong>La somma satura.</strong> Lo specchio vero si ferma al 74,2% con 40 coppie: è il numero che lo script <span class=\"mono\">04_tmm.py</span> riproduce. Capire da dove viene quel 74% è il lavoro dei prossimi due moduli.",
+  "<strong>The sum saturates.</strong> The nominal model, an ideal stack of 40 pairs with perfectly sharp and smooth interfaces, reaches 74.2%. That number comes from a transfer-matrix calculation, the method the next modules build up to. Real mirrors reflect somewhat less, because their interfaces are not perfect.": "<strong>La somma satura.</strong> Il modello nominale, uno stack ideale di 40 coppie con interfacce perfettamente nette e lisce, arriva al 74,2%. Il numero viene da un calcolo con le matrici di trasferimento, il metodo a cui portano i prossimi moduli. Gli specchi veri riflettono un po' meno, perché le loro interfacce non sono perfette.",
   "The module is closed if you can answer without looking": "Il modulo è chiuso se sai rispondere senza guardare",
   "What do n and k represent?": "Cosa rappresentano n e k?",
   "n says how different the material is from vacuum for light, and so how much it reflects and bends. k says how much it absorbs.": "n dice quanto il materiale è diverso dal vuoto per la luce, e quindi quanto riflette e piega. k dice quanto assorbe.",
