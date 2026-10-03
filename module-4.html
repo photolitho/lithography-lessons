@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EUV Module 4</title>
+<meta name="description" content="Interactive lesson on the bandwidth of an EUV Mo/Si mirror and on how period, angle and the share of molybdenum move and shape its reflectance peak.">
+<meta name="theme-color" content="#F2F4F9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1220" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Litho Lessons">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="lesson.css">
+</head>
+<body>
+<div class="app" data-mode="home">
+<header class="top"><div class="top-in">
+  <div class="crumbs"><span id="where">EUV Mirror · Module 4</span><button class="linkbtn" id="menu">Menu</button><span id="count"></span><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
+  <div class="segs" id="segs"></div>
+</div></header>
+
+<main>
+
+<section class="step" id="home">
+  <a class="linkbtn" href="./" style="text-decoration:none;align-self:flex-start">← All lessons</a>
+  <h1>How narrow is the peak, and what moves it?</h1>
+  <p class="lead">Six steps, four interactive experiments on bandwidth, period, angle and the share of molybdenum in each pair. Choose how to take them.</p>
+  <div class="modes">
+    <div class="mode">
+      <h2>Guided path</h2>
+      <p>One opening prediction, then one step at a time. You move on by answering a question or reaching a goal.</p>
+      <div class="cap" id="home-prog"></div>
+      <button class="btn go" id="go-guided">Start</button>
+    </div>
+    <div class="mode">
+      <h2>Explore</h2>
+      <p>Every experiment, in any order, with no required answers. Explanations open on request.</p>
+      <div class="cap">Exploring does not complete steps of the guided path.</div>
+      <ol class="toc" id="toc"></ol>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="predict">
+  <h1>The mirror is built for 13.5 nm. How picky is it?</h1>
+  <p class="lead">Module 3 tuned 40 pairs so that their reflections line up at 13.5 nm. Change the wavelength a little and the arrows no longer point the same way.</p>
+  <p class="guided-only">Before computing anything, make a prediction. You will meet it again later.</p>
+  <p class="explore-only">The steps that follow build the answer one piece at a time.</p>
+  <div class="q">
+    <p>How far can the wavelength move from the best one before the reflectance drops to half?</p>
+    <div class="opts" id="pred">
+      <button data-v="about 0.03 nm">About 0.03 nm</button>
+      <button data-v="about 0.3 nm">About 0.3 nm</button>
+      <button data-v="about 3 nm">About 3 nm</button>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="band">
+  <h1>A mirror only for a band of wavelengths</h1>
+  <p>Here is the reflectance of the mirror of module 3 against wavelength, computed with the matrix method. At each wavelength the indices of molybdenum and silicon are read again from the tables, because they change with wavelength too.</p>
+  <p>The width of the peak is measured at half its height: find the highest point, take half of that value, and measure the distance between the two wavelengths, one on each side, where the curve crosses it. This is the full width at half maximum, FWHM.</p>
+  <div class="lab">
+    <canvas id="c-band" style="height:230px"></canvas>
+    <div class="ctrl"><label for="s-Nb">Pairs</label><input type="range" id="s-Nb" min="5" max="60" step="1" value="10"><output id="o-Nb"></output></div>
+    <div class="ctrl"><label for="s-lb">Wavelength</label><input type="range" id="s-lb" min="12.6" max="14.6" step="0.005" value="13.2"><output id="o-lb"></output></div>
+    <div class="reads"><span><b>R at the cursor</b><span class="big" id="r-Rb"></span></span><span><b>peak at</b><span id="r-pk"></span></span><span><b>FWHM</b><span id="r-fw"></span></span><span><b>0.886 · λ / N</b><span id="r-kin"></span></span></div>
+    <div class="cap">Molybdenum 2.78 nm on silicon 4.18 nm, repeated, at 6° and s polarization.</div>
+  </div>
+  <div class="goal" id="g-band">Set 40 pairs and put the cursor on the peak (R above 74.2%).</div>
+  <div class="q">
+    <p>For 5 pairs the simple estimate of the width is 0.886 · λ / N. With λ = 13.5 nm, what is it in nm?</p>
+    <div class="numq" data-ans="2.39" data-tol="0.02" data-hint="0.886 × 13.5 / 5."><input type="text" inputmode="decimal" id="in-fw" aria-label="width in nm"><span class="mono">nm</span><button class="btn">Check</button></div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>With 40 pairs the peak is 0.64 nm wide and sits at 13.53 nm.</strong> <span class="guided-only">You predicted: <strong id="pred-echo">—</strong>. </span>Half of the width on each side is about 0.3 nm: move the wavelength by 2% and the mirror has lost half its reflection.</p>
+    <p>The reason is in the arrows. Away from the best wavelength, each pair's arrow is turned a little against the previous one. Over a few pairs that hardly matters. Over many it adds up, the chain curls, and the sum collapses. The more pairs take part, the smaller the detuning that is tolerated.</p>
+    <p>With 5 pairs the simple estimate and the full calculation agree: 2.39 nm. With 40 pairs the estimate says 0.30 nm and the calculation 0.64 nm. The estimate counts all 40 pairs as equal partners, and module 3 showed they are not: the deep ones receive little light. In effect only about 20 pairs set the width, and adding more hardly narrows it.</p>
+    <div class="fcard">
+      <div class="formula"><span>|sum| = <span class="frac"><span>sin(N·ε/2)</span><span>sin(ε/2)</span></span></span><span>FWHM ≈ 0.886 · <span class="frac"><span>λ</span><span>N</span></span></span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>Add N arrows of length 1, each turned by the same small angle ε against the one before. This is the geometric series of module 2 with x = e<sup>iε</sup>, and its sum has the length shown. Detuning the wavelength by Δλ turns each pair's arrow by ε = 2π·Δλ/λ. The intensity falls to half when N·ε/2 = 1.39, which gives the width.</dd>
+        <dt>Assumptions</dt><dd>N identical pairs that all contribute equally: weak reflections and no absorption. Indices that do not change over the width of the peak.</dd>
+        <dt>The terms</dt><dd>N is the number of pairs. ε is the extra turn from one pair to the next. λ is the wavelength of the peak. FWHM is the full width of the peak at half its height.</dd>
+        <dt>Check</dt><dd>With ε = 0 the ratio becomes N: all arrows in line. It first reaches zero when N·ε = 2π: the chain has closed into a full circle. For 5 pairs the estimate gives 2.39 nm, and so does the experiment. For 40 pairs it fails, as it should, because its first assumption fails.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="period">
+  <h1>The period sets the wavelength</h1>
+  <p>The Bragg condition ties the best wavelength to the period: <span class="mono">λ = 2·D·n̄·cos θ</span>. A thicker period should move the whole peak to longer wavelengths, in proportion.</p>
+  <div class="formula"><span><span class="frac"><span>Δλ</span><span>λ</span></span> ≈ <span class="frac"><span>ΔD</span><span>D</span></span></span></div>
+  <div class="lab">
+    <canvas id="c-per" style="height:230px"></canvas>
+    <div class="cap">The dashed line marks 13.5 nm.</div>
+    <div class="ctrl"><label for="s-Dp">Period D</label><input type="range" id="s-Dp" min="6.8" max="7.1" step="0.002" value="6.86"><output id="o-Dp"></output></div>
+    <div class="reads"><span><b>peak at</b><span class="big" id="r-pkD"></span></span><span><b>R at 13.5 nm</b><span id="r-R135"></span></span></div>
+    <div class="cap">40 pairs, molybdenum 40% of the period, 6°, s polarization.</div>
+  </div>
+  <div class="goal" id="g-per">Find the period that puts the peak at 13.50 nm (between 13.495 and 13.505).</div>
+  <div class="q">
+    <p>The period grows by 1%. By the Bragg condition, how many nm does a peak at 13.5 nm move?</p>
+    <div class="numq" data-ans="0.135" data-tol="0.004" data-hint="1% of 13.5 nm."><input type="text" inputmode="decimal" id="in-sh" aria-label="shift in nm"><span class="mono">nm</span><button class="btn">Check</button></div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>A period of 6.948 nm puts the peak at 13.50 nm.</strong> That is 2.78 nm of molybdenum and 4.17 nm of silicon, give or take a few thousandths of a nanometre. The layers of a real mirror must be deposited with that kind of accuracy over the whole surface.</p>
+    <p>The proportion holds, roughly. Going from 6.96 to 7.03 nm is a 1% change, and the peak moves from 13.53 to 13.65 nm: 0.12 nm, or 0.9%, instead of the 0.135 nm of the simple rule. The difference comes from the materials. At longer wavelengths the index of molybdenum is lower, so n̄ falls as the peak moves, and the peak moves a little less.</p>
+    <p>There is also a constant offset. For D = 6.96 nm the Bragg formula predicts 13.41 nm, and the full calculation gives 13.53 nm. The formula is a guide to how the peak moves, and a first estimate of where it is. The design value has to come from the full calculation.</p>
+    <div class="fcard">
+      <div class="formula"><span><span class="frac"><span>Δλ</span><span>λ</span></span> ≈ <span class="frac"><span>ΔD</span><span>D</span></span></span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>In λ = 2·D·n̄·cos θ the wavelength is proportional to D. Multiply D by 1.01 and λ is multiplied by 1.01.</dd>
+        <dt>Assumptions</dt><dd>The share of molybdenum and the angle stay the same. The average index n̄ does not change between the old and the new wavelength.</dd>
+        <dt>The terms</dt><dd>ΔD is the change of the period and Δλ the resulting change of the peak wavelength. Both are taken relative to their starting values.</dd>
+        <dt>Check</dt><dd>From 6.96 to 7.03 nm the rule predicts +0.135 nm. The experiment gives +0.12 nm. The second assumption is the one that is not quite met.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="angle">
+  <h1>The same mirror at another angle</h1>
+  <p>The Bragg condition contains the angle too. Light that crosses the stack obliquely has a shorter wave motion perpendicular to the layers, by the factor cos θ, so the same period fits a shorter wavelength.</p>
+  <div class="formula"><span>λ<sub>peak</sub>(θ) ≈ λ<sub>peak</sub>(0) · cos θ</span></div>
+  <div class="lab">
+    <canvas id="c-ang" style="height:230px"></canvas>
+    <div class="cap">The dashed line marks 13.5 nm.</div>
+    <div class="ctrl"><label for="s-tha">Angle</label><input type="range" id="s-tha" min="0" max="20" step="0.1" value="0"><output id="o-tha"></output></div>
+    <div class="reads"><span><b>peak at</b><span class="big" id="r-pkA"></span></span><span><b>R at 13.5 nm</b><span id="r-RA"></span></span></div>
+    <div class="cap">40 pairs, molybdenum 2.78 nm and silicon 4.18 nm, s polarization.</div>
+  </div>
+  <div class="goal" id="g-ang">Find the angle at which this mirror reflects 13.5 nm best (above 74.3%).</div>
+  <div class="q">
+    <p>You tilt the mirror further away from perpendicular. Where does the peak go?</p>
+    <div class="opts mc">
+      <button data-hint="Look at the formula: cos θ gets smaller as θ grows.">To longer wavelengths</button>
+      <button data-ok>To shorter wavelengths</button>
+      <button data-hint="Move the slider from 0° to 20° and follow the peak.">It stays where it is</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>A mirror is made for one wavelength at one angle.</strong> This stack reflects 13.5 nm best at about 7°. At perpendicular incidence its peak is at 13.60 nm, and 13.5 nm is reflected at 72.8%. At 15° the peak is at 13.16 nm, and 13.5 nm is almost not reflected at all: 9%.</p>
+    <p>In a scanner different mirrors are hit at different angles, and each needs its own period. On a curved mirror the angle also changes across the surface, so the period has to change with it from the centre to the edge.</p>
+    <div class="fcard">
+      <div class="formula"><span>λ<sub>peak</sub>(θ) ≈ λ<sub>peak</sub>(0) · cos θ</span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>From λ = 2·D·n̄·cos θ with D and n̄ fixed. Module 2 gave the reason for the cosine: at an angle the phase gained crossing a layer is 2π·n·d·cos θ/λ.</dd>
+        <dt>Assumptions</dt><dd>θ is the angle inside the stack. Because n̄ is close to 1 it is nearly the angle in vacuum, and the formula uses that one. The average index does not change over the shift.</dd>
+        <dt>The terms</dt><dd>λ<sub>peak</sub>(0) is the peak wavelength at perpendicular incidence, 13.60 nm for this stack. θ is the angle from the perpendicular.</dd>
+        <dt>Check</dt><dd>At 10° the formula gives 13.60 × cos 10° = 13.39 nm, and the experiment 13.40 nm. At 20° it gives 12.78 nm against 12.83 nm: the approximations start to show.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="gamma">
+  <h1>How much molybdenum in each pair?</h1>
+  <p>The period fixes the wavelength. It does not say how to share the period between the two materials. Call <span class="mono">Γ</span> the fraction taken by molybdenum: <span class="mono">Γ = d<sub>Mo</sub> / D</span>.</p>
+  <p>A pair has two surfaces that reflect with opposite signs. Module 2 found when two such reflections add best: when the round trip between them is half a turn. With one full turn per pair, half a turn means the molybdenum layer takes half of the period.</p>
+  <div class="formula"><span>arrow of one pair ∝ 2 · sin(π · Γ)</span></div>
+  <div class="lab">
+    <div class="toggle" id="t-absg"><button data-a="1" aria-pressed="true">Real materials</button><button data-a="0" aria-pressed="false">No absorption (k = 0)</button></div>
+    <canvas id="c-gam" style="height:220px"></canvas>
+    <div class="cap">Height of the reflectance peak against the share of molybdenum, for 40 pairs with a period of 6.96 nm.</div>
+    <div class="ctrl"><label for="s-G">Share Γ</label><input type="range" id="s-G" min="0.2" max="0.6" step="0.01" value="0.25"><output id="o-G"></output></div>
+    <div class="reads"><span><b>peak R</b><span class="big" id="r-RG"></span></span><span><b>2 · sin(π · Γ)</b><span id="r-sin"></span></span></div>
+  </div>
+  <div class="goal" id="g-gam">With real materials, find the share of molybdenum that gives the highest peak (above 74.25%).</div>
+  <div class="q">
+    <p>Without absorption the best share is 0.5. With real materials it is 0.4. Why does it move?</p>
+    <div class="opts mc">
+      <button data-hint="The period is fixed at 6.96 nm in both cases, so the round trip through a pair is the same.">Because with absorption the Bragg condition changes</button>
+      <button data-ok>Because molybdenum absorbs three and a half times more than silicon: a little less of it costs little reflection and saves absorption</button>
+      <button data-hint="At 13.5 nm silicon is the nearly transparent one: k = 0.0018 against 0.0064 for molybdenum.">Because silicon absorbs more than molybdenum</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>A compromise between lining up the arrows and losing light.</strong> Equal shares make each pair's arrow as long as it can be. But molybdenum is the absorber, and every nanometre of it is crossed twice by all the light that goes deeper. Giving up 5% of the arrow by going from 0.5 to 0.4 gains more than it costs: the peak rises from 73.2% to 74.3%.</p>
+    <p>The same curve shows how forgiving the choice is. Between 0.35 and 0.45 the peak stays within half a point of its best value. The share is far less critical than the period.</p>
+    <div class="fcard">
+      <div class="formula"><span>arrow of one pair ∝ 2 · sin(π · Γ)</span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>Take the two surfaces of the molybdenum layer. Their reflections are +r and −r. The second has crossed the layer twice, a round trip of 2π·Γ when the whole pair makes one turn. The sum r·(1 − e<sup>i·2πΓ</sup>) has length 2·r·sin(π·Γ).</dd>
+        <dt>Assumptions</dt><dd>Weak reflections and no absorption, so that one pair can be looked at alone. The two indices are close enough that the share of thickness is also the share of phase.</dd>
+        <dt>The terms</dt><dd>Γ = d<sub>Mo</sub>/D is the fraction of the period taken by molybdenum. r is the size of the reflection of one surface.</dd>
+        <dt>Check</dt><dd>Γ = 0.5 gives 2: two quarter-wave layers, the best case of module 2. Γ = 0 or 1 gives 0: with only one material there are no surfaces left. In the experiment without absorption the curve peaks at 0.5.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="apply">
+  <h1>What this means for a real machine</h1>
+  <p>The mirror reflects a band 0.64 nm wide, centred where the period and the angle put it. Three consequences, each a use of what this module built.</p>
+  <div class="q">
+    <p>A scanner sends the light over 11 such mirrors in a row, each reflecting 74.2%. What percentage of the light is left after all eleven?</p>
+    <div class="numq" data-ans="3.75" data-tol="0.15" data-hint="Multiply 0.742 by itself eleven times: 0.742 to the power 11. Then express it as a percentage."><input type="text" inputmode="decimal" id="in-11" aria-label="percentage left"><span class="mono">%</span><button class="btn">Check</button></div>
+    <div class="fb"></div>
+  </div>
+  <div class="q">
+    <p>Someone proposes 200 pairs to get a very narrow band, quoting 0.886 · λ / N = 0.06 nm. Will it work?</p>
+    <div class="opts mc">
+      <button data-hint="The estimate assumes all pairs contribute equally. Check what the experiment showed between 40 and 60 pairs.">Yes: the width always shrinks in proportion to 1/N</button>
+      <button data-ok>No: absorption and reflection keep the light out of the deep pairs, so the width stops near 0.6 nm</button>
+      <button data-hint="More pairs never widen the peak. They simply stop narrowing it.">No: more pairs make the band wider</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="q">
+    <p>A mirror warms up and its period grows by 0.1%. How serious is the shift of the peak?</p>
+    <div class="opts mc">
+      <button data-hint="0.1% of 13.5 nm is 0.0135 nm. Compare that with the 0.64 nm width of the peak.">Serious: the peak leaves the band entirely</button>
+      <button data-ok>Small for the reflectance: the peak moves about 0.013 nm, some 2% of its width</button>
+      <button data-hint="The Bragg condition ties the wavelength to the period. If one changes, so does the other.">None: the peak does not depend on the period</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>Eleven mirrors pass less than 4% of the light.</strong> This is why every point of reflectance matters, and why the sources of EUV scanners have to be so powerful. It is also why the 26% that each mirror does not reflect matters: it ends up as heat in the mirrors. Module 5 follows that light.</p>
+    <p>A 0.1% change of the period hardly changes the reflectance. The trouble with a warm mirror is elsewhere: its surface changes shape, and that is an optical error of a different kind.</p>
+    <h2>What to carry forward</h2>
+    <ul class="carry">
+      <li><strong>FWHM ≈ 0.886·λ/N.</strong> Use it when all N pairs contribute equally: few pairs, weak reflections. For a full EUV mirror it underestimates the width by a factor of two.</li>
+      <li><strong>Δλ/λ ≈ ΔD/D and λ<sub>peak</sub> ∝ cos θ.</strong> Use them to estimate how the peak moves with period and angle. They are not accurate enough to place the peak: that takes the full calculation.</li>
+      <li><strong>Arrow of one pair ∝ 2·sin(π·Γ).</strong> Use it to see why equal shares line the arrows up best. It ignores absorption, which is what moves the real optimum to 0.4.</li>
+    </ul>
+    <h2>The module is closed if you can rebuild the reasoning without looking</h2>
+    <div>
+      <details><summary>Why does the mirror reflect only a band of wavelengths?</summary><p>Off the best wavelength each pair's arrow is turned a little against the previous one. Over many pairs the chain curls and the sum collapses.</p></details>
+      <details><summary>How is the FWHM defined?</summary><p>Take half the height of the peak and measure the distance between the two wavelengths, one on each side, where the curve crosses that value.</p></details>
+      <details><summary>Why is the real band twice as wide as 0.886·λ/N says for 40 pairs?</summary><p>The estimate assumes 40 equal pairs. Reflection and absorption keep the light from the deep ones, so only about 20 take part.</p></details>
+      <details><summary>What moves the peak, and which way?</summary><p>A thicker period moves it to longer wavelengths, in proportion. A larger angle from perpendicular moves it to shorter wavelengths, as cos θ.</p></details>
+      <details><summary>Why is the share of molybdenum 0.4 and not 0.5?</summary><p>Equal shares give the longest arrow per pair, but molybdenum absorbs three and a half times more than silicon. Slightly less of it gains more than it costs.</p></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="nav"><div class="nav-in">
+  <button class="btn" id="back">Back</button>
+  <span class="hint" id="hint"></span>
+  <button class="btn go" id="next">Continue</button>
+</div></footer>
+</div>
+
+<script src="cxro.js"></script>
+<script src="lesson.js"></script>
+<script>
+Object.assign(IT, {
+  "How narrow is the peak, and what moves it?": "Quanto è stretto il picco, e cosa lo sposta?",
+  "Six steps, four interactive experiments on bandwidth, period, angle and the share of molybdenum in each pair. Choose how to take them.": "Sei passi, quattro esperimenti interattivi su larghezza di banda, periodo, angolo e quota di molibdeno in ogni coppia. Scegli come affrontarli.",
+  "The mirror is built for 13.5 nm. How picky is it?": "Lo specchio è costruito per 13,5 nm. Quanto è esigente?",
+  "Module 3 tuned 40 pairs so that their reflections line up at 13.5 nm. Change the wavelength a little and the arrows no longer point the same way.": "Il modulo 3 ha regolato 40 coppie in modo che le loro riflessioni si allineino a 13,5 nm. Cambia un po' la lunghezza d'onda e le frecce non puntano più nella stessa direzione.",
+  "Before computing anything, make a prediction. You will meet it again later.": "Prima di calcolare qualsiasi cosa, fai una previsione. La ritroverai più avanti.",
+  "The steps that follow build the answer one piece at a time.": "I passi che seguono costruiscono la risposta un pezzo alla volta.",
+  "How far can the wavelength move from the best one before the reflectance drops to half?": "Di quanto può spostarsi la lunghezza d'onda da quella migliore prima che la riflettanza scenda a metà?",
+  "About 0.03 nm": "Circa 0,03 nm",
+  "About 0.3 nm": "Circa 0,3 nm",
+  "About 3 nm": "Circa 3 nm",
+  "A mirror only for a band of wavelengths": "Uno specchio solo per una banda di lunghezze d'onda",
+  "Here is the reflectance of the mirror of module 3 against wavelength, computed with the matrix method. At each wavelength the indices of molybdenum and silicon are read again from the tables, because they change with wavelength too.": "Ecco la riflettanza dello specchio del modulo 3 in funzione della lunghezza d'onda, calcolata con il metodo delle matrici. A ogni lunghezza d'onda gli indici di molibdeno e silicio vengono riletti dalle tabelle, perché cambiano anche loro con la lunghezza d'onda.",
+  "The width of the peak is measured at half its height: find the highest point, take half of that value, and measure the distance between the two wavelengths, one on each side, where the curve crosses it. This is the full width at half maximum, FWHM.": "La larghezza del picco si misura a metà della sua altezza: trova il punto più alto, prendi metà di quel valore e misura la distanza tra le due lunghezze d'onda, una per lato, in cui la curva lo attraversa. È la larghezza totale a metà altezza, FWHM.",
+  "Pairs": "Coppie",
+  "Wavelength": "Lunghezza d'onda",
+  "R at the cursor": "R al cursore",
+  "peak at": "picco a",
+  "FWHM": "FWHM",
+  "0.886 · λ / N": "0,886 · λ / N",
+  "Molybdenum 2.78 nm on silicon 4.18 nm, repeated, at 6° and s polarization.": "Molibdeno 2,78 nm su silicio 4,18 nm, ripetuti, a 6° e polarizzazione s.",
+  "Set 40 pairs and put the cursor on the peak (R above 74.2%).": "Imposta 40 coppie e porta il cursore sul picco (R sopra 74,2%).",
+  "For 5 pairs the simple estimate of the width is 0.886 · λ / N. With λ = 13.5 nm, what is it in nm?": "Per 5 coppie la stima semplice della larghezza è 0,886 · λ / N. Con λ = 13,5 nm, quanto vale in nm?",
+  "<strong>With 40 pairs the peak is 0.64 nm wide and sits at 13.53 nm.</strong> <span class=\"guided-only\">You predicted: <strong id=\"pred-echo\">—</strong>. </span>Half of the width on each side is about 0.3 nm: move the wavelength by 2% and the mirror has lost half its reflection.": "<strong>Con 40 coppie il picco è largo 0,64 nm e sta a 13,53 nm.</strong> <span class=\"guided-only\">Avevi previsto: <strong id=\"pred-echo\">—</strong>. </span>Metà della larghezza per lato è circa 0,3 nm: sposta la lunghezza d'onda del 2% e lo specchio ha perso metà della sua riflessione.",
+  "The reason is in the arrows. Away from the best wavelength, each pair's arrow is turned a little against the previous one. Over a few pairs that hardly matters. Over many it adds up, the chain curls, and the sum collapses. The more pairs take part, the smaller the detuning that is tolerated.": "Il motivo è nelle frecce. Lontano dalla lunghezza d'onda migliore, la freccia di ogni coppia è un po' ruotata rispetto alla precedente. Su poche coppie conta poco. Su molte si accumula, la catena si arrotola e la somma crolla. Più coppie partecipano, più piccolo è lo scostamento tollerato.",
+  "With 5 pairs the simple estimate and the full calculation agree: 2.39 nm. With 40 pairs the estimate says 0.30 nm and the calculation 0.64 nm. The estimate counts all 40 pairs as equal partners, and module 3 showed they are not: the deep ones receive little light. In effect only about 20 pairs set the width, and adding more hardly narrows it.": "Con 5 coppie la stima semplice e il calcolo completo coincidono: 2,39 nm. Con 40 coppie la stima dice 0,30 nm e il calcolo 0,64 nm. La stima conta tutte e 40 le coppie come soci alla pari, e il modulo 3 ha mostrato che non lo sono: quelle profonde ricevono poca luce. Di fatto solo una ventina di coppie fissa la larghezza, e aggiungerne altre la restringe appena.",
+  "Add N arrows of length 1, each turned by the same small angle ε against the one before. This is the geometric series of module 2 with x = e<sup>iε</sup>, and its sum has the length shown. Detuning the wavelength by Δλ turns each pair's arrow by ε = 2π·Δλ/λ. The intensity falls to half when N·ε/2 = 1.39, which gives the width.": "Somma N frecce di lunghezza 1, ciascuna ruotata dello stesso piccolo angolo ε rispetto alla precedente. È la serie geometrica del modulo 2 con x = e<sup>iε</sup>, e la sua somma ha la lunghezza mostrata. Spostare la lunghezza d'onda di Δλ ruota la freccia di ogni coppia di ε = 2π·Δλ/λ. L'intensità scende a metà quando N·ε/2 = 1,39, e da qui viene la larghezza.",
+  "N identical pairs that all contribute equally: weak reflections and no absorption. Indices that do not change over the width of the peak.": "N coppie identiche che contribuiscono tutte allo stesso modo: riflessioni deboli e nessun assorbimento. Indici che non cambiano lungo la larghezza del picco.",
+  "N is the number of pairs. ε is the extra turn from one pair to the next. λ is the wavelength of the peak. FWHM is the full width of the peak at half its height.": "N è il numero di coppie. ε è la rotazione in più da una coppia alla successiva. λ è la lunghezza d'onda del picco. FWHM è la larghezza totale del picco a metà altezza.",
+  "With ε = 0 the ratio becomes N: all arrows in line. It first reaches zero when N·ε = 2π: the chain has closed into a full circle. For 5 pairs the estimate gives 2.39 nm, and so does the experiment. For 40 pairs it fails, as it should, because its first assumption fails.": "Con ε = 0 il rapporto diventa N: tutte le frecce in fila. Arriva a zero la prima volta quando N·ε = 2π: la catena si è chiusa in un cerchio completo. Per 5 coppie la stima dà 2,39 nm, e così l'esperimento. Per 40 coppie fallisce, come deve, perché cade la sua prima ipotesi.",
+  "The period sets the wavelength": "Il periodo fissa la lunghezza d'onda",
+  "The Bragg condition ties the best wavelength to the period: <span class=\"mono\">λ = 2·D·n̄·cos θ</span>. A thicker period should move the whole peak to longer wavelengths, in proportion.": "La condizione di Bragg lega la lunghezza d'onda migliore al periodo: <span class=\"mono\">λ = 2·D·n̄·cos θ</span>. Un periodo più spesso dovrebbe spostare tutto il picco verso lunghezze d'onda maggiori, in proporzione.",
+  "The dashed line marks 13.5 nm.": "La linea tratteggiata segna 13,5 nm.",
+  "Period D": "Periodo D",
+  "R at 13.5 nm": "R a 13,5 nm",
+  "40 pairs, molybdenum 40% of the period, 6°, s polarization.": "40 coppie, molibdeno al 40% del periodo, 6°, polarizzazione s.",
+  "Find the period that puts the peak at 13.50 nm (between 13.495 and 13.505).": "Trova il periodo che porta il picco a 13,50 nm (tra 13,495 e 13,505).",
+  "The period grows by 1%. By the Bragg condition, how many nm does a peak at 13.5 nm move?": "Il periodo cresce dell'1%. Secondo la condizione di Bragg, di quanti nm si sposta un picco a 13,5 nm?",
+  "The proportion holds, roughly. Going from 6.96 to 7.03 nm is a 1% change, and the peak moves from 13.53 to 13.65 nm: 0.12 nm, or 0.9%, instead of the 0.135 nm of the simple rule. The difference comes from the materials. At longer wavelengths the index of molybdenum is lower, so n̄ falls as the peak moves, and the peak moves a little less.": "La proporzione vale, all'incirca. Passare da 6,96 a 7,03 nm è una variazione dell'1%, e il picco si sposta da 13,53 a 13,65 nm: 0,12 nm, cioè lo 0,9%, invece degli 0,135 nm della regola semplice. La differenza viene dai materiali. A lunghezze d'onda maggiori l'indice del molibdeno è più basso, quindi n̄ cala mentre il picco si sposta, e il picco si sposta un po' meno.",
+  "There is also a constant offset. For D = 6.96 nm the Bragg formula predicts 13.41 nm, and the full calculation gives 13.53 nm. The formula is a guide to how the peak moves, and a first estimate of where it is. The design value has to come from the full calculation.": "C'è anche uno scarto costante. Per D = 6,96 nm la formula di Bragg prevede 13,41 nm, e il calcolo completo dà 13,53 nm. La formula è una guida a come si muove il picco, e una prima stima di dove si trova. Il valore di progetto deve venire dal calcolo completo.",
+  "In λ = 2·D·n̄·cos θ the wavelength is proportional to D. Multiply D by 1.01 and λ is multiplied by 1.01.": "In λ = 2·D·n̄·cos θ la lunghezza d'onda è proporzionale a D. Moltiplica D per 1,01 e λ viene moltiplicata per 1,01.",
+  "The share of molybdenum and the angle stay the same. The average index n̄ does not change between the old and the new wavelength.": "La quota di molibdeno e l'angolo restano gli stessi. L'indice medio n̄ non cambia tra la vecchia e la nuova lunghezza d'onda.",
+  "ΔD is the change of the period and Δλ the resulting change of the peak wavelength. Both are taken relative to their starting values.": "ΔD è la variazione del periodo e Δλ la variazione che ne risulta per la lunghezza d'onda del picco. Entrambe sono rapportate ai valori di partenza.",
+  "From 6.96 to 7.03 nm the rule predicts +0.135 nm. The experiment gives +0.12 nm. The second assumption is the one that is not quite met.": "Da 6,96 a 7,03 nm la regola prevede +0,135 nm. L'esperimento dà +0,12 nm. La seconda ipotesi è quella non del tutto rispettata.",
+  "The same mirror at another angle": "Lo stesso specchio a un altro angolo",
+  "The Bragg condition contains the angle too. Light that crosses the stack obliquely has a shorter wave motion perpendicular to the layers, by the factor cos θ, so the same period fits a shorter wavelength.": "La condizione di Bragg contiene anche l'angolo. La luce che attraversa lo stack in obliquo ha un moto ondulatorio perpendicolare agli strati più corto, del fattore cos θ, quindi lo stesso periodo si adatta a una lunghezza d'onda minore.",
+  "Angle": "Angolo",
+  "40 pairs, molybdenum 2.78 nm and silicon 4.18 nm, s polarization.": "40 coppie, molibdeno 2,78 nm e silicio 4,18 nm, polarizzazione s.",
+  "Find the angle at which this mirror reflects 13.5 nm best (above 74.3%).": "Trova l'angolo a cui questo specchio riflette meglio i 13,5 nm (sopra 74,3%).",
+  "You tilt the mirror further away from perpendicular. Where does the peak go?": "Inclini lo specchio allontanandoti dalla perpendicolare. Dove va il picco?",
+  "To longer wavelengths": "Verso lunghezze d'onda maggiori",
+  "To shorter wavelengths": "Verso lunghezze d'onda minori",
+  "It stays where it is": "Resta dov'è",
+  "<strong>A mirror is made for one wavelength at one angle.</strong> This stack reflects 13.5 nm best at about 7°. At perpendicular incidence its peak is at 13.60 nm, and 13.5 nm is reflected at 72.8%. At 15° the peak is at 13.16 nm, and 13.5 nm is almost not reflected at all: 9%.": "<strong>Uno specchio è fatto per una lunghezza d'onda a un angolo.</strong> Questo stack riflette meglio i 13,5 nm a circa 7°. A incidenza perpendicolare il suo picco è a 13,60 nm, e i 13,5 nm sono riflessi al 72,8%. A 15° il picco è a 13,16 nm, e i 13,5 nm non sono quasi più riflessi: 9%.",
+  "In a scanner different mirrors are hit at different angles, and each needs its own period. On a curved mirror the angle also changes across the surface, so the period has to change with it from the centre to the edge.": "In uno scanner specchi diversi sono colpiti ad angoli diversi, e ciascuno ha bisogno del proprio periodo. Su uno specchio curvo l'angolo cambia anche lungo la superficie, quindi il periodo deve cambiare con esso dal centro al bordo.",
+  "From λ = 2·D·n̄·cos θ with D and n̄ fixed. Module 2 gave the reason for the cosine: at an angle the phase gained crossing a layer is 2π·n·d·cos θ/λ.": "Da λ = 2·D·n̄·cos θ con D e n̄ fissi. Il modulo 2 ha dato il motivo del coseno: con un angolo la fase guadagnata attraversando uno strato è 2π·n·d·cos θ/λ.",
+  "θ is the angle inside the stack. Because n̄ is close to 1 it is nearly the angle in vacuum, and the formula uses that one. The average index does not change over the shift.": "θ è l'angolo dentro lo stack. Poiché n̄ è vicino a 1 è quasi l'angolo nel vuoto, e la formula usa quello. L'indice medio non cambia lungo lo spostamento.",
+  "λ<sub>peak</sub>(0) is the peak wavelength at perpendicular incidence, 13.60 nm for this stack. θ is the angle from the perpendicular.": "λ<sub>peak</sub>(0) è la lunghezza d'onda del picco a incidenza perpendicolare, 13,60 nm per questo stack. θ è l'angolo dalla perpendicolare.",
+  "At 10° the formula gives 13.60 × cos 10° = 13.39 nm, and the experiment 13.40 nm. At 20° it gives 12.78 nm against 12.83 nm: the approximations start to show.": "A 10° la formula dà 13,60 × cos 10° = 13,39 nm, e l'esperimento 13,40 nm. A 20° dà 12,78 nm contro 12,83 nm: le approssimazioni cominciano a farsi vedere.",
+  "How much molybdenum in each pair?": "Quanto molibdeno in ogni coppia?",
+  "The period fixes the wavelength. It does not say how to share the period between the two materials. Call <span class=\"mono\">Γ</span> the fraction taken by molybdenum: <span class=\"mono\">Γ = d<sub>Mo</sub> / D</span>.": "Il periodo fissa la lunghezza d'onda. Non dice come ripartire il periodo tra i due materiali. Chiama <span class=\"mono\">Γ</span> la frazione occupata dal molibdeno: <span class=\"mono\">Γ = d<sub>Mo</sub> / D</span>.",
+  "A pair has two surfaces that reflect with opposite signs. Module 2 found when two such reflections add best: when the round trip between them is half a turn. With one full turn per pair, half a turn means the molybdenum layer takes half of the period.": "Una coppia ha due superfici che riflettono con segni opposti. Il modulo 2 ha trovato quando due riflessioni così si sommano meglio: quando l'andata e ritorno tra loro vale mezzo giro. Con un giro completo per coppia, mezzo giro significa che lo strato di molibdeno occupa metà del periodo.",
+  "Real materials": "Materiali reali",
+  "No absorption (k = 0)": "Senza assorbimento (k = 0)",
+  "Height of the reflectance peak against the share of molybdenum, for 40 pairs with a period of 6.96 nm.": "Altezza del picco di riflettanza in funzione della quota di molibdeno, per 40 coppie con periodo 6,96 nm.",
+  "Share Γ": "Quota Γ",
+  "peak R": "R di picco",
+  "2 · sin(π · Γ)": "2 · sin(π · Γ)",
+  "With real materials, find the share of molybdenum that gives the highest peak (above 74.25%).": "Con i materiali reali, trova la quota di molibdeno che dà il picco più alto (sopra 74,25%).",
+  "Without absorption the best share is 0.5. With real materials it is 0.4. Why does it move?": "Senza assorbimento la quota migliore è 0,5. Con i materiali reali è 0,4. Perché si sposta?",
+  "Because with absorption the Bragg condition changes": "Perché con l'assorbimento cambia la condizione di Bragg",
+  "Because molybdenum absorbs three and a half times more than silicon: a little less of it costs little reflection and saves absorption": "Perché il molibdeno assorbe tre volte e mezza più del silicio: un po' meno molibdeno costa poca riflessione e risparmia assorbimento",
+  "Because silicon absorbs more than molybdenum": "Perché il silicio assorbe più del molibdeno",
+  "<strong>A compromise between lining up the arrows and losing light.</strong> Equal shares make each pair's arrow as long as it can be. But molybdenum is the absorber, and every nanometre of it is crossed twice by all the light that goes deeper. Giving up 5% of the arrow by going from 0.5 to 0.4 gains more than it costs: the peak rises from 73.2% to 74.3%.": "<strong>Un compromesso tra allineare le frecce e perdere luce.</strong> Quote uguali rendono la freccia di ogni coppia più lunga possibile. Ma il molibdeno è quello che assorbe, e ogni suo nanometro è attraversato due volte da tutta la luce che va più in profondità. Rinunciare al 5% della freccia passando da 0,5 a 0,4 fa guadagnare più di quanto costa: il picco sale da 73,2% a 74,3%.",
+  "The same curve shows how forgiving the choice is. Between 0.35 and 0.45 the peak stays within half a point of its best value. The share is far less critical than the period.": "La stessa curva mostra quanto la scelta sia tollerante. Tra 0,35 e 0,45 il picco resta entro mezzo punto dal valore migliore. La quota è molto meno critica del periodo.",
+  "Take the two surfaces of the molybdenum layer. Their reflections are +r and −r. The second has crossed the layer twice, a round trip of 2π·Γ when the whole pair makes one turn. The sum r·(1 − e<sup>i·2πΓ</sup>) has length 2·r·sin(π·Γ).": "Prendi le due superfici dello strato di molibdeno. Le loro riflessioni sono +r e −r. La seconda ha attraversato lo strato due volte, un'andata e ritorno di 2π·Γ quando l'intera coppia fa un giro. La somma r·(1 − e<sup>i·2πΓ</sup>) ha lunghezza 2·r·sin(π·Γ).",
+  "Weak reflections and no absorption, so that one pair can be looked at alone. The two indices are close enough that the share of thickness is also the share of phase.": "Riflessioni deboli e nessun assorbimento, così una coppia si può guardare da sola. I due indici sono abbastanza vicini che la quota di spessore è anche la quota di fase.",
+  "Γ = d<sub>Mo</sub>/D is the fraction of the period taken by molybdenum. r is the size of the reflection of one surface.": "Γ = d<sub>Mo</sub>/D è la frazione del periodo occupata dal molibdeno. r è la grandezza della riflessione di una superficie.",
+  "Γ = 0.5 gives 2: two quarter-wave layers, the best case of module 2. Γ = 0 or 1 gives 0: with only one material there are no surfaces left. In the experiment without absorption the curve peaks at 0.5.": "Γ = 0,5 dà 2: due strati a quarto d'onda, il caso migliore del modulo 2. Γ = 0 oppure 1 dà 0: con un solo materiale non restano superfici. Nell'esperimento senza assorbimento la curva ha il massimo a 0,5.",
+  "What this means for a real machine": "Cosa significa per una macchina vera",
+  "The mirror reflects a band 0.64 nm wide, centred where the period and the angle put it. Three consequences, each a use of what this module built.": "Lo specchio riflette una banda larga 0,64 nm, centrata dove la mettono il periodo e l'angolo. Tre conseguenze, ciascuna un uso di ciò che questo modulo ha costruito.",
+  "A scanner sends the light over 11 such mirrors in a row, each reflecting 74.2%. What percentage of the light is left after all eleven?": "Uno scanner manda la luce su 11 specchi così in fila, ciascuno con riflettanza 74,2%. Che percentuale della luce resta dopo tutti e undici?",
+  "Someone proposes 200 pairs to get a very narrow band, quoting 0.886 · λ / N = 0.06 nm. Will it work?": "Qualcuno propone 200 coppie per avere una banda molto stretta, citando 0,886 · λ / N = 0,06 nm. Funzionerà?",
+  "Yes: the width always shrinks in proportion to 1/N": "Sì: la larghezza si riduce sempre in proporzione a 1/N",
+  "No: absorption and reflection keep the light out of the deep pairs, so the width stops near 0.6 nm": "No: assorbimento e riflessione tengono la luce lontana dalle coppie profonde, quindi la larghezza si ferma vicino a 0,6 nm",
+  "No: more pairs make the band wider": "No: più coppie allargano la banda",
+  "A mirror warms up and its period grows by 0.1%. How serious is the shift of the peak?": "Uno specchio si scalda e il suo periodo cresce dello 0,1%. Quanto è grave lo spostamento del picco?",
+  "Serious: the peak leaves the band entirely": "Grave: il picco esce del tutto dalla banda",
+  "Small for the reflectance: the peak moves about 0.013 nm, some 2% of its width": "Piccolo per la riflettanza: il picco si sposta di circa 0,013 nm, il 2% circa della sua larghezza",
+  "None: the peak does not depend on the period": "Nullo: il picco non dipende dal periodo",
+  "<strong>Eleven mirrors pass less than 4% of the light.</strong> This is why every point of reflectance matters, and why the sources of EUV scanners have to be so powerful. It is also why the 26% that each mirror does not reflect matters: it ends up as heat in the mirrors. Module 5 follows that light.": "<strong>Undici specchi lasciano passare meno del 4% della luce.</strong> Per questo ogni punto di riflettanza conta, e per questo le sorgenti degli scanner EUV devono essere così potenti. Ed è anche per questo che conta il 26% che ogni specchio non riflette: finisce in calore negli specchi. Il modulo 5 segue quella luce.",
+  "A 0.1% change of the period hardly changes the reflectance. The trouble with a warm mirror is elsewhere: its surface changes shape, and that is an optical error of a different kind.": "Una variazione dello 0,1% del periodo cambia appena la riflettanza. Il guaio di uno specchio caldo è altrove: la sua superficie cambia forma, e quello è un errore ottico di tipo diverso.",
+  "What to carry forward": "Cosa portarsi dietro",
+  "<strong>FWHM ≈ 0.886·λ/N.</strong> Use it when all N pairs contribute equally: few pairs, weak reflections. For a full EUV mirror it underestimates the width by a factor of two.": "<strong>FWHM ≈ 0,886·λ/N.</strong> Usala quando tutte le N coppie contribuiscono alla pari: poche coppie, riflessioni deboli. Per uno specchio EUV completo sottostima la larghezza di un fattore due.",
+  "<strong>Δλ/λ ≈ ΔD/D and λ<sub>peak</sub> ∝ cos θ.</strong> Use them to estimate how the peak moves with period and angle. They are not accurate enough to place the peak: that takes the full calculation.": "<strong>Δλ/λ ≈ ΔD/D e λ<sub>peak</sub> ∝ cos θ.</strong> Usale per stimare come si sposta il picco con il periodo e con l'angolo. Non sono abbastanza precise per posizionare il picco: per quello serve il calcolo completo.",
+  "<strong>Arrow of one pair ∝ 2·sin(π·Γ).</strong> Use it to see why equal shares line the arrows up best. It ignores absorption, which is what moves the real optimum to 0.4.": "<strong>Freccia di una coppia ∝ 2·sin(π·Γ).</strong> Usala per capire perché quote uguali allineano meglio le frecce. Ignora l'assorbimento, che è ciò che porta l'ottimo reale a 0,4.",
+  "The module is closed if you can rebuild the reasoning without looking": "Il modulo è chiuso se sai ricostruire il ragionamento senza guardare",
+  "Why does the mirror reflect only a band of wavelengths?": "Perché lo specchio riflette solo una banda di lunghezze d'onda?",
+  "Off the best wavelength each pair's arrow is turned a little against the previous one. Over many pairs the chain curls and the sum collapses.": "Fuori dalla lunghezza d'onda migliore la freccia di ogni coppia è un po' ruotata rispetto alla precedente. Su molte coppie la catena si arrotola e la somma crolla.",
+  "How is the FWHM defined?": "Come è definita la FWHM?",
+  "Take half the height of the peak and measure the distance between the two wavelengths, one on each side, where the curve crosses that value.": "Prendi metà dell'altezza del picco e misura la distanza tra le due lunghezze d'onda, una per lato, in cui la curva attraversa quel valore.",
+  "Why is the real band twice as wide as 0.886·λ/N says for 40 pairs?": "Perché per 40 coppie la banda reale è larga il doppio di quanto dice 0,886·λ/N?",
+  "The estimate assumes 40 equal pairs. Reflection and absorption keep the light from the deep ones, so only about 20 take part.": "La stima presuppone 40 coppie alla pari. Riflessione e assorbimento tengono la luce lontana da quelle profonde, quindi ne partecipano solo una ventina.",
+  "What moves the peak, and which way?": "Cosa sposta il picco, e in che verso?",
+  "A thicker period moves it to longer wavelengths, in proportion. A larger angle from perpendicular moves it to shorter wavelengths, as cos θ.": "Un periodo più spesso lo sposta verso lunghezze d'onda maggiori, in proporzione. Un angolo più grande dalla perpendicolare lo sposta verso lunghezze d'onda minori, come cos θ.",
+  "Why is the share of molybdenum 0.4 and not 0.5?": "Perché la quota di molibdeno è 0,4 e non 0,5?",
+  "Equal shares give the longest arrow per pair, but molybdenum absorbs three and a half times more than silicon. Slightly less of it gains more than it costs.": "Quote uguali danno la freccia più lunga per coppia, ma il molibdeno assorbe tre volte e mezza più del silicio. Un po' meno molibdeno fa guadagnare più di quanto costa.",
+  "about 0.03 nm": "circa 0,03 nm",
+  "about 0.3 nm": "circa 0,3 nm",
+  "about 3 nm": "circa 3 nm",
+  "0.886 × 13.5 / 5.": "0,886 × 13,5 / 5.",
+  "1% of 13.5 nm.": "L'1% di 13,5 nm.",
+  "Look at the formula: cos θ gets smaller as θ grows.": "Guarda la formula: cos θ diminuisce al crescere di θ.",
+  "Move the slider from 0° to 20° and follow the peak.": "Muovi il cursore da 0° a 20° e segui il picco.",
+  "The period is fixed at 6.96 nm in both cases, so the round trip through a pair is the same.": "Il periodo è fisso a 6,96 nm in entrambi i casi, quindi l'andata e ritorno in una coppia è la stessa.",
+  "At 13.5 nm silicon is the nearly transparent one: k = 0.0018 against 0.0064 for molybdenum.": "A 13,5 nm è il silicio quello quasi trasparente: k = 0,0018 contro 0,0064 del molibdeno.",
+  "Multiply 0.742 by itself eleven times: 0.742 to the power 11. Then express it as a percentage.": "Moltiplica 0,742 per se stesso undici volte: 0,742 elevato a 11. Poi esprimilo in percentuale.",
+  "The estimate assumes all pairs contribute equally. Check what the experiment showed between 40 and 60 pairs.": "La stima presuppone che tutte le coppie contribuiscano alla pari. Guarda cosa ha mostrato l'esperimento tra 40 e 60 coppie.",
+  "More pairs never widen the peak. They simply stop narrowing it.": "Più coppie non allargano mai il picco. Semplicemente smettono di restringerlo.",
+  "0.1% of 13.5 nm is 0.0135 nm. Compare that with the 0.64 nm width of the peak.": "Lo 0,1% di 13,5 nm è 0,0135 nm. Confrontalo con la larghezza del picco, 0,64 nm.",
+  "The Bragg condition ties the wavelength to the period. If one changes, so does the other.": "La condizione di Bragg lega la lunghezza d'onda al periodo. Se cambia uno, cambia anche l'altra.",
+  "wavelength (nm)": "lunghezza d'onda (nm)",
+  "not defined here": "non definita qui",
+  "share of molybdenum Γ": "quota di molibdeno Γ",
+  "Next: module 5, where the light that does not come back goes.": "Prossimo: modulo 5, dove finisce la luce che non torna indietro.",
+  "<strong>A period of 6.948 nm puts the peak at 13.50 nm.</strong> That is 2.78 nm of molybdenum and 4.17 nm of silicon, give or take a few thousandths of a nanometre. The layers of a real mirror must be deposited with that kind of accuracy over the whole surface.": "<strong>Un periodo di 6,948 nm porta il picco a 13,50 nm.</strong> Sono 2,78 nm di molibdeno e 4,17 nm di silicio, con un margine di pochi millesimi di nanometro. Gli strati di uno specchio vero devono essere depositati con questa precisione su tutta la superficie."
+});
+
+startLesson({
+  n: 4,
+  key: "euv-module-4",
+  next: "Next: module 5, where the light that does not come back goes.",
+  setup() {
+    const TH6 = 6 * Math.PI / 180, XR = [12.4, 15], XT = [12.5, 13, 13.5, 14, 14.5, 15];
+    const LAMS = []; for (let l = XR[0]; l <= XR[1] + 1e-9; l += 0.01) LAMS.push(+l.toFixed(4));
+    const nAt = (m, lam, absorb) => { const n = index(m, lam); return absorb ? n : [n[0], 0]; };
+    // Reflectance of N Mo/Si pairs (Mo on top) on silicon, with the indices read from the tables at each wavelength.
+    const Rat = (lam, N, dMo, dSi, th, absorb = true) => tmm(pairs(N, { n: nAt("Mo", lam, absorb), d: dMo }, { n: nAt("Si", lam, absorb), d: dSi }), 1, nAt("Si", lam, absorb), lam, th, "s").R;
+    const spectrum = (N, dMo, dSi, th) => LAMS.map(l => [l, 100 * Rat(l, N, dMo, dSi, th)]);
+    // Highest point (refined with a parabola through three samples) and the half-height crossings on each side of it.
+    function peakInfo(pts) {
+      let i = 0; pts.forEach((p, j) => { if (p[1] > pts[i][1]) i = j; });
+      let lam = pts[i][0], R = pts[i][1];
+      if (i > 0 && i < pts.length - 1) { const a = pts[i - 1][1], b = pts[i][1], c = pts[i + 1][1], den = a - 2 * b + c; if (den < 0) { const s = .5 * (a - c) / den; lam += s * (pts[i + 1][0] - pts[i][0]); R = b - .25 * (a - c) * s; } }
+      const half = R / 2, cross = dir => { for (let j = i; j > 0 && j < pts.length - 1; j += dir) { const p = pts[j], q = pts[j + dir]; if (q[1] <= half) return p[0] + (half - p[1]) * (q[0] - p[0]) / (q[1] - p[1]); } return null; };
+      const lo = cross(-1), hi = cross(1);
+      return { lam, R, fwhm: lo != null && hi != null ? hi - lo : null };
+    }
+    const nm = (v, d) => fmt(v, d) + " nm";
+    const specPlot = (c, pts, color, extra) => plot(c, Object.assign({ x: XR, y: [0, 80], xt: XT, xf: v => loc(v), yt: [0, 20, 40, 60, 80], yf: v => v + "%", xlabel: t("wavelength (nm)"), series: [{ pts, color }] }, extra));
+    const target = () => ({ pts: [[13.5, 0], [13.5, 80]], color: css("--muted"), dash: [5, 4], width: 1.2 });
+
+    /* ---------- the band ---------- */
+    const bandCache = {};
+    draws.band = () => {
+      const N = +$("s-Nb").value, lam = +$("s-lb").value, cm = css("--mo");
+      const sp = bandCache[N] || (bandCache[N] = spectrum(N, 2.78, 4.18, TH6)), pk = peakInfo(sp), R = Rat(lam, N, 2.78, 4.18, TH6);
+      $("o-Nb").textContent = N; $("o-lb").textContent = nm(lam, 3);
+      $("r-Rb").textContent = pct(R, 1); $("r-pk").textContent = nm(pk.lam, 2); $("r-fw").textContent = pk.fwhm == null ? t("not defined here") : nm(pk.fwhm, 2); $("r-kin").textContent = nm(0.886 * LAM0 / N, 2);
+      specPlot($("c-band"), sp, cm, { vline: lam, marks: [{ x: lam, y: 100 * R, color: cm }] });
+      goal("g-band", N === 40 && R > 0.742);
+    };
+    $("s-Nb").oninput = $("s-lb").oninput = draws.band;
+
+    /* ---------- period ---------- */
+    draws.period = () => {
+      const D = +$("s-Dp").value, cm = css("--mo"), sp = spectrum(40, 0.4 * D, 0.6 * D, TH6), pk = peakInfo(sp);
+      $("o-Dp").textContent = nm(D, 3); $("r-pkD").textContent = nm(pk.lam, 3); $("r-R135").textContent = pct(Rat(13.5, 40, 0.4 * D, 0.6 * D, TH6), 1);
+      plot($("c-per"), { x: XR, y: [0, 80], xt: XT, xf: v => loc(v), yt: [0, 20, 40, 60, 80], yf: v => v + "%", xlabel: t("wavelength (nm)"), series: [target(), { pts: sp, color: cm }] });
+      goal("g-per", pk.lam >= 13.495 && pk.lam <= 13.505);
+    };
+    $("s-Dp").oninput = draws.period;
+
+    /* ---------- angle ---------- */
+    draws.angle = () => {
+      const th = +$("s-tha").value, rad = th * Math.PI / 180, cm = css("--mo"), sp = spectrum(40, 2.78, 4.18, rad), pk = peakInfo(sp), R = Rat(13.5, 40, 2.78, 4.18, rad);
+      $("o-tha").textContent = fmt(th, 1) + "°"; $("r-pkA").textContent = nm(pk.lam, 2); $("r-RA").textContent = pct(R, 1);
+      plot($("c-ang"), { x: XR, y: [0, 80], xt: XT, xf: v => loc(v), yt: [0, 20, 40, 60, 80], yf: v => v + "%", xlabel: t("wavelength (nm)"), series: [target(), { pts: sp, color: cm }] });
+      goal("g-ang", R > 0.743);
+    };
+    $("s-tha").oninput = draws.angle;
+
+    /* ---------- share of molybdenum ---------- */
+    // Peak height against Γ, searched over wavelength on a coarse grid. Computed once, on first use.
+    let gamCurves = null, absG = 1;
+    const peakR = (g, absorb) => { let best = 0; for (let l = 13.2; l <= 13.8001; l += 0.02) best = Math.max(best, Rat(l, 40, g * 6.96, (1 - g) * 6.96, TH6, absorb)); return best; };
+    draws.gamma = () => {
+      if (!gamCurves) { gamCurves = { 1: [], 0: [] }; for (let i = 0; i <= 40; i++) { const g = 0.2 + i * 0.01; gamCurves[1].push([g, 100 * peakR(g, true)]); gamCurves[0].push([g, 100 * peakR(g, false)]); } }
+      const g = +$("s-G").value, i = Math.round((g - 0.2) / 0.01), R = gamCurves[absG][i][1] / 100, cm = css("--mo");
+      $("o-G").textContent = fmt(g, 2); $("r-RG").textContent = pct(R, 2); $("r-sin").textContent = fmt(2 * Math.sin(Math.PI * g), 3);
+      plot($("c-gam"), { x: [0.2, 0.6], y: absG ? [60, 76] : [88, 100], xt: [0.2, 0.3, 0.4, 0.5, 0.6], xf: v => loc(v), yt: absG ? [60, 64, 68, 72, 76] : [88, 92, 96, 100], yf: v => v + "%", vline: g, xlabel: t("share of molybdenum Γ"),
+        series: [{ pts: gamCurves[absG], color: cm }], marks: [{ x: g, y: 100 * R, color: cm }] });
+      goal("g-gam", absG === 1 && R >= 0.7425);
+    };
+    $("s-G").oninput = draws.gamma;
+    toggle("t-absg", d => { absG = +d.a; draws.gamma(); });
+  }
+});
+</script>
+</body>
+</html>

@@ -117,7 +117,7 @@ function prep(c) {
   const ctx = c.getContext("2d"); ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, r.width, r.height);
   return { ctx, w: r.width, h: r.height };
 }
-const PAD = { l: 60, r: 12, t: 10, b: 30 };
+const PAD = { l: 60, r: 12, t: 10, b: 44 };
 function plot(c, o) {
   const { ctx, w, h } = prep(c);
   const ty = v => o.logy ? Math.log10(v) : v;
@@ -136,7 +136,7 @@ function plot(c, o) {
   }
   for (const m of o.marks || []) { ctx.fillStyle = m.color; ctx.beginPath(); ctx.arc(X(m.x), Y(m.y), 5, 0, 7); ctx.fill(); }
   ctx.restore();
-  if (o.xlabel) { ctx.fillStyle = css("--muted"); ctx.textAlign = "right"; ctx.textBaseline = "bottom"; ctx.fillText(o.xlabel, w - PAD.r, h - PAD.b - 4); }
+  if (o.xlabel) { ctx.fillStyle = css("--muted"); ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillText(o.xlabel, (PAD.l + w - PAD.r) / 2, h - 2); }
 }
 // Arrow from (x0, y0) to (x1, y1), used for phasors and rays.
 function arrow(ctx, x0, y0, x1, y1, color, width) {
