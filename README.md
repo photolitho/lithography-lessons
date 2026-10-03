@@ -12,7 +12,7 @@ Live site: https://photolitho.github.io/lithography-lessons/
 
 ## How it is built
 
-Each module is one self-contained HTML file: markup, styles, script and data together, with charts drawn on canvas. There is no build step and no dependency beyond web fonts.
+Each module is one HTML file with its own text, Italian dictionary and experiments. Three files are shared by all modules: `lesson.css`, `lesson.js` (navigation, language switch, questions, drawing and physics helpers) and `cxro.js` (the optical-constant tables). Charts are drawn on canvas. There is no build step and no dependency beyond web fonts.
 
 Every important formula comes with a card that states where it comes from, its assumptions, the meaning of its terms and one check the reader can do. Mathematical prerequisites are introduced at the step that first needs them.
 
