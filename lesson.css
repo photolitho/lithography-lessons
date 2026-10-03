@@ -135,6 +135,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; }
 @media (max-width: 560px) { .fcard dl { grid-template-columns: 1fr; gap: 2px; } .fcard dt { margin-top: 10px; } .fcard dt:first-child { margin-top: 0; } }
 .carry { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 10px; max-width: 62ch; }
 .formula { overflow-x: auto; }
+.mat { display: inline-grid; grid-template-columns: auto auto; gap: 6px 18px; padding: 4px 10px; margin: 0 .3em; border-left: 2px solid currentColor; border-right: 2px solid currentColor; border-radius: 7px; vertical-align: middle; text-align: center; }
+.mat.one { grid-template-columns: auto; }
 .formula.lines { flex-direction: column; align-items: flex-start; gap: 10px; }
 p .mono, dd .mono, li .mono { white-space: nowrap; }
 sub, sup { line-height: 0; }

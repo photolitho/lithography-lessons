@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EUV Module 3</title>
+<meta name="description" content="Interactive lesson on the Bragg condition, saturation and the transfer-matrix method for an EUV Mo/Si multilayer mirror.">
+<meta name="theme-color" content="#F2F4F9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1220" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Litho Lessons">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="lesson.css">
+</head>
+<body>
+<div class="app" data-mode="home">
+<header class="top"><div class="top-in">
+  <div class="crumbs"><span id="where">EUV Mirror · Module 3</span><button class="linkbtn" id="menu">Menu</button><span id="count"></span><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
+  <div class="segs" id="segs"></div>
+</div></header>
+
+<main>
+
+<section class="step" id="home">
+  <a class="linkbtn" href="./" style="text-decoration:none;align-self:flex-start">← All lessons</a>
+  <h1>How do 80 weak surfaces make a 74% mirror?</h1>
+  <p class="lead">Seven steps, four interactive experiments on the Bragg condition, why the reflection levels off, and the transfer-matrix method. Choose how to take them.</p>
+  <div class="modes">
+    <div class="mode">
+      <h2>Guided path</h2>
+      <p>One opening prediction, then one step at a time. You move on by answering a question or reaching a goal.</p>
+      <div class="cap" id="home-prog"></div>
+      <button class="btn go" id="go-guided">Start</button>
+    </div>
+    <div class="mode">
+      <h2>Explore</h2>
+      <p>Every experiment, in any order, with no required answers. Explanations open on request.</p>
+      <div class="cap">Exploring does not complete steps of the guided path.</div>
+      <ol class="toc" id="toc"></ol>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="predict">
+  <h1>One film reflects 0.6%. What do forty pairs do?</h1>
+  <p class="lead">Module 2 lined up two reflections and got 0.61%. A real EUV mirror stacks 40 pairs of molybdenum and silicon layers: 80 surfaces, each as weak as before.</p>
+  <p class="guided-only">Before computing anything, make a prediction. You will meet it again later.</p>
+  <p class="explore-only">The steps that follow build the answer one piece at a time.</p>
+  <div class="q">
+    <p>With every thickness chosen as well as possible, how much do 40 pairs reflect?</p>
+    <div class="opts" id="pred">
+      <button data-v="about 25%">About 25%: forty times one film</button>
+      <button data-v="about 50%">About 50%</button>
+      <button data-v="more than 70%">More than 70%</button>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="bragg">
+  <h1>Lining up all the arrows: the Bragg condition</h1>
+  <p>Call one molybdenum layer plus one silicon layer a pair, and its total thickness the period <span class="mono">D</span>. Each pair repeats the one above it, one period deeper. Light reflected one pair deeper travels an extra round trip through one period.</p>
+  <p>If that extra round trip is exactly one full turn, the reflection from every pair arrives with its arrow pointing the same way as the one above. The arrows form a straight line. If it is not, each arrow is turned a little against the previous one and the chain curls up.</p>
+  <div class="formula"><span>2 · D · n̄ · cos θ = λ</span></div>
+  <div class="lab">
+    <canvas id="c-chain" style="height:170px"></canvas>
+    <div class="cap">Arrows of the first 12 surfaces, added the simple way of module 2.</div>
+    <canvas id="c-RD" style="height:200px"></canvas>
+    <div class="cap">Reflectance of 40 pairs against the period, from the full calculation built later in this module.</div>
+    <div class="ctrl"><label for="s-D">Period D</label><input type="range" id="s-D" min="6.4" max="7.6" step="0.005" value="6.6"><output id="o-D"></output></div>
+    <div class="reads"><span><b>round trip through one pair</b><span id="r-turn"></span></span><span><b>R of 40 pairs</b><span class="big" id="r-RD"></span></span></div>
+    <div class="cap">13.5 nm, 6° from perpendicular, s polarization. Molybdenum takes 40% of each period.</div>
+  </div>
+  <div class="goal" id="g-bragg">Find the period that makes the mirror reflect more than 74%.</div>
+  <div class="q">
+    <p>First estimate: D = λ / (2 · n̄ · cos θ), with λ = 13.5 nm, n̄ = 0.969 and cos 6° = 0.9945. D in nm?</p>
+    <div class="numq" data-ans="7.00" data-tol="0.02" data-hint="13.5 / (2 × 0.969 × 0.9945)."><input type="text" inputmode="decimal" id="in-D" aria-label="period in nm"><span class="mono">nm</span><button class="btn">Check</button></div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>The period must be about half a wavelength.</strong> Then going one pair deeper and back adds one full turn, and all the pairs agree. This is the Bragg condition, the same rule that governs X-rays reflecting from the planes of a crystal.</p>
+    <p>The estimate gives 7.00 nm. The full calculation peaks at 6.95 nm, where the readout shows 0.99 turns instead of 1. The simple count treats the indices as real numbers and every reflection as weak. In a strong, absorbing stack neither is quite true, and the best period shifts by just under 1%. A design has to come from the full calculation.</p>
+    <p>Within a pair there are two surfaces that reflect with opposite signs, as in module 2. How the period is shared between molybdenum and silicon decides how well those two families of arrows agree with each other. Module 4 looks at that.</p>
+    <div class="fcard">
+      <div class="formula"><span>2 · D · n̄ · cos θ = λ</span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>From module 2, crossing a layer twice turns the arrow by 4π·n·d·cos θ/λ. One pair has two layers, so its round trip is 4π·(n<sub>Mo</sub>·d<sub>Mo</sub> + n<sub>Si</sub>·d<sub>Si</sub>)·cos θ/λ. Write the bracket as n̄·D, with n̄ the average index weighted by thickness, and ask for one full turn, 2π.</dd>
+        <dt>Assumptions</dt><dd>Identical pairs. Real indices and weak reflections, so that every arrow can be treated on its own. The angle θ is the one inside the stack, which is close to the angle in vacuum because n̄ is close to 1.</dd>
+        <dt>The terms</dt><dd>D = d<sub>Mo</sub> + d<sub>Si</sub> is the period. n̄ is the thickness-weighted average of the two real indices: 0.4 × 0.924 + 0.6 × 0.999 = 0.969. θ is the angle from the perpendicular. λ is the wavelength in vacuum.</dd>
+        <dt>Check</dt><dd>With 13.5 nm and 6° the formula gives 7.00 nm. In the experiment the reflectance peaks at 6.95 nm, 0.8% lower: the right neighbourhood, and a reminder that this is a first estimate.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="saturate">
+  <h1>Why the sum levels off</h1>
+  <p>With the arrows lined up, adding pairs should keep adding reflection. Add them and watch.</p>
+  <div class="lab">
+    <div class="toggle" id="t-abs"><button data-a="1" aria-pressed="true">Real materials</button><button data-a="0" aria-pressed="false">No absorption (k = 0)</button></div>
+    <canvas id="c-RN" style="height:220px"></canvas>
+    <div class="cap">Reflectance against number of pairs. Solid: the selected case. Dashed: the other one.</div>
+    <div class="ctrl"><label for="s-N">Pairs</label><input type="range" id="s-N" min="1" max="60" step="1" value="5"><output id="o-N"></output></div>
+    <div class="reads"><span><b>R</b><span class="big" id="r-RN"></span></span><span><b>light reaching the substrate</b><span id="r-TN"></span></span></div>
+  </div>
+  <div class="goal" id="g-sat">With real materials, find the smallest number of pairs that reflects more than 70%.</div>
+  <div class="q">
+    <p>Without absorption the curve climbs to almost 100% and still flattens. Why does it flatten even then?</p>
+    <div class="opts mc">
+      <button data-hint="With k = 0 nothing is absorbed anywhere. Look at the light reaching the substrate as you add pairs.">Because the deep layers absorb the light</button>
+      <button data-ok>Because every pair sends part of the light back, so less and less reaches the pairs below</button>
+      <button data-hint="The arrows stay lined up at any number of pairs: the period does not change.">Because beyond 30 pairs the arrows fall out of step</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>Two things starve the deep pairs of light.</strong> The first is reflection itself: light sent back by the upper pairs never reaches the lower ones. That alone would level the curve off near 100%. With 40 pairs and no absorption the mirror would reflect 98.7%.</p>
+    <p>The second is absorption. Light that gets deep has crossed a lot of molybdenum, and must cross it again to come out. The real curve stops near 75%: 28 pairs give 70.6%, 40 pairs give 74.2%, and 20 more add less than one point.</p>
+    <p>This answers the question module 1 ended on. Eighty arrows of 0.04 cannot add up to 3.2, because the lower arrows are shorter than the upper ones: the light that would make them has already been reflected or absorbed.</p>
+  </div>
+</section>
+
+<section class="step" data-id="matrices">
+  <h1>A tool you need now: matrices</h1>
+  <p>Following every bounce through 80 layers by hand is hopeless. The method that replaces it needs one piece of mathematics: a 2×2 matrix. It is a table of four numbers that turns one pair of numbers into another pair.</p>
+  <div class="formula lines"><span data-t><span class="mat"><span>a</span><span>b</span><span>c</span><span>d</span></span> applied to (x, y) gives (a·x + b·y, c·x + d·y)</span></div>
+  <p>Each row of the table produces one number of the result: multiply across and add. For example, the matrix with rows (2, 1) and (0, 3), applied to (1, 2), gives (2·1 + 1·2, 0·1 + 3·2) = (4, 6).</p>
+  <p>Applying one matrix and then another is itself a matrix, called their product. Matrices let a long chain of steps be collapsed into a single step. That is exactly what a stack of layers needs.</p>
+  <div class="q">
+    <p>The matrix with rows (1, 2) and (3, 1) is applied to (2, 1). What is the first number of the result?</p>
+    <div class="numq" data-ans="4" data-tol="0.01" data-hint="First row: 1·2 + 2·1."><input type="text" inputmode="decimal" id="in-m1" aria-label="first number"><button class="btn">Check</button></div>
+    <div class="fb"></div>
+  </div>
+  <div class="q">
+    <p>And the second number?</p>
+    <div class="numq" data-ans="7" data-tol="0.01" data-hint="Second row: 3·2 + 1·1."><input type="text" inputmode="decimal" id="in-m2" aria-label="second number"><button class="btn">Check</button></div>
+    <div class="fb"></div>
+  </div>
+  <div class="q">
+    <p>A turns (x, y) into (y, x). B doubles the first number only. Starting from (1, 3), does it matter which is applied first?</p>
+    <div class="opts mc">
+      <button data-hint="Work it out both ways: A then B gives (6, 1). B then A gives (3, 2).">No: the result is the same either way</button>
+      <button data-ok>Yes: A then B gives (6, 1), B then A gives (3, 2)</button>
+      <button data-hint="Both orders are allowed. They just give different results.">Only one of the two orders is allowed</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>With matrices, order matters.</strong> Swapping two layers of a stack changes the mirror, and the mathematics agrees: the product of two matrices depends on which comes first.</p>
+    <p>Everything else works as with ordinary numbers. The matrix that changes nothing has rows (1, 0) and (0, 1) and is called the identity. The entries can be complex numbers, as they will be here.</p>
+  </div>
+</section>
+
+<section class="step" data-id="layer">
+  <h1>One matrix per layer</h1>
+  <p>Describe the light at any depth by two numbers: the total electric field <span class="mono">E</span> and the total magnetic field <span class="mono">H</span>, both parallel to the surfaces. Module 1 showed these are exactly the two quantities that cannot jump at a boundary. So crossing a boundary leaves the pair <span class="mono">(E, H)</span> unchanged. Only crossing a layer changes it.</p>
+  <p>Inside a layer the light is one wave going down, of amplitude <span class="mono">a</span>, and one going up, of amplitude <span class="mono">b</span>. Then <span class="mono">E = a + b</span> and <span class="mono">H = η·(a − b)</span>, where <span class="mono">η = ñ·cos θ</span> says how much magnetic field a wave carries per unit of electric field. Crossing the layer turns <span class="mono">a</span> by <span class="mono">e<sup>iδ</sup></span> and <span class="mono">b</span> by <span class="mono">e<sup>−iδ</sup></span>, with <span class="mono">δ = 2π·ñ·d·cos θ/λ</span>, the phase of one crossing from module 2.</p>
+  <p>Write the pair at the top of the layer in terms of the pair at the bottom. The result is a matrix:</p>
+  <div class="formula lines"><span>M = <span class="mat"><span>cos δ</span><span>−i·sin δ / η</span><span>−i·η·sin δ</span><span>cos δ</span></span></span></div>
+  <p>A stack is the product of its layers' matrices, in order from the top. Under the last layer is the substrate, where light only goes down, so there <span class="mono">(E, H) = (1, η<sub>s</sub>)</span>. Multiplying through gives the pair <span class="mono">(B, C)</span> at the top surface, and from it the reflection:</p>
+  <div class="formula lines"><span><span class="mat one"><span>B</span><span>C</span></span> = M₁ · M₂ · … · M<sub>N</sub> <span class="mat one"><span>1</span><span>η<sub>s</sub></span></span></span><span>r = <span class="frac"><span>η₀·B − C</span><span>η₀·B + C</span></span></span></div>
+  <div class="lab">
+    <div class="toggle" id="t-case"><button data-c="none" aria-pressed="true">No layer</button><button data-c="film" aria-pressed="false">One Mo film</button></div>
+    <div class="ctrl"><label for="s-dc">Film thickness</label><input type="range" id="s-dc" min="0" max="15" step="0.01" value="3.61"><output id="o-dc"></output></div>
+    <div class="reads"><span><b>matrix method</b><span class="big" id="r-tm"></span></span><span><b id="l-ref">Fresnel formula</b><span class="big" id="r-ref"></span></span></div>
+    <div class="cap">Vacuum on silicon at 13.5 nm, perpendicular light, with or without a molybdenum film in between.</div>
+  </div>
+  <div class="q">
+    <p>Why do the boundaries between layers need no matrices of their own?</p>
+    <div class="opts mc">
+      <button data-hint="Each boundary reflects about 0.15%, and 80 of them make the whole mirror. They are not neglected.">Because their reflection is too small to matter</button>
+      <button data-ok>Because E and H parallel to the surface are the same on both sides of every boundary</button>
+      <button data-hint="The boundaries are assumed perfectly sharp: they have no thickness to cross.">Because each boundary is treated as a very thin layer</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="q">
+    <p>A layer of zero thickness has δ = 0. What is the top-left entry of its matrix?</p>
+    <div class="numq" data-ans="1" data-tol="0.001" data-hint="The entry is cos δ, and cos 0 = 1."><input type="text" inputmode="decimal" id="in-id" aria-label="matrix entry"><button class="btn">Check</button></div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>The matrix method contains everything from modules 1 and 2.</strong> With no layer it is the Fresnel formula. With one layer it is the Airy formula, all bounces included, and the two readouts agree to every digit shown. With 80 layers it is the same recipe repeated: this is the transfer-matrix method.</p>
+    <p>At an angle, each layer has its own <span class="mono">cos θ</span>, fixed by Snell's law starting from the angle in vacuum: <span class="mono">ñ·cos θ = √(ñ² − sin² θ₀)</span>. The 6° quoted for a scanner is the angle in vacuum. Inside molybdenum the ray travels at 6.5°.</p>
+    <p>A warning that has cost many people an afternoon. The <span class="mono">−i</span> in the matrix goes with the convention <span class="mono">ñ = n + i·k</span> used in these lessons. Books that write <span class="mono">ñ = n − i·k</span> have <span class="mono">+i</span> instead. Mixing the two gives reflectances above 100%.</p>
+    <div class="fcard">
+      <div class="formula lines"><span>M = <span class="mat"><span>cos δ</span><span>−i·sin δ / η</span><span>−i·η·sin δ</span><span>cos δ</span></span></span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>At the top of the layer E = a + b and H = η·(a − b). At the bottom the two waves have turned: E = a·e<sup>iδ</sup> + b·e<sup>−iδ</sup>, H = η·(a·e<sup>iδ</sup> − b·e<sup>−iδ</sup>). Solve the bottom pair for a and b, put them into the top pair, and use e<sup>iδ</sup> = cos δ + i·sin δ.</dd>
+        <dt>Assumptions</dt><dd>A uniform layer with flat, parallel, sharp faces. One wavelength and one polarization. As written, η = ñ·cos θ is for s polarization; for p polarization η = ñ / cos θ.</dd>
+        <dt>The terms</dt><dd>δ is the complex phase of one crossing. η is the ratio of magnetic to electric field for a wave travelling one way in that material. η₀ and η<sub>s</sub> are the same ratio in vacuum and in the substrate.</dd>
+        <dt>Check</dt><dd>d = 0 gives the identity matrix: a layer with no thickness changes nothing. With no layers at all, B = 1 and C = η<sub>s</sub>, and r becomes (η₀ − η<sub>s</sub>)/(η₀ + η<sub>s</sub>): the Fresnel formula. With one layer the method reproduces the Airy formula: compare the two readouts in the experiment at any thickness.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="result">
+  <h1>Forty pairs: 74%</h1>
+  <p>Now the full mirror. From vacuum down: a molybdenum layer 2.78 nm thick, a silicon layer 4.18 nm thick, repeated, on a silicon substrate. Light of 13.5 nm arrives at 6° with s polarization.</p>
+  <div class="lab">
+    <div class="toggle" id="t-ord"><button data-o="Mo" aria-pressed="true">Mo on top of each pair</button><button data-o="Si" aria-pressed="false">Si on top of each pair</button></div>
+    <canvas id="c-bal" style="height:70px"></canvas>
+    <div class="ctrl"><label for="s-Nr">Pairs</label><input type="range" id="s-Nr" min="1" max="60" step="1" value="40"><output id="o-Nr"></output></div>
+    <div class="reads"><span><b>reflected, R</b><span class="big" id="r-R"></span></span><span><b>absorbed in the layers, A</b><span id="r-A"></span></span><span><b>reaching the substrate, T</b><span id="r-T"></span></span></div>
+  </div>
+  <div class="q">
+    <p>With silicon on top of each pair the same 40 pairs reflect 73.0% instead of 74.2%. What is the main reason?</p>
+    <div class="opts mc">
+      <button data-hint="Count them: in both orders there are 80 strong surfaces between molybdenum and silicon or vacuum.">That order has fewer reflecting surfaces</button>
+      <button data-ok>The light crosses one extra silicon layer, down and back, before reaching the same surfaces</button>
+      <button data-hint="The period is the same in both orders, so the round trip through a pair does not change.">The arrows are no longer lined up</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>74.2% from surfaces that reflect 0.16% each.</strong> <span class="guided-only">You predicted: <strong id="pred-echo">—</strong>. </span>Of every 100 photons, 74 come back, 25 are absorbed in the layers and 1 reaches the substrate.</p>
+    <p>The order matters, as the matrices said it would. With silicon on top the light crosses 4.18 nm of silicon twice before meeting the first strong surface, which costs 1.4% of it: 74.2% × 0.986 = 73.2%, close to the 73.0% of the full calculation.</p>
+    <p>The number also depends on the conditions. For p polarization at 6° the same stack gives 73.5%. At perpendicular incidence it gives 72.8%, because this period was chosen for 6°. Whenever a reflectance is quoted, ask for the stack order, the angle, the polarization and the wavelength.</p>
+    <div class="fcard">
+      <div class="formula"><span>r = <span class="frac"><span>η₀·B − C</span><span>η₀·B + C</span></span></span><span>R + T + A = 1</span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>Above the stack, an incoming wave of amplitude 1 and a reflected wave r give E = 1 + r and H = η₀·(1 − r). The matrices say that this pair must be proportional to (B, C). Dividing the two conditions removes the unknown constant and leaves r.</dd>
+        <dt>Assumptions</dt><dd>Those of the layer matrix, for every layer. A substrate thick enough that nothing comes back from its far side.</dd>
+        <dt>The terms</dt><dd>R = |r|² is the reflected fraction of the power. T is the fraction that enters the substrate. A is what is left: the fraction absorbed inside the layers. The substrate eventually absorbs T as well.</dd>
+        <dt>Check</dt><dd>With one pair the stack is almost the single film of module 2 and R is 0.54%. At 40 pairs the three parts are 74.2%, 24.9% and 0.9%, which add to 100%. With absorption switched off in the previous step, A would be zero and R + T = 1.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="apply">
+  <h1>What the method assumes, and when it applies</h1>
+  <p>The transfer-matrix method is exact for the stack it is given. Whether that stack is the real mirror is a separate question.</p>
+  <div class="q">
+    <p>Which of these does the matrix method require?</p>
+    <div class="opts mc">
+      <button data-hint="The method works for any set of thicknesses. The Bragg condition is only the choice that gives the highest reflectance.">That the layers satisfy the Bragg condition</button>
+      <button data-ok>Uniform layers with flat, sharp, parallel boundaries</button>
+      <button data-hint="Absorption is carried by the complex index inside δ and η. No approximation is made about it.">That absorption is small</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="q">
+    <p>The mirror warms up and every layer grows 0.1% thicker. Can the method predict the new reflectance?</p>
+    <div class="opts mc">
+      <button data-ok>Yes: change the thicknesses and multiply the matrices again</button>
+      <button data-hint="Nothing in the method refers to a particular design. Every layer brings its own thickness.">No: it only works for the design thicknesses</button>
+      <button data-hint="The layers may all be different. Each one has its own matrix.">Only if all pairs remain identical</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="q">
+    <p>In a real mirror, molybdenum and silicon mix over a few tenths of a nanometre at each boundary. What does the ideal calculation make of that?</p>
+    <div class="opts mc">
+      <button data-hint="The complex index describes absorption inside a uniform layer, not the shape of a boundary.">It already includes it through the complex index</button>
+      <button data-ok>It leaves it out: 74.2% is the value for ideal boundaries</button>
+      <button data-hint="It can be included, for example by slicing each boundary into very thin uniform layers. The ideal calculation simply does not do so.">It makes the calculation impossible</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>An exact method for an ideal stack.</strong> Its strength is generality: any layers, any thicknesses, any angle, absorption included. Its limit is the picture of the stack you feed it. Module 4 uses it to see how the mirror responds to wavelength, period and the share of molybdenum.</p>
+    <h2>What to carry forward</h2>
+    <ul class="carry">
+      <li><strong>2·D·n̄·cos θ = λ.</strong> Use it for a first estimate of the period, or of the wavelength a given period reflects. It is not a design value: the full calculation moves it by about 1%.</li>
+      <li><strong>One matrix per layer, multiplied from the top down.</strong> Use it for any stack of uniform layers with sharp, flat boundaries. It is exact for that stack and says nothing about roughness or mixing.</li>
+      <li><strong>R + T + A = 1.</strong> Whatever is not reflected is absorbed in the layers or passed to the substrate. Use it to check any calculation.</li>
+    </ul>
+    <h2>The module is closed if you can rebuild the reasoning without looking</h2>
+    <div>
+      <details><summary>Why must the period be about half a wavelength?</summary><p>Going one pair deeper and back must add one full turn, so that every pair reflects in step with the one above.</p></details>
+      <details><summary>Why can 80 arrows of 0.04 not add up to 3.2?</summary><p>The deeper arrows are shorter: the light that would make them has already been reflected by the pairs above, or absorbed.</p></details>
+      <details><summary>Why describe the light by E and H instead of following each bounce?</summary><p>They are continuous across every boundary, so only the layers need a matrix, and all the bounces are included automatically.</p></details>
+      <details><summary>Where does the layer matrix come from?</summary><p>From one wave going down and one going up, each turned by the phase of one crossing, rewritten in terms of E and H at the two faces.</p></details>
+      <details><summary>What has to be stated together with "74.2%"?</summary><p>Forty pairs with molybdenum on top, 2.78 and 4.18 nm, silicon substrate, 13.5 nm, 6°, s polarization, ideal boundaries.</p></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="nav"><div class="nav-in">
+  <button class="btn" id="back">Back</button>
+  <span class="hint" id="hint"></span>
+  <button class="btn go" id="next">Continue</button>
+</div></footer>
+</div>
+
+<script src="cxro.js"></script>
+<script src="lesson.js"></script>
+<script>
+Object.assign(IT, {
+  "How do 80 weak surfaces make a 74% mirror?": "Come fanno 80 superfici deboli a dare uno specchio al 74%?",
+  "Seven steps, four interactive experiments on the Bragg condition, why the reflection levels off, and the transfer-matrix method. Choose how to take them.": "Sette passi, quattro esperimenti interattivi su condizione di Bragg, saturazione della riflessione e metodo delle matrici di trasferimento. Scegli come affrontarli.",
+  "One film reflects 0.6%. What do forty pairs do?": "Un film riflette lo 0,6%. E quaranta coppie?",
+  "Module 2 lined up two reflections and got 0.61%. A real EUV mirror stacks 40 pairs of molybdenum and silicon layers: 80 surfaces, each as weak as before.": "Il modulo 2 ha allineato due riflessioni e ha ottenuto 0,61%. Uno specchio EUV vero impila 40 coppie di strati di molibdeno e silicio: 80 superfici, ciascuna debole come prima.",
+  "Before computing anything, make a prediction. You will meet it again later.": "Prima di calcolare qualsiasi cosa, fai una previsione. La ritroverai più avanti.",
+  "The steps that follow build the answer one piece at a time.": "I passi che seguono costruiscono la risposta un pezzo alla volta.",
+  "With every thickness chosen as well as possible, how much do 40 pairs reflect?": "Con ogni spessore scelto nel modo migliore, quanto riflettono 40 coppie?",
+  "About 25%: forty times one film": "Circa il 25%: quaranta volte un film",
+  "About 50%": "Circa il 50%",
+  "More than 70%": "Più del 70%",
+  "Lining up all the arrows: the Bragg condition": "Allineare tutte le frecce: la condizione di Bragg",
+  "Call one molybdenum layer plus one silicon layer a pair, and its total thickness the period <span class=\"mono\">D</span>. Each pair repeats the one above it, one period deeper. Light reflected one pair deeper travels an extra round trip through one period.": "Chiama coppia uno strato di molibdeno più uno di silicio, e periodo <span class=\"mono\">D</span> il suo spessore totale. Ogni coppia ripete quella sopra, un periodo più in profondità. La luce riflessa una coppia più sotto percorre in più un'andata e ritorno attraverso un periodo.",
+  "If that extra round trip is exactly one full turn, the reflection from every pair arrives with its arrow pointing the same way as the one above. The arrows form a straight line. If it is not, each arrow is turned a little against the previous one and the chain curls up.": "Se quell'andata e ritorno in più vale esattamente un giro completo, la riflessione di ogni coppia arriva con la freccia orientata come quella della coppia sopra. Le frecce formano una linea retta. Se non è così, ogni freccia è un po' ruotata rispetto alla precedente e la catena si arrotola.",
+  "Arrows of the first 12 surfaces, added the simple way of module 2.": "Frecce delle prime 12 superfici, sommate nel modo semplice del modulo 2.",
+  "Reflectance of 40 pairs against the period, from the full calculation built later in this module.": "Riflettanza di 40 coppie in funzione del periodo, dal calcolo completo costruito più avanti in questo modulo.",
+  "Period D": "Periodo D",
+  "round trip through one pair": "andata e ritorno in una coppia",
+  "R of 40 pairs": "R di 40 coppie",
+  "13.5 nm, 6° from perpendicular, s polarization. Molybdenum takes 40% of each period.": "13,5 nm, 6° dalla perpendicolare, polarizzazione s. Il molibdeno occupa il 40% di ogni periodo.",
+  "Find the period that makes the mirror reflect more than 74%.": "Trova il periodo che fa riflettere allo specchio più del 74%.",
+  "First estimate: D = λ / (2 · n̄ · cos θ), with λ = 13.5 nm, n̄ = 0.969 and cos 6° = 0.9945. D in nm?": "Prima stima: D = λ / (2 · n̄ · cos θ), con λ = 13,5 nm, n̄ = 0,969 e cos 6° = 0,9945. D in nm?",
+  "<strong>The period must be about half a wavelength.</strong> Then going one pair deeper and back adds one full turn, and all the pairs agree. This is the Bragg condition, the same rule that governs X-rays reflecting from the planes of a crystal.": "<strong>Il periodo deve essere circa mezza lunghezza d'onda.</strong> Così scendere di una coppia e tornare aggiunge un giro completo, e tutte le coppie sono d'accordo. È la condizione di Bragg, la stessa regola che governa i raggi X riflessi dai piani di un cristallo.",
+  "The estimate gives 7.00 nm. The full calculation peaks at 6.95 nm, where the readout shows 0.99 turns instead of 1. The simple count treats the indices as real numbers and every reflection as weak. In a strong, absorbing stack neither is quite true, and the best period shifts by just under 1%. A design has to come from the full calculation.": "La stima dà 7,00 nm. Il calcolo completo ha il massimo a 6,95 nm, dove la lettura mostra 0,99 giri invece di 1. Il conto semplice tratta gli indici come numeri reali e ogni riflessione come debole. In uno stack forte e che assorbe nessuna delle due cose è del tutto vera, e il periodo migliore si sposta di poco meno dell'1%. Un progetto deve venire dal calcolo completo.",
+  "Within a pair there are two surfaces that reflect with opposite signs, as in module 2. How the period is shared between molybdenum and silicon decides how well those two families of arrows agree with each other. Module 4 looks at that.": "Dentro una coppia ci sono due superfici che riflettono con segni opposti, come nel modulo 2. Come il periodo è ripartito tra molibdeno e silicio decide quanto queste due famiglie di frecce vanno d'accordo tra loro. Se ne occupa il modulo 4.",
+  "From module 2, crossing a layer twice turns the arrow by 4π·n·d·cos θ/λ. One pair has two layers, so its round trip is 4π·(n<sub>Mo</sub>·d<sub>Mo</sub> + n<sub>Si</sub>·d<sub>Si</sub>)·cos θ/λ. Write the bracket as n̄·D, with n̄ the average index weighted by thickness, and ask for one full turn, 2π.": "Dal modulo 2, attraversare due volte uno strato ruota la freccia di 4π·n·d·cos θ/λ. Una coppia ha due strati, quindi la sua andata e ritorno vale 4π·(n<sub>Mo</sub>·d<sub>Mo</sub> + n<sub>Si</sub>·d<sub>Si</sub>)·cos θ/λ. Scrivi la parentesi come n̄·D, con n̄ l'indice medio pesato sugli spessori, e chiedi un giro completo, 2π.",
+  "Identical pairs. Real indices and weak reflections, so that every arrow can be treated on its own. The angle θ is the one inside the stack, which is close to the angle in vacuum because n̄ is close to 1.": "Coppie identiche. Indici reali e riflessioni deboli, così ogni freccia si può trattare per conto suo. L'angolo θ è quello dentro lo stack, vicino all'angolo nel vuoto perché n̄ è vicino a 1.",
+  "D = d<sub>Mo</sub> + d<sub>Si</sub> is the period. n̄ is the thickness-weighted average of the two real indices: 0.4 × 0.924 + 0.6 × 0.999 = 0.969. θ is the angle from the perpendicular. λ is the wavelength in vacuum.": "D = d<sub>Mo</sub> + d<sub>Si</sub> è il periodo. n̄ è la media dei due indici reali pesata sugli spessori: 0,4 × 0,924 + 0,6 × 0,999 = 0,969. θ è l'angolo dalla perpendicolare. λ è la lunghezza d'onda nel vuoto.",
+  "With 13.5 nm and 6° the formula gives 7.00 nm. In the experiment the reflectance peaks at 6.95 nm, 0.8% lower: the right neighbourhood, and a reminder that this is a first estimate.": "Con 13,5 nm e 6° la formula dà 7,00 nm. Nell'esperimento la riflettanza ha il massimo a 6,95 nm, lo 0,8% in meno: la zona giusta, e un promemoria che questa è una prima stima.",
+  "Why the sum levels off": "Perché la somma si appiattisce",
+  "With the arrows lined up, adding pairs should keep adding reflection. Add them and watch.": "Con le frecce allineate, aggiungere coppie dovrebbe continuare ad aggiungere riflessione. Aggiungile e guarda.",
+  "Real materials": "Materiali reali",
+  "No absorption (k = 0)": "Senza assorbimento (k = 0)",
+  "Reflectance against number of pairs. Solid: the selected case. Dashed: the other one.": "Riflettanza in funzione del numero di coppie. Linea piena: il caso selezionato. Tratteggiata: l'altro.",
+  "Pairs": "Coppie",
+  "R": "R",
+  "light reaching the substrate": "luce che arriva al substrato",
+  "With real materials, find the smallest number of pairs that reflects more than 70%.": "Con i materiali reali, trova il numero minimo di coppie che riflette più del 70%.",
+  "Without absorption the curve climbs to almost 100% and still flattens. Why does it flatten even then?": "Senza assorbimento la curva sale fin quasi al 100% e si appiattisce lo stesso. Perché si appiattisce anche in quel caso?",
+  "Because the deep layers absorb the light": "Perché gli strati profondi assorbono la luce",
+  "Because every pair sends part of the light back, so less and less reaches the pairs below": "Perché ogni coppia rimanda indietro parte della luce, quindi ne arriva sempre meno alle coppie sotto",
+  "Because beyond 30 pairs the arrows fall out of step": "Perché oltre 30 coppie le frecce perdono l'allineamento",
+  "<strong>Two things starve the deep pairs of light.</strong> The first is reflection itself: light sent back by the upper pairs never reaches the lower ones. That alone would level the curve off near 100%. With 40 pairs and no absorption the mirror would reflect 98.7%.": "<strong>Due cose lasciano senza luce le coppie profonde.</strong> La prima è la riflessione stessa: la luce rimandata indietro dalle coppie in alto non arriva mai a quelle in basso. Da sola appiattirebbe la curva vicino al 100%. Con 40 coppie e senza assorbimento lo specchio rifletterebbe il 98,7%.",
+  "The second is absorption. Light that gets deep has crossed a lot of molybdenum, and must cross it again to come out. The real curve stops near 75%: 28 pairs give 70.6%, 40 pairs give 74.2%, and 20 more add less than one point.": "La seconda è l'assorbimento. La luce che arriva in profondità ha attraversato molto molibdeno, e deve riattraversarlo per uscire. La curva reale si ferma vicino al 75%: 28 coppie danno 70,6%, 40 coppie danno 74,2%, e altre 20 aggiungono meno di un punto.",
+  "This answers the question module 1 ended on. Eighty arrows of 0.04 cannot add up to 3.2, because the lower arrows are shorter than the upper ones: the light that would make them has already been reflected or absorbed.": "Questo risponde alla domanda con cui si è chiuso il modulo 1. Ottanta frecce da 0,04 non possono sommarsi a 3,2, perché le frecce in basso sono più corte di quelle in alto: la luce che le produrrebbe è già stata riflessa o assorbita.",
+  "A tool you need now: matrices": "Uno strumento che serve adesso: le matrici",
+  "Following every bounce through 80 layers by hand is hopeless. The method that replaces it needs one piece of mathematics: a 2×2 matrix. It is a table of four numbers that turns one pair of numbers into another pair.": "Seguire a mano ogni rimbalzo in 80 strati è impossibile. Il metodo che lo sostituisce richiede un pezzo di matematica: una matrice 2×2. È una tabella di quattro numeri che trasforma una coppia di numeri in un'altra coppia.",
+  "Each row of the table produces one number of the result: multiply across and add. For example, the matrix with rows (2, 1) and (0, 3), applied to (1, 2), gives (2·1 + 1·2, 0·1 + 3·2) = (4, 6).": "Ogni riga della tabella produce un numero del risultato: moltiplica lungo la riga e somma. Per esempio, la matrice con righe (2, 1) e (0, 3), applicata a (1, 2), dà (2·1 + 1·2, 0·1 + 3·2) = (4, 6).",
+  "Applying one matrix and then another is itself a matrix, called their product. Matrices let a long chain of steps be collapsed into a single step. That is exactly what a stack of layers needs.": "Applicare una matrice e poi un'altra è a sua volta una matrice, detta il loro prodotto. Le matrici permettono di ridurre una lunga catena di passaggi a un passaggio solo. È esattamente ciò che serve a una pila di strati.",
+  "The matrix with rows (1, 2) and (3, 1) is applied to (2, 1). What is the first number of the result?": "La matrice con righe (1, 2) e (3, 1) è applicata a (2, 1). Qual è il primo numero del risultato?",
+  "And the second number?": "E il secondo numero?",
+  "A turns (x, y) into (y, x). B doubles the first number only. Starting from (1, 3), does it matter which is applied first?": "A trasforma (x, y) in (y, x). B raddoppia solo il primo numero. Partendo da (1, 3), conta quale si applica per prima?",
+  "No: the result is the same either way": "No: il risultato è lo stesso in entrambi i casi",
+  "Yes: A then B gives (6, 1), B then A gives (3, 2)": "Sì: A poi B dà (6, 1), B poi A dà (3, 2)",
+  "Only one of the two orders is allowed": "Solo uno dei due ordini è permesso",
+  "<strong>With matrices, order matters.</strong> Swapping two layers of a stack changes the mirror, and the mathematics agrees: the product of two matrices depends on which comes first.": "<strong>Con le matrici l'ordine conta.</strong> Scambiare due strati di uno stack cambia lo specchio, e la matematica è d'accordo: il prodotto di due matrici dipende da quale viene prima.",
+  "Everything else works as with ordinary numbers. The matrix that changes nothing has rows (1, 0) and (0, 1) and is called the identity. The entries can be complex numbers, as they will be here.": "Tutto il resto funziona come con i numeri ordinari. La matrice che non cambia nulla ha righe (1, 0) e (0, 1) e si chiama identità. Gli elementi possono essere numeri complessi, come saranno qui.",
+  "One matrix per layer": "Una matrice per ogni strato",
+  "Describe the light at any depth by two numbers: the total electric field <span class=\"mono\">E</span> and the total magnetic field <span class=\"mono\">H</span>, both parallel to the surfaces. Module 1 showed these are exactly the two quantities that cannot jump at a boundary. So crossing a boundary leaves the pair <span class=\"mono\">(E, H)</span> unchanged. Only crossing a layer changes it.": "Descrivi la luce a una data profondità con due numeri: il campo elettrico totale <span class=\"mono\">E</span> e il campo magnetico totale <span class=\"mono\">H</span>, entrambi paralleli alle superfici. Il modulo 1 ha mostrato che sono esattamente le due grandezze che non possono fare un salto a un confine. Quindi attraversare un confine lascia invariata la coppia <span class=\"mono\">(E, H)</span>. Solo attraversare uno strato la cambia.",
+  "Inside a layer the light is one wave going down, of amplitude <span class=\"mono\">a</span>, and one going up, of amplitude <span class=\"mono\">b</span>. Then <span class=\"mono\">E = a + b</span> and <span class=\"mono\">H = η·(a − b)</span>, where <span class=\"mono\">η = ñ·cos θ</span> says how much magnetic field a wave carries per unit of electric field. Crossing the layer turns <span class=\"mono\">a</span> by <span class=\"mono\">e<sup>iδ</sup></span> and <span class=\"mono\">b</span> by <span class=\"mono\">e<sup>−iδ</sup></span>, with <span class=\"mono\">δ = 2π·ñ·d·cos θ/λ</span>, the phase of one crossing from module 2.": "Dentro uno strato la luce è un'onda che scende, di ampiezza <span class=\"mono\">a</span>, e una che sale, di ampiezza <span class=\"mono\">b</span>. Allora <span class=\"mono\">E = a + b</span> e <span class=\"mono\">H = η·(a − b)</span>, dove <span class=\"mono\">η = ñ·cos θ</span> dice quanto campo magnetico porta un'onda per unità di campo elettrico. Attraversare lo strato ruota <span class=\"mono\">a</span> di <span class=\"mono\">e<sup>iδ</sup></span> e <span class=\"mono\">b</span> di <span class=\"mono\">e<sup>−iδ</sup></span>, con <span class=\"mono\">δ = 2π·ñ·d·cos θ/λ</span>, la fase di un attraversamento del modulo 2.",
+  "Write the pair at the top of the layer in terms of the pair at the bottom. The result is a matrix:": "Scrivi la coppia in cima allo strato in funzione della coppia in fondo. Il risultato è una matrice:",
+  "A stack is the product of its layers' matrices, in order from the top. Under the last layer is the substrate, where light only goes down, so there <span class=\"mono\">(E, H) = (1, η<sub>s</sub>)</span>. Multiplying through gives the pair <span class=\"mono\">(B, C)</span> at the top surface, and from it the reflection:": "Uno stack è il prodotto delle matrici dei suoi strati, in ordine dall'alto. Sotto l'ultimo strato c'è il substrato, dove la luce scende soltanto, quindi lì <span class=\"mono\">(E, H) = (1, η<sub>s</sub>)</span>. Moltiplicando tutto si ottiene la coppia <span class=\"mono\">(B, C)</span> alla superficie superiore, e da questa la riflessione:",
+  "No layer": "Nessuno strato",
+  "One Mo film": "Un film di Mo",
+  "Film thickness": "Spessore del film",
+  "matrix method": "metodo delle matrici",
+  "Fresnel formula": "formula di Fresnel",
+  "Vacuum on silicon at 13.5 nm, perpendicular light, with or without a molybdenum film in between.": "Vuoto su silicio a 13,5 nm, luce perpendicolare, con o senza un film di molibdeno in mezzo.",
+  "Why do the boundaries between layers need no matrices of their own?": "Perché i confini tra gli strati non hanno bisogno di matrici proprie?",
+  "Because their reflection is too small to matter": "Perché la loro riflessione è troppo piccola per contare",
+  "Because E and H parallel to the surface are the same on both sides of every boundary": "Perché E e H paralleli alla superficie sono uguali dai due lati di ogni confine",
+  "Because each boundary is treated as a very thin layer": "Perché ogni confine è trattato come uno strato molto sottile",
+  "A layer of zero thickness has δ = 0. What is the top-left entry of its matrix?": "Uno strato di spessore zero ha δ = 0. Quanto vale l'elemento in alto a sinistra della sua matrice?",
+  "<strong>The matrix method contains everything from modules 1 and 2.</strong> With no layer it is the Fresnel formula. With one layer it is the Airy formula, all bounces included, and the two readouts agree to every digit shown. With 80 layers it is the same recipe repeated: this is the transfer-matrix method.": "<strong>Il metodo delle matrici contiene tutto ciò che c'è nei moduli 1 e 2.</strong> Senza strati è la formula di Fresnel. Con uno strato è la formula di Airy, con tutti i rimbalzi, e le due letture coincidono su ogni cifra mostrata. Con 80 strati è la stessa ricetta ripetuta: è il metodo delle matrici di trasferimento.",
+  "At an angle, each layer has its own <span class=\"mono\">cos θ</span>, fixed by Snell's law starting from the angle in vacuum: <span class=\"mono\">ñ·cos θ = √(ñ² − sin² θ₀)</span>. The 6° quoted for a scanner is the angle in vacuum. Inside molybdenum the ray travels at 6.5°.": "Con un angolo, ogni strato ha il suo <span class=\"mono\">cos θ</span>, fissato dalla legge di Snell a partire dall'angolo nel vuoto: <span class=\"mono\">ñ·cos θ = √(ñ² − sin² θ₀)</span>. I 6° dichiarati per uno scanner sono l'angolo nel vuoto. Dentro il molibdeno il raggio viaggia a 6,5°.",
+  "A warning that has cost many people an afternoon. The <span class=\"mono\">−i</span> in the matrix goes with the convention <span class=\"mono\">ñ = n + i·k</span> used in these lessons. Books that write <span class=\"mono\">ñ = n − i·k</span> have <span class=\"mono\">+i</span> instead. Mixing the two gives reflectances above 100%.": "Un avvertimento che è costato un pomeriggio a molti. Il <span class=\"mono\">−i</span> nella matrice va con la convenzione <span class=\"mono\">ñ = n + i·k</span> usata in queste lezioni. I libri che scrivono <span class=\"mono\">ñ = n − i·k</span> hanno <span class=\"mono\">+i</span>. Mescolare le due dà riflettanze sopra il 100%.",
+  "At the top of the layer E = a + b and H = η·(a − b). At the bottom the two waves have turned: E = a·e<sup>iδ</sup> + b·e<sup>−iδ</sup>, H = η·(a·e<sup>iδ</sup> − b·e<sup>−iδ</sup>). Solve the bottom pair for a and b, put them into the top pair, and use e<sup>iδ</sup> = cos δ + i·sin δ.": "In cima allo strato E = a + b e H = η·(a − b). In fondo le due onde hanno ruotato: E = a·e<sup>iδ</sup> + b·e<sup>−iδ</sup>, H = η·(a·e<sup>iδ</sup> − b·e<sup>−iδ</sup>). Ricava a e b dalla coppia in fondo, sostituiscili nella coppia in cima, e usa e<sup>iδ</sup> = cos δ + i·sin δ.",
+  "A uniform layer with flat, parallel, sharp faces. One wavelength and one polarization. As written, η = ñ·cos θ is for s polarization; for p polarization η = ñ / cos θ.": "Uno strato uniforme con facce piane, parallele e nette. Una sola lunghezza d'onda e una sola polarizzazione. Così com'è scritta, η = ñ·cos θ vale per la polarizzazione s; per la p, η = ñ / cos θ.",
+  "δ is the complex phase of one crossing. η is the ratio of magnetic to electric field for a wave travelling one way in that material. η₀ and η<sub>s</sub> are the same ratio in vacuum and in the substrate.": "δ è la fase complessa di un attraversamento. η è il rapporto tra campo magnetico ed elettrico per un'onda che viaggia in un solo verso in quel materiale. η₀ e η<sub>s</sub> sono lo stesso rapporto nel vuoto e nel substrato.",
+  "d = 0 gives the identity matrix: a layer with no thickness changes nothing. With no layers at all, B = 1 and C = η<sub>s</sub>, and r becomes (η₀ − η<sub>s</sub>)/(η₀ + η<sub>s</sub>): the Fresnel formula. With one layer the method reproduces the Airy formula: compare the two readouts in the experiment at any thickness.": "d = 0 dà la matrice identità: uno strato senza spessore non cambia nulla. Senza alcuno strato, B = 1 e C = η<sub>s</sub>, e r diventa (η₀ − η<sub>s</sub>)/(η₀ + η<sub>s</sub>): la formula di Fresnel. Con uno strato il metodo riproduce la formula di Airy: confronta le due letture nell'esperimento a qualsiasi spessore.",
+  "Forty pairs: 74%": "Quaranta coppie: 74%",
+  "Now the full mirror. From vacuum down: a molybdenum layer 2.78 nm thick, a silicon layer 4.18 nm thick, repeated, on a silicon substrate. Light of 13.5 nm arrives at 6° with s polarization.": "Ora lo specchio completo. Dal vuoto in giù: uno strato di molibdeno spesso 2,78 nm, uno strato di silicio spesso 4,18 nm, ripetuti, su un substrato di silicio. Luce a 13,5 nm che arriva a 6° con polarizzazione s.",
+  "Mo on top of each pair": "Mo in cima a ogni coppia",
+  "Si on top of each pair": "Si in cima a ogni coppia",
+  "reflected, R": "riflessa, R",
+  "absorbed in the layers, A": "assorbita negli strati, A",
+  "reaching the substrate, T": "che arriva al substrato, T",
+  "With silicon on top of each pair the same 40 pairs reflect 73.0% instead of 74.2%. What is the main reason?": "Con il silicio in cima a ogni coppia le stesse 40 coppie riflettono il 73,0% invece del 74,2%. Qual è il motivo principale?",
+  "That order has fewer reflecting surfaces": "In quell'ordine ci sono meno superfici che riflettono",
+  "The light crosses one extra silicon layer, down and back, before reaching the same surfaces": "La luce attraversa uno strato di silicio in più, in discesa e in salita, prima di raggiungere le stesse superfici",
+  "The arrows are no longer lined up": "Le frecce non sono più allineate",
+  "<strong>74.2% from surfaces that reflect 0.16% each.</strong> <span class=\"guided-only\">You predicted: <strong id=\"pred-echo\">—</strong>. </span>Of every 100 photons, 74 come back, 25 are absorbed in the layers and 1 reaches the substrate.": "<strong>74,2% da superfici che riflettono lo 0,16% ciascuna.</strong> <span class=\"guided-only\">Avevi previsto: <strong id=\"pred-echo\">—</strong>. </span>Su 100 fotoni, 74 tornano indietro, 25 sono assorbiti negli strati e 1 arriva al substrato.",
+  "The order matters, as the matrices said it would. With silicon on top the light crosses 4.18 nm of silicon twice before meeting the first strong surface, which costs 1.4% of it: 74.2% × 0.986 = 73.2%, close to the 73.0% of the full calculation.": "L'ordine conta, come avevano detto le matrici. Con il silicio in cima la luce attraversa due volte 4,18 nm di silicio prima di incontrare la prima superficie forte, e questo ne costa l'1,4%: 74,2% × 0,986 = 73,2%, vicino al 73,0% del calcolo completo.",
+  "The number also depends on the conditions. For p polarization at 6° the same stack gives 73.5%. At perpendicular incidence it gives 72.8%, because this period was chosen for 6°. Whenever a reflectance is quoted, ask for the stack order, the angle, the polarization and the wavelength.": "Il numero dipende anche dalle condizioni. In polarizzazione p a 6° lo stesso stack dà 73,5%. A incidenza perpendicolare dà 72,8%, perché questo periodo è stato scelto per 6°. Ogni volta che si cita una riflettanza, chiedi l'ordine dello stack, l'angolo, la polarizzazione e la lunghezza d'onda.",
+  "Above the stack, an incoming wave of amplitude 1 and a reflected wave r give E = 1 + r and H = η₀·(1 − r). The matrices say that this pair must be proportional to (B, C). Dividing the two conditions removes the unknown constant and leaves r.": "Sopra lo stack, un'onda in arrivo di ampiezza 1 e un'onda riflessa r danno E = 1 + r e H = η₀·(1 − r). Le matrici dicono che questa coppia deve essere proporzionale a (B, C). Dividendo le due condizioni la costante incognita sparisce e resta r.",
+  "Those of the layer matrix, for every layer. A substrate thick enough that nothing comes back from its far side.": "Quelle della matrice dello strato, per ogni strato. Un substrato abbastanza spesso che nulla torni indietro dalla sua faccia lontana.",
+  "R = |r|² is the reflected fraction of the power. T is the fraction that enters the substrate. A is what is left: the fraction absorbed inside the layers. The substrate eventually absorbs T as well.": "R = |r|² è la frazione riflessa della potenza. T è la frazione che entra nel substrato. A è ciò che resta: la frazione assorbita dentro gli strati. Il substrato alla fine assorbe anche T.",
+  "With one pair the stack is almost the single film of module 2 and R is 0.54%. At 40 pairs the three parts are 74.2%, 24.9% and 0.9%, which add to 100%. With absorption switched off in the previous step, A would be zero and R + T = 1.": "Con una coppia lo stack è quasi il film singolo del modulo 2 e R vale 0,54%. A 40 coppie le tre parti sono 74,2%, 24,9% e 0,9%, che sommate danno 100%. Togliendo l'assorbimento nel passo precedente, A sarebbe zero e R + T = 1.",
+  "What the method assumes, and when it applies": "Cosa presuppone il metodo, e quando si applica",
+  "The transfer-matrix method is exact for the stack it is given. Whether that stack is the real mirror is a separate question.": "Il metodo delle matrici di trasferimento è esatto per lo stack che gli viene dato. Se quello stack sia lo specchio vero è un'altra domanda.",
+  "Which of these does the matrix method require?": "Quale di queste cose richiede il metodo delle matrici?",
+  "That the layers satisfy the Bragg condition": "Che gli strati soddisfino la condizione di Bragg",
+  "Uniform layers with flat, sharp, parallel boundaries": "Strati uniformi con confini piani, netti e paralleli",
+  "That absorption is small": "Che l'assorbimento sia piccolo",
+  "The mirror warms up and every layer grows 0.1% thicker. Can the method predict the new reflectance?": "Lo specchio si scalda e ogni strato diventa più spesso dello 0,1%. Il metodo può prevedere la nuova riflettanza?",
+  "Yes: change the thicknesses and multiply the matrices again": "Sì: si cambiano gli spessori e si moltiplicano di nuovo le matrici",
+  "No: it only works for the design thicknesses": "No: funziona solo con gli spessori di progetto",
+  "Only if all pairs remain identical": "Solo se tutte le coppie restano identiche",
+  "In a real mirror, molybdenum and silicon mix over a few tenths of a nanometre at each boundary. What does the ideal calculation make of that?": "In uno specchio vero molibdeno e silicio si mescolano per qualche decimo di nanometro a ogni confine. Cosa ne fa il calcolo ideale?",
+  "It already includes it through the complex index": "Lo include già attraverso l'indice complesso",
+  "It leaves it out: 74.2% is the value for ideal boundaries": "Lo lascia fuori: 74,2% è il valore per confini ideali",
+  "It makes the calculation impossible": "Rende il calcolo impossibile",
+  "<strong>An exact method for an ideal stack.</strong> Its strength is generality: any layers, any thicknesses, any angle, absorption included. Its limit is the picture of the stack you feed it. Module 4 uses it to see how the mirror responds to wavelength, period and the share of molybdenum.": "<strong>Un metodo esatto per uno stack ideale.</strong> La sua forza è la generalità: strati qualsiasi, spessori qualsiasi, angolo qualsiasi, assorbimento incluso. Il suo limite è l'immagine dello stack che gli fornisci. Il modulo 4 lo usa per vedere come lo specchio risponde a lunghezza d'onda, periodo e quota di molibdeno.",
+  "What to carry forward": "Cosa portarsi dietro",
+  "<strong>2·D·n̄·cos θ = λ.</strong> Use it for a first estimate of the period, or of the wavelength a given period reflects. It is not a design value: the full calculation moves it by about 1%.": "<strong>2·D·n̄·cos θ = λ.</strong> Usala per una prima stima del periodo, o della lunghezza d'onda che un dato periodo riflette. Non è un valore di progetto: il calcolo completo lo sposta di circa l'1%.",
+  "<strong>One matrix per layer, multiplied from the top down.</strong> Use it for any stack of uniform layers with sharp, flat boundaries. It is exact for that stack and says nothing about roughness or mixing.": "<strong>Una matrice per strato, moltiplicate dall'alto verso il basso.</strong> Usalo per qualsiasi stack di strati uniformi con confini netti e piani. È esatto per quello stack e non dice nulla su rugosità o mescolamento.",
+  "<strong>R + T + A = 1.</strong> Whatever is not reflected is absorbed in the layers or passed to the substrate. Use it to check any calculation.": "<strong>R + T + A = 1.</strong> Ciò che non è riflesso viene assorbito negli strati o passa al substrato. Usala per controllare qualsiasi calcolo.",
+  "The module is closed if you can rebuild the reasoning without looking": "Il modulo è chiuso se sai ricostruire il ragionamento senza guardare",
+  "Why must the period be about half a wavelength?": "Perché il periodo deve essere circa mezza lunghezza d'onda?",
+  "Going one pair deeper and back must add one full turn, so that every pair reflects in step with the one above.": "Scendere di una coppia e tornare deve aggiungere un giro completo, così ogni coppia riflette in fase con quella sopra.",
+  "Why can 80 arrows of 0.04 not add up to 3.2?": "Perché 80 frecce da 0,04 non possono sommarsi a 3,2?",
+  "The deeper arrows are shorter: the light that would make them has already been reflected by the pairs above, or absorbed.": "Le frecce più profonde sono più corte: la luce che le produrrebbe è già stata riflessa dalle coppie sopra, o assorbita.",
+  "Why describe the light by E and H instead of following each bounce?": "Perché descrivere la luce con E e H invece di seguire ogni rimbalzo?",
+  "They are continuous across every boundary, so only the layers need a matrix, and all the bounces are included automatically.": "Sono continui attraverso ogni confine, quindi solo gli strati hanno bisogno di una matrice, e tutti i rimbalzi sono inclusi automaticamente.",
+  "Where does the layer matrix come from?": "Da dove viene la matrice dello strato?",
+  "From one wave going down and one going up, each turned by the phase of one crossing, rewritten in terms of E and H at the two faces.": "Da un'onda che scende e una che sale, ciascuna ruotata della fase di un attraversamento, riscritte in funzione di E e H alle due facce.",
+  "What has to be stated together with \"74.2%\"?": "Cosa va dichiarato insieme a «74,2%»?",
+  "Forty pairs with molybdenum on top, 2.78 and 4.18 nm, silicon substrate, 13.5 nm, 6°, s polarization, ideal boundaries.": "Quaranta coppie con il molibdeno in cima, 2,78 e 4,18 nm, substrato di silicio, 13,5 nm, 6°, polarizzazione s, confini ideali.",
+  "about 25%": "circa il 25%",
+  "about 50%": "circa il 50%",
+  "more than 70%": "più del 70%",
+  "13.5 / (2 × 0.969 × 0.9945).": "13,5 / (2 × 0,969 × 0,9945).",
+  "With k = 0 nothing is absorbed anywhere. Look at the light reaching the substrate as you add pairs.": "Con k = 0 non viene assorbito nulla da nessuna parte. Guarda la luce che arriva al substrato mentre aggiungi coppie.",
+  "The arrows stay lined up at any number of pairs: the period does not change.": "Le frecce restano allineate con qualsiasi numero di coppie: il periodo non cambia.",
+  "First row: 1·2 + 2·1.": "Prima riga: 1·2 + 2·1.",
+  "Second row: 3·2 + 1·1.": "Seconda riga: 3·2 + 1·1.",
+  "Work it out both ways: A then B gives (6, 1). B then A gives (3, 2).": "Fai il conto in entrambi i modi: A poi B dà (6, 1). B poi A dà (3, 2).",
+  "Both orders are allowed. They just give different results.": "Entrambi gli ordini sono permessi. Danno solo risultati diversi.",
+  "Each boundary reflects about 0.15%, and 80 of them make the whole mirror. They are not neglected.": "Ogni confine riflette circa lo 0,15%, e 80 di essi fanno l'intero specchio. Non sono trascurati.",
+  "The boundaries are assumed perfectly sharp: they have no thickness to cross.": "I confini sono considerati perfettamente netti: non hanno uno spessore da attraversare.",
+  "The entry is cos δ, and cos 0 = 1.": "L'elemento è cos δ, e cos 0 = 1.",
+  "Count them: in both orders there are 80 strong surfaces between molybdenum and silicon or vacuum.": "Contale: in entrambi gli ordini ci sono 80 superfici forti tra molibdeno e silicio o vuoto.",
+  "The period is the same in both orders, so the round trip through a pair does not change.": "Il periodo è lo stesso nei due ordini, quindi l'andata e ritorno in una coppia non cambia.",
+  "The method works for any set of thicknesses. The Bragg condition is only the choice that gives the highest reflectance.": "Il metodo funziona con qualsiasi insieme di spessori. La condizione di Bragg è solo la scelta che dà la riflettanza più alta.",
+  "Absorption is carried by the complex index inside δ and η. No approximation is made about it.": "L'assorbimento è portato dall'indice complesso dentro δ e η. Su di esso non si fa alcuna approssimazione.",
+  "Nothing in the method refers to a particular design. Every layer brings its own thickness.": "Nulla nel metodo fa riferimento a un progetto particolare. Ogni strato porta il proprio spessore.",
+  "The layers may all be different. Each one has its own matrix.": "Gli strati possono essere tutti diversi. Ciascuno ha la sua matrice.",
+  "The complex index describes absorption inside a uniform layer, not the shape of a boundary.": "L'indice complesso descrive l'assorbimento dentro uno strato uniforme, non la forma di un confine.",
+  "It can be included, for example by slicing each boundary into very thin uniform layers. The ideal calculation simply does not do so.": "Si può includere, per esempio affettando ogni confine in strati uniformi molto sottili. Il calcolo ideale semplicemente non lo fa.",
+  "turns": "giri",
+  "period D (nm)": "periodo D (nm)",
+  "number of pairs": "numero di coppie",
+  "Next: module 4, wavelength, period and the share of molybdenum.": "Prossimo: modulo 4, lunghezza d'onda, periodo e quota di molibdeno.",
+  "Airy formula": "formula di Airy",
+  "<span class=\"mat\"><span>a</span><span>b</span><span>c</span><span>d</span></span> applied to (x, y) gives (a·x + b·y, c·x + d·y)": "<span class=\"mat\"><span>a</span><span>b</span><span>c</span><span>d</span></span> applicata a (x, y) dà (a·x + b·y, c·x + d·y)"
+});
+
+startLesson({
+  n: 3,
+  key: "euv-module-3",
+  next: "Next: module 4, wavelength, period and the share of molybdenum.",
+  setup() {
+    const nMo = index("Mo", LAM0), nSi = index("Si", LAM0), TH = 6 * Math.PI / 180, S0 = Math.sin(TH);
+    const qMo = qOf(nMo, S0), qSi = qOf(nSi, S0), q0 = qOf(1, S0);
+    const stack = (N, D, top) => { const mo = { n: nMo, d: D ? 0.4 * D : 2.78 }, si = { n: nSi, d: D ? 0.6 * D : 4.18 }; return top === "Si" ? pairs(N, si, mo) : pairs(N, mo, si); };
+    const fres = (qa, qb) => C.div(C.sub(qa, qb), C.add(qa, qb));
+    const turnOf = (q, d) => { const a = 4 * Math.PI * d / LAM0, m = Math.exp(-a * q[1]); return [m * Math.cos(a * q[0]), m * Math.sin(a * q[0])]; };
+
+    /* ---------- Bragg condition ---------- */
+    const RDcurve = []; for (let D = 6.4; D <= 7.6001; D += 0.01) RDcurve.push([D, 100 * tmm(stack(40, D), 1, nSi, LAM0, TH, "s").R]);
+    draws.bragg = () => {
+      const D = +$("s-D").value, dMo = 0.4 * D, dSi = 0.6 * D, R = tmm(stack(40, D), 1, nSi, LAM0, TH, "s").R, cm = css("--mo");
+      $("o-D").textContent = fmt(D, 3) + " nm"; $("r-turn").textContent = fmt(2 * (qMo[0] * dMo + qSi[0] * dSi) / LAM0, 3) + " " + t("turns"); $("r-RD").textContent = pct(R, 1);
+      // Simple sum over the first 12 surfaces: each arrow is a Fresnel reflection turned by the layers above it.
+      const pts = [[0, 0]]; let ph = [1, 0], z = [0, 0];
+      for (let j = 0; j < 12; j++) { const r = j === 0 ? fres(q0, qMo) : j % 2 ? fres(qMo, qSi) : fres(qSi, qMo); z = C.add(z, C.mul(r, ph)); pts.push(z); ph = C.mul(ph, j % 2 ? turnOf(qSi, dSi) : turnOf(qMo, dMo)); }
+      // Fit the whole chain in the canvas, whatever its direction, without over-magnifying a curled-up one.
+      const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]), xa = Math.min(...xs), xb = Math.max(...xs), ya = Math.min(...ys), yb = Math.max(...ys);
+      const { ctx, w, h } = prep($("c-chain")), s = Math.min(w * .84 / Math.max(xb - xa, .12), h * .76 / Math.max(yb - ya, .12));
+      const ox = w / 2 - s * (xa + xb) / 2, oy = h / 2 + s * (ya + yb) / 2;
+      for (let j = 1; j < pts.length; j++) arrow(ctx, ox + pts[j - 1][0] * s, oy - pts[j - 1][1] * s, ox + pts[j][0] * s, oy - pts[j][1] * s, j % 2 ? cm : css("--si"), 2.5);
+      arrow(ctx, ox, oy, ox + z[0] * s, oy - z[1] * s, css("--accent"), 3.5);
+      plot($("c-RD"), { x: [6.4, 7.6], y: [0, 80], xt: [6.4, 6.8, 7.2, 7.6], xf: v => fmt(v, 1), yt: [0, 20, 40, 60, 80], yf: v => v + "%", vline: D, xlabel: t("period D (nm)"),
+        series: [{ pts: RDcurve, color: cm }], marks: [{ x: D, y: 100 * R, color: cm }] });
+      goal("g-bragg", R > 0.74);
+    };
+    $("s-D").oninput = draws.bragg;
+
+    /* ---------- saturation with the number of pairs ---------- */
+    const real = n => [n[0], 0];
+    const RN = { 1: [], 0: [] }, TN = { 1: [], 0: [] };
+    for (let N = 1; N <= 60; N++) {
+      const a = tmm(stack(N), 1, nSi, LAM0, TH, "s"), b = tmm(pairs(N, { n: real(nMo), d: 2.78 }, { n: real(nSi), d: 4.18 }), 1, real(nSi), LAM0, TH, "s");
+      RN[1].push([N, 100 * a.R]); TN[1].push(a.T); RN[0].push([N, 100 * b.R]); TN[0].push(b.T);
+    }
+    let absOn = 1;
+    draws.saturate = () => {
+      const N = +$("s-N").value, R = RN[absOn][N - 1][1] / 100, c = css("--mo");
+      $("o-N").textContent = N; $("r-RN").textContent = pct(R, 2); $("r-TN").textContent = pct(TN[absOn][N - 1], 1);
+      plot($("c-RN"), { x: [0, 60], y: [0, 100], xt: [0, 20, 40, 60], yt: [0, 25, 50, 75, 100], yf: v => v + "%", vline: N, xlabel: t("number of pairs"),
+        series: [{ pts: RN[1 - absOn], color: css("--muted"), dash: [5, 4], width: 1.4 }, { pts: RN[absOn], color: c }], marks: [{ x: N, y: 100 * R, color: c }] });
+      goal("g-sat", absOn === 1 && R > 0.70 && RN[1][N - 2][1] <= 70);
+    };
+    $("s-N").oninput = draws.saturate;
+    toggle("t-abs", d => { absOn = +d.a; draws.saturate(); });
+
+    /* ---------- matrix method against the earlier formulas ---------- */
+    let kase = "none";
+    draws.layer = () => {
+      const d = +$("s-dc").value, film = kase === "film";
+      $("s-dc").disabled = !film; $("o-dc").textContent = film ? fmt(d, 2) + " nm" : "—";
+      $("l-ref").textContent = t(film ? "Airy formula" : "Fresnel formula");
+      const tm = tmm(film ? [{ n: nMo, d }] : [], 1, nSi, LAM0, 0, "s").R;
+      const r1 = fresnel(1, nMo, 0, "s"), r2 = fresnel(nMo, nSi, 0, "s"), P = roundTrip(nMo, d, LAM0);
+      const ref = film ? C.abs2(C.div(C.add(r1, C.mul(r2, P)), C.add([1, 0], C.mul(C.mul(r1, r2), P)))) : C.abs2(fresnel(1, nSi, 0, "s"));
+      $("r-tm").textContent = pct(tm, 5); $("r-ref").textContent = pct(ref, 5);
+    };
+    $("s-dc").oninput = draws.layer;
+    toggle("t-case", d => { kase = d.c; draws.layer(); });
+
+    /* ---------- the full mirror ---------- */
+    let order = "Mo";
+    draws.result = () => {
+      const N = +$("s-Nr").value, x = tmm(stack(N, 0, order), 1, nSi, LAM0, TH, "s");
+      $("o-Nr").textContent = N; $("r-R").textContent = pct(x.R, 1); $("r-A").textContent = pct(x.A, 1); $("r-T").textContent = pct(x.T, 1);
+      const { ctx, w, h } = prep($("c-bal")); let x0 = 0;
+      for (const [v, col, lab] of [[x.R, css("--accent"), "R"], [x.A, css("--mo"), "A"], [x.T, css("--si"), "T"]]) {
+        ctx.fillStyle = col; ctx.fillRect(x0, 8, v * w, h - 16);
+        if (v * w > 26) { ctx.fillStyle = css("--accent-ink"); ctx.font = "600 14px " + css("--mono"); ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(lab, x0 + v * w / 2, h / 2); }
+        x0 += v * w;
+      }
+    };
+    $("s-Nr").oninput = draws.result;
+    toggle("t-ord", d => { order = d.o; draws.result(); });
+  }
+});
+</script>
+</body>
+</html>

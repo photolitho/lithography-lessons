@@ -28,6 +28,31 @@ function fresnel(n1, n2, theta, pol) {
   return C.div(C.sub(a, b), C.add(a, b));
 }
 const attLen = (k, lam) => lam / (4 * Math.PI * k);
+// ----- layered stacks (transfer-matrix method) -----
+// q = n·cos θ inside a material, from Snell's law with the vacuum-side angle; root chosen so that waves decay with depth.
+function qOf(n, n0sin) { n = C.of(n); const q = C.sqrt(C.sub(C.mul(n, n), [n0sin * n0sin, 0])); return q[1] < 0 ? [-q[0], -q[1]] : q; }
+// Admittance: the ratio H/E of a forward wave. s: q, p: n²/q.
+const admittance = (n, q, pol) => pol === "s" ? q : C.div(C.mul(C.of(n), C.of(n)), q);
+const cCos = z => [Math.cos(z[0]) * Math.cosh(z[1]), -Math.sin(z[0]) * Math.sinh(z[1])];
+const cSin = z => [Math.sin(z[0]) * Math.cosh(z[1]), Math.cos(z[0]) * Math.sinh(z[1])];
+const mMul = (A, B) => [C.add(C.mul(A[0], B[0]), C.mul(A[1], B[2])), C.add(C.mul(A[0], B[1]), C.mul(A[1], B[3])), C.add(C.mul(A[2], B[0]), C.mul(A[3], B[2])), C.add(C.mul(A[2], B[1]), C.mul(A[3], B[3]))];
+// Matrix of one layer, linking (E, H) at its top to (E, H) at its bottom. Stored as [m11, m12, m21, m22].
+function layerMatrix(n, d, lam, n0sin, pol) {
+  const q = qOf(n, n0sin), eta = admittance(n, q, pol), delta = C.mul(q, [2 * Math.PI * d / lam, 0]), c = cCos(delta), s = cSin(delta), mi = [0, -1];
+  return [c, C.div(C.mul(mi, s), eta), C.mul(C.mul(mi, eta), s), c];
+}
+// Reflection and transmission of a stack. layers: [{ n, d }] from the vacuum side down; n0, ns: indices above and below.
+// Returns r (amplitude), R, T (power entering the substrate) and A = 1 − R − T (power absorbed in the layers).
+function tmm(layers, n0, ns, lam, theta0, pol) {
+  const n0sin = C.of(n0)[0] * Math.sin(theta0), eta0 = admittance(n0, qOf(n0, n0sin), pol), etaS = admittance(ns, qOf(ns, n0sin), pol);
+  let M = [[1, 0], [0, 0], [0, 0], [1, 0]];
+  for (const L of layers) M = mMul(M, layerMatrix(L.n, L.d, lam, n0sin, pol));
+  const B = C.add(M[0], C.mul(M[1], etaS)), Cc = C.add(M[2], C.mul(M[3], etaS)), den = C.add(C.mul(eta0, B), Cc);
+  const r = C.div(C.sub(C.mul(eta0, B), Cc), den), tt = C.div(C.mul([2, 0], eta0), den), R = C.abs2(r), T = etaS[0] / eta0[0] * C.abs2(tt);
+  return { r, R, T, A: 1 - R - T, M, eta0, etaS, n0sin };
+}
+// N pairs of two materials, top layer first.
+const pairs = (N, a, b) => Array.from({ length: 2 * N }, (_, i) => i % 2 ? b : a);
 // Factor a wave picks up crossing a film of complex index n and thickness d twice: e^(i·4π·n·d/λ).
 function roundTrip(n, d, lam) { const a = 4 * Math.PI * d / lam, m = Math.exp(-a * n[1]); return [m * Math.cos(a * n[0]), m * Math.sin(a * n[0])]; }
 

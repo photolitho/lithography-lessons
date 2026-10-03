@@ -8,7 +8,9 @@ Live site: https://photolitho.github.io/lithography-lessons/
 |---|---|---|
 | 1 | How much EUV light does a single surface reflect? | Available |
 | 2 | What do two surfaces close together do? | Available |
-| 3 | The full stack | In preparation |
+| 3 | How do 80 weak surfaces make a 74% mirror? | Available |
+| 4 | Wavelength, period and the share of molybdenum | In preparation |
+| 5 | Where the light that does not come back goes | In preparation |
 
 ## How it is built
 
