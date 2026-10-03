@@ -103,11 +103,11 @@
   </div>
   <div class="goal" id="g-in">Tune the wavelength to the peak of the mirror (R above 74.2%).</div>
   <div class="q">
-    <p>At the peak, where do the dark planes of the standing wave fall?</p>
+    <p>At the peak, in the top pairs shown, where do the dark planes of the standing wave fall?</p>
     <div class="opts mc">
-      <button data-hint="Look at where the curve touches the bottom, compared with the shaded bands.">In the middle of each silicon layer</button>
-      <button data-ok>Near the lower face of each molybdenum layer</button>
-      <button data-hint="At the peak the pattern repeats with the layers: every pair looks like the one above, only fainter.">Anywhere: the pattern does not follow the layers</button>
+      <button data-hint="Look at where the curve touches the bottom, compared with the shaded bands.">In the middle of the silicon layers</button>
+      <button data-ok>Near the lower face of the molybdenum layers</button>
+      <button data-hint="At the peak the pattern nearly repeats with the layers: in the pairs shown, each looks much like the one above, only fainter.">Anywhere: the pattern does not follow the layers</button>
     </div>
     <div class="fb"></div>
   </div>
@@ -285,8 +285,6 @@ Object.assign(IT, {
   "R": "R",
   "Molybdenum 2.78 nm on silicon 4.18 nm, 40 pairs, 6°, s polarization. Shaded bands: molybdenum.": "Molibdeno 2,78 nm su silicio 4,18 nm, 40 coppie, 6°, polarizzazione s. Fasce ombreggiate: molibdeno.",
   "Tune the wavelength to the peak of the mirror (R above 74.2%).": "Regola la lunghezza d'onda sul picco dello specchio (R sopra 74,2%).",
-  "At the peak, where do the dark planes of the standing wave fall?": "Al picco, dove cadono i piani scuri dell'onda stazionaria?",
-  "In the middle of each silicon layer": "Al centro di ogni strato di silicio",
   "Anywhere: the pattern does not follow the layers": "Ovunque: il disegno non segue gli strati",
   "The pattern also fades with depth. Its bright planes drop by a factor e about every seven pairs, 50 nm. Below pair 20 the field is less than a tenth of its value at the surface: the lower half of the stack works in near darkness, as module 3 found from the outside.": "Il disegno si attenua anche con la profondità. I suoi piani chiari calano di un fattore e circa ogni sette coppie, 50 nm. Sotto la coppia 20 il campo è meno di un decimo del valore in superficie: la metà inferiore dello stack lavora quasi al buio, come il modulo 3 aveva trovato dall'esterno.",
   "Where the energy is left": "Dove resta l'energia",
@@ -345,7 +343,6 @@ Object.assign(IT, {
   "in the substrate": "nel substrato",
   "Two waves of amplitude 1 in step: amplitudes add, then square.": "Due onde di ampiezza 1 in fase: le ampiezze si sommano, poi si eleva al quadrato.",
   "Look at where the curve touches the bottom, compared with the shaded bands.": "Guarda dove la curva tocca il fondo, rispetto alle fasce ombreggiate.",
-  "At the peak the pattern repeats with the layers: every pair looks like the one above, only fainter.": "Al picco il disegno si ripete con gli strati: ogni coppia è come quella sopra, solo più debole.",
   "100 − 74.2.": "100 − 74,2.",
   "(1 − 0.742) × 250.": "(1 − 0,742) × 250.",
   "The last mirror receives what ten reflections have left: about 5% of the starting light.": "L'ultimo specchio riceve ciò che dieci riflessioni hanno lasciato: circa il 5% della luce iniziale.",
@@ -363,7 +360,6 @@ Object.assign(IT, {
   "Why does molybdenum absorb less than n·k·d suggests?": "Perché il molibdeno assorbe meno di quanto suggerisce n·k·d?",
   "Now consider a chain of such mirrors, as in a scanner. Each one passes on only what it reflects, so each receives less than the one before.": "Ora considera una catena di specchi così, come in uno scanner. Ciascuno passa avanti solo ciò che riflette, quindi ognuno riceve meno del precedente.",
   "<strong>Near the peak the standing wave locks onto the layers.</strong> Its period matches the period of the stack, so each pair sees nearly the same pattern, with a dark plane near the lower face of the molybdenum layer in the top pairs shown. Averaged over a layer, <span class=\"mono\">|E|²</span> is lower in molybdenum than in silicon: by 20% at 13.5 nm, by almost 30% at the top of the peak. Molybdenum is the absorber, so this arrangement loses less light than the same material would under a uniform field.": "<strong>Vicino al picco l'onda stazionaria si aggancia agli strati.</strong> Il suo periodo coincide con quello dello stack, quindi ogni coppia vede quasi lo stesso disegno, con un piano scuro vicino alla faccia inferiore dello strato di molibdeno nelle prime coppie mostrate. Mediato su uno strato, <span class=\"mono\">|E|²</span> è più basso nel molibdeno che nel silicio: del 20% a 13,5 nm, di quasi il 30% in cima al picco. Il molibdeno è quello che assorbe, quindi questa disposizione perde meno luce di quanta ne perderebbe lo stesso materiale sotto un campo uniforme.",
-  "Near the lower face of each molybdenum layer": "Vicino alla faccia inferiore di ogni strato di molibdeno",
   "|E|² in Mo compared with Si": "|E|² nel Mo rispetto al Si",
   "The two sides of the peak are not alike. Move to 13.0 nm: the reflected wave is weak, most of the light travels on into the stack, and the average <span class=\"mono\">|E|²</span> in the molybdenum is twice that in the silicon. The thin layers then absorb about two thirds of the light, and another 22% enters the substrate and is absorbed there. On the long-wavelength side the field stays out of the molybdenum.": "I due lati del picco non sono uguali. Vai a 13,0 nm: l'onda riflessa è debole, la maggior parte della luce prosegue dentro lo stack, e <span class=\"mono\">|E|²</span> medio nel molibdeno è il doppio di quello nel silicio. Gli strati sottili assorbono allora circa due terzi della luce, e un altro 22% entra nel substrato e viene assorbito lì. Dal lato delle lunghezze d'onda maggiori il campo resta fuori dal molibdeno.",
   "Near the peak the standing wave is locked to the layers, and at 13.5 nm |E|² averaged over molybdenum is 20% lower than over silicon.": "Vicino al picco l'onda stazionaria è agganciata agli strati, e a 13,5 nm |E|² mediato sul molibdeno è il 20% più basso che sul silicio.",
@@ -379,7 +375,11 @@ Object.assign(IT, {
   "<strong>P<sub>heat</sub> = (1 − R)·P<sub>in</sub>.</strong> Use it for the heat load of a mirror on a thick substrate, with R taken at the wavelength of the light. Light scattered out of the mirror is not included.": "<strong>P<sub>heat</sub> = (1 − R)·P<sub>in</sub>.</strong> Usala per il carico termico di uno specchio su un substrato spesso, con R presa alla lunghezza d'onda della luce. La luce diffusa fuori dallo specchio non è inclusa.",
   "A real mirror has slightly rough boundaries that scatter some light into other directions, out of the mirror. Where does that light appear in R + A + T = 1?": "Uno specchio vero ha confini leggermente rugosi che diffondono parte della luce in altre direzioni, fuori dallo specchio. Dove compare quella luce in R + A + T = 1?",
   "Nowhere: the ideal calculation has no scattering, and a real balance needs a separate term for scattered light that escapes": "Da nessuna parte: il calcolo ideale non ha diffusione, e un bilancio reale ha bisogno di un termine a parte per la luce diffusa che esce",
-  "A is the light absorbed inside the layers. Light that is deflected and then absorbed would count there, but this light leaves the mirror.": "A è la luce assorbita dentro gli strati. La luce deviata e poi assorbita conterebbe lì, ma questa luce esce dallo specchio."
+  "A is the light absorbed inside the layers. Light that is deflected and then absorbed would count there, but this light leaves the mirror.": "A è la luce assorbita dentro gli strati. La luce deviata e poi assorbita conterebbe lì, ma questa luce esce dallo specchio.",
+  "At the peak, in the top pairs shown, where do the dark planes of the standing wave fall?": "Al picco, nelle prime coppie mostrate, dove cadono i piani scuri dell'onda stazionaria?",
+  "Near the lower face of the molybdenum layers": "Vicino alla faccia inferiore degli strati di molibdeno",
+  "In the middle of the silicon layers": "Al centro degli strati di silicio",
+  "At the peak the pattern nearly repeats with the layers: in the pairs shown, each looks much like the one above, only fainter.": "Al picco il disegno si ripete quasi uguale con gli strati: nelle coppie mostrate ciascuna somiglia molto a quella sopra, solo più debole."
 });
 
 startLesson({
