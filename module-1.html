@@ -94,6 +94,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; }
 .goal::before { content: "Goal"; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); flex: none; }
 .goal.met { border: 1.5px solid var(--good); background: var(--good-soft); }
 .goal.met::before { content: "Done"; color: var(--good); }
+:root[lang="it"] .goal::before { content: "Obiettivo"; }
+:root[lang="it"] .goal.met::before { content: "Fatto"; }
 
 .q { display: flex; flex-direction: column; gap: 10px; }
 .q > p { font-weight: 600; }
@@ -125,6 +127,10 @@ input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; }
 .app[data-mode="explore"] .q, .app[data-mode="explore"] .goal, .app[data-mode="explore"] .guided-only { display: none; }
 .app[data-mode="guided"] .explore-only { display: none; }
 .app[data-mode="home"] .segs, .app[data-mode="home"] .nav, .app[data-mode="home"] #menu, .app[data-mode="home"] #count { display: none; }
+.crumbs #where { margin-right: auto; }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
+.lang button { font: 500 11px var(--mono); border: 0; background: none; color: var(--muted); padding: 3px 8px; border-radius: 999px; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .linkbtn { font: 500 12px var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--accent); background: none; border: 0; padding: 4px 0; cursor: pointer; }
 .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
 .modes > * { min-width: 0; }
@@ -156,7 +162,7 @@ details p { margin-top: 8px; color: var(--muted); }
 <body>
 <div class="app" data-mode="home">
 <header class="top"><div class="top-in">
-  <div class="crumbs"><span id="where">EUV Mirror · Module 1</span><button class="linkbtn" id="menu">Change mode</button><span id="count"></span></div>
+  <div class="crumbs"><span id="where">EUV Mirror · Module 1</span><button class="linkbtn" id="menu">Menu</button><span id="count"></span><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
   <div class="segs" id="segs"></div>
 </div></header>
 
@@ -305,7 +311,7 @@ details p { margin-top: 8px; color: var(--muted); }
   <div class="lab">
     <div class="toggle" id="t-ph"><button data-p="16" aria-pressed="true">Molybdenum in EUV</button><button data-p="400" aria-pressed="false">Glass in visible light</button></div>
     <canvas id="c-ph" style="height:170px"></canvas>
-    <div class="reads"><span><b>reflected</b><span class="big" id="r-ph"></span></span><span><b>out of</b>10,000</span></div>
+    <div class="reads"><span><b>reflected</b><span class="big" id="r-ph"></span></span><span data-t><b>out of</b>10,000</span></div>
   </div>
   <div class="q">
     <p>Why does molybdenum reflect so little?</p>
@@ -331,7 +337,7 @@ details p { margin-top: 8px; color: var(--muted); }
       <div><div class="cap">light arrives from above</div><div class="stack" id="stack"></div></div>
       <div>
         <div class="cap">r (real part)</div>
-        <div class="axis"><i></i><b id="ax-b"></b><span style="left:0%">−0.05</span><span style="left:50%">0</span><span style="left:100%">+0.05</span></div>
+        <div class="axis"><i></i><b id="ax-b"></b><span style="left:0%" data-t>−0.05</span><span style="left:50%">0</span><span style="left:100%" data-t>+0.05</span></div>
         <div class="reads"><span><b>r</b><span id="r-r"></span></span><span><b>R</b><span id="r-refl"></span></span></div>
       </div>
     </div>
@@ -439,12 +445,184 @@ function fresnel(n1, n2, theta, pol) {
 }
 const attLen = (k, lam) => lam / (4 * Math.PI * k);
 
+/* ---------- language ---------- */
+// Italian strings keyed by their English source; anything missing falls back to English.
+const IT = {
+  "Menu": "Menu",
+  "← All lessons": "← Tutte le lezioni",
+  "How much EUV light does a single surface reflect?": "Quanta luce EUV riflette una singola superficie?",
+  "Ten steps, seven interactive experiments on refractive index, absorption and Fresnel reflection for molybdenum and silicon at 13.5 nm. Choose how to take them.": "Dieci passi, sette esperimenti interattivi su indice di rifrazione, assorbimento e riflessione di Fresnel per molibdeno e silicio a 13,5 nm. Scegli come affrontarli.",
+  "Guided path": "Percorso guidato",
+  "One opening prediction, then one step at a time. You move on by answering a question or reaching a goal.": "Una previsione iniziale, poi un passo alla volta. Si avanza rispondendo a una domanda o raggiungendo un obiettivo.",
+  "Explore": "Esplora",
+  "Every experiment, in any order, with no required answers. Explanations open on request.": "Tutti gli esperimenti, in qualsiasi ordine, senza risposte obbligatorie. Le spiegazioni si aprono su richiesta.",
+  "Exploring does not complete steps of the guided path.": "Esplorare non completa i passi del percorso guidato.",
+  "A window reflects 4% of light. What about an EUV mirror?": "Una finestra riflette il 4% della luce. E uno specchio EUV?",
+  "Lithography scanners use light with a wavelength of 13.5 nm. Steering it takes mirrors, and the material that does the reflecting is molybdenum.": "Gli scanner per litografia usano luce con lunghezza d'onda 13,5 nm. Per guidarla servono specchi, e il materiale che riflette è il molibdeno.",
+  "Before computing anything, make a prediction. You will meet it again later.": "Prima di calcolare qualsiasi cosa, fai una previsione. La ritroverai più avanti.",
+  "The experiments that follow build the answer one piece at a time.": "Gli esperimenti che seguono costruiscono la risposta un pezzo alla volta.",
+  "How much 13.5 nm light does a smooth molybdenum surface reflect?": "Quanta luce a 13,5 nm riflette una superficie liscia di molibdeno?",
+  "About 40%, like a polished metal": "Circa il 40%, come un metallo lucido",
+  "About 4%, like glass": "Circa il 4%, come il vetro",
+  "Less than 1%": "Meno dell'1%",
+  "The real part: how different the material is from vacuum": "La parte reale: quanto il materiale è diverso dal vuoto",
+  "To light, every material is a number: the refractive index <span class=\"mono\">n</span>. Vacuum has <span class=\"mono\">n = 1</span>. Glass, in visible light, has <span class=\"mono\">n = 1.5</span>.": "Per la luce ogni materiale è un numero: l'indice di rifrazione <span class=\"mono\">n</span>. Il vuoto ha <span class=\"mono\">n = 1</span>. Il vetro, nel visibile, ha <span class=\"mono\">n = 1,5</span>.",
+  "Move <span class=\"mono\">n</span> and watch the reflected ray and the ray that enters.": "Muovi <span class=\"mono\">n</span> e guarda il raggio riflesso e quello che entra.",
+  "n": "n",
+  "reflected light": "luce riflessa",
+  "The reflected ray is drawn brighter than it really is, so you can see it.": "Il raggio riflesso è disegnato più luminoso del vero, per renderlo visibile.",
+  "Make the material invisible: no reflected ray.": "Rendi il materiale invisibile: nessun raggio riflesso.",
+  "<strong>Light reflects only where the two indices differ.</strong> With <span class=\"mono\">n = 1</span> the light does not notice the boundary: it goes straight through and nothing comes back.": "<strong>La luce si riflette solo dove i due indici sono diversi.</strong> Con <span class=\"mono\">n = 1</span> la luce non si accorge del confine: va dritta e non torna indietro niente.",
+  "Notice which way the ray bends too: with <span class=\"mono\">n</span> above 1 it moves toward the vertical, with <span class=\"mono\">n</span> below 1 it moves away. At 13.5 nm molybdenum and silicon are both below 1.": "Nota anche da che parte piega il raggio: con <span class=\"mono\">n</span> sopra 1 si avvicina alla verticale, con <span class=\"mono\">n</span> sotto 1 se ne allontana. A 13,5 nm molibdeno e silicio stanno entrambi sotto 1.",
+  "The imaginary part: how much the material absorbs": "La parte immaginaria: quanto il materiale assorbe",
+  "The full index has two pieces: <span class=\"mono\">ñ = n + i·k</span>. The second one, <span class=\"mono\">k</span>, measures absorption. In vacuum it is zero.": "L'indice completo ha due pezzi: <span class=\"mono\">ñ = n + i·k</span>. Il secondo, <span class=\"mono\">k</span>, misura l'assorbimento. Nel vuoto vale zero.",
+  "Inside the material, light fades with depth <span class=\"mono\">z</span>. The distance after which 37% is left is called the attenuation length <span class=\"mono\">L</span>.": "Dentro il materiale la luce cala con la profondità <span class=\"mono\">z</span>. La distanza dopo cui ne resta il 37% si chiama lunghezza di attenuazione <span class=\"mono\">L</span>.",
+  "k": "k",
+  "L": "L",
+  "light left at 500 nm": "luce rimasta a 500 nm",
+  "You double k. What happens to L?": "Raddoppi k. Cosa succede a L?",
+  "It doubles": "Raddoppia",
+  "It halves": "Si dimezza",
+  "It drops to a quarter": "Diventa un quarto",
+  "<strong>The larger k is, the shorter the distance light travels.</strong> It is an inverse proportion: twice the k, half the L.": "<strong>Più k è grande, meno strada fa la luce.</strong> È una proporzionalità inversa: doppio k, metà L.",
+  "The two real materials: molybdenum and silicon": "I due materiali veri: molibdeno e silicio",
+  "These are the CXRO tables used by the project scripts, interpolated here at the wavelength you choose. Move the wavelength and read <span class=\"mono\">n</span> and <span class=\"mono\">k</span> for <span class=\"mo\">Mo</span> and <span class=\"si\">Si</span>.": "Queste sono le tabelle CXRO usate dagli script del progetto, qui interpolate alla lunghezza d'onda che scegli. Muovi la lunghezza d'onda e leggi <span class=\"mono\">n</span> e <span class=\"mono\">k</span> per <span class=\"mo\">Mo</span> e <span class=\"si\">Si</span>.",
+  "n, real part. The dashed line is vacuum.": "n, parte reale. La linea tratteggiata è il vuoto.",
+  "k, absorption (logarithmic scale).": "k, assorbimento (scala logaritmica).",
+  "λ": "λ",
+  "At 13.5 nm, which of the two is almost indistinguishable from vacuum?": "A 13,5 nm, quale dei due è quasi indistinguibile dal vuoto?",
+  "Molybdenum": "Molibdeno",
+  "Silicon": "Silicio",
+  "They are the same": "Sono uguali",
+  "<strong>Each one has a job.</strong> <span class=\"mo\">Molybdenum</span> differs from vacuum, so it is the layer that reflects. <span class=\"si\">Silicon</span> has <span class=\"mono\">n ≈ 0.999</span> and absorbs little: it acts as a nearly transparent spacer.": "<strong>Ognuno ha il suo ruolo.</strong> Il <span class=\"mo\">molibdeno</span> è diverso dal vuoto, quindi è lo strato che riflette. Il <span class=\"si\">silicio</span> ha <span class=\"mono\">n ≈ 0,999</span> e assorbe poco: fa da distanziatore quasi trasparente.",
+  "Drag the slider all the way left. Below 12.45 nm the <span class=\"mono\">k</span> of silicon quadruples: that is its absorption edge. EUV works at 13.5 nm to stay on the good side of that step.": "Porta il cursore tutto a sinistra. Sotto 12,45 nm il <span class=\"mono\">k</span> del silicio quadruplica: è il suo bordo di assorbimento. L'EUV lavora a 13,5 nm per stare dal lato buono di quel gradino.",
+  "How much material can EUV light cross?": "Quanto materiale può attraversare la luce EUV?",
+  "Now use the real <span class=\"mono\">k</span> values at 13.5 nm. Pick the material, change the thickness and see how much light comes out the other side.": "Ora usa i <span class=\"mono\">k</span> veri a 13,5 nm. Scegli il materiale, cambia lo spessore e guarda quanta luce esce dall'altra parte.",
+  "Only attenuation inside the material counts here. Reflections at the two surfaces are neglected.": "Qui conta solo l'attenuazione dentro il materiale. Le riflessioni alle due superfici sono trascurate.",
+  "Thickness": "Spessore",
+  "light coming out": "luce che esce",
+  "L of the material": "L del materiale",
+  "Find the silicon thickness that lets half the light through (between 48% and 52%).": "Trova lo spessore di silicio che lascia passare metà della luce (tra 48% e 52%).",
+  "<strong>About 400 nm of silicon halves the light.</strong> A lens is millimetres thick, thousands of times more: nothing would come out. That is why there are no EUV lenses and the whole beam path is in vacuum. Only mirrors are left.": "<strong>Circa 400 nm di silicio dimezzano la luce.</strong> Una lente è spessa millimetri, migliaia di volte tanto: non ne uscirebbe nulla. Per questo non esistono lenti EUV e tutto il percorso del fascio è nel vuoto. Restano solo gli specchi.",
+  "There is good news too. Bring the thickness back to 4 nm: more than 99% gets through. A thin layer costs little, so many of them can be stacked.": "C'è anche una buona notizia. Riporta lo spessore a 4 nm: passa più del 99%. Uno strato sottile costa poco, quindi se ne possono impilare tanti.",
+  "The Fresnel formula": "La formula di Fresnel",
+  "You have already seen the fact: light reflects only where the two indices differ. The formula says how much. For light arriving perpendicular to the surface, going from material 1 to material 2:": "Il fatto lo hai già visto: la luce si riflette solo dove i due indici sono diversi. La formula dice quanto. Per luce che arriva perpendicolare alla superficie, dal materiale 1 al materiale 2:",
+  "<span class=\"mono\">r</span> is the fraction of amplitude reflected, and it can be negative. <span class=\"mono\">R</span> is the fraction of intensity, the one a detector measures.": "<span class=\"mono\">r</span> è la frazione di ampiezza riflessa, e può essere negativa. <span class=\"mono\">R</span> è la frazione di intensità, quella che misura un rivelatore.",
+  "Air (n = 1) onto glass (n = 1.5). Compute R as a percentage.": "Aria (n = 1) su vetro (n = 1,5). Calcola R in percentuale.",
+  "Check": "Verifica",
+  "<strong>r = (1 − 1.5) / (1 + 1.5) = −0.2</strong>, so <span class=\"mono\">R = 0.04 = 4%</span>. It is the reflection you see on a window.": "<strong>r = (1 − 1,5) / (1 + 1,5) = −0,2</strong>, quindi <span class=\"mono\">R = 0,04 = 4%</span>. È il riflesso che vedi su una finestra.",
+  "The minus sign of <span class=\"mono\">r</span> disappears in the square. It is not a detail, though: two steps from now it takes the lead.": "Il segno meno di <span class=\"mono\">r</span> sparisce nel quadrato. Non è però un dettaglio: tra due passi diventa il protagonista.",
+  "Molybdenum at 13.5 nm reflects 0.16%": "Il molibdeno a 13,5 nm riflette lo 0,16%",
+  "<span class=\"guided-only\">You predicted: <strong id=\"pred-echo\">—</strong>. </span>With <span class=\"mono\">ñ = 0.924 + 0.006i</span> the formula gives <span class=\"mono\">R = 0.16%</span>, twenty-five times less than a window.": "<span class=\"guided-only\">Avevi previsto: <strong id=\"pred-echo\">—</strong>. </span>Con <span class=\"mono\">ñ = 0,924 + 0,006i</span> la formula dà <span class=\"mono\">R = 0,16%</span>, venticinque volte meno di una finestra.",
+  "Each dot is one photon out of 10,000 arriving. The lit ones bounce back.": "Ogni puntino è un fotone su 10.000 che arrivano. Quelli accesi tornano indietro.",
+  "Molybdenum in EUV": "Molibdeno in EUV",
+  "Glass in visible light": "Vetro nel visibile",
+  "reflected": "riflessi",
+  "<b>out of</b>10,000": "<b>su</b>10.000",
+  "Why does molybdenum reflect so little?": "Perché il molibdeno riflette così poco?",
+  "Because it absorbs almost all the light at the surface": "Perché assorbe quasi tutta la luce in superficie",
+  "Because its n is only 0.076 away from vacuum": "Perché il suo n dista dal vuoto solo di 0,076",
+  "Because the light arrives at an angle": "Perché la luce arriva inclinata",
+  "<strong>At 13.5 nm the index of molybdenum is close to 1, and that of silicon is closer still.</strong> The Fresnel numerator, <span class=\"mono\">n₁ − n₂</span>, is small, and squaring makes it tiny.": "<strong>A 13,5 nm l'indice del molibdeno è vicino a 1, e quello del silicio lo è ancora di più.</strong> Il numeratore di Fresnel, <span class=\"mono\">n₁ − n₂</span>, è piccolo, e il quadrato lo rende minuscolo.",
+  "Comparison with the project scripts, at 6° and s polarization: this lesson gives 0.1618%, <span class=\"mono\">02_fresnel_single_interface.py</span> gives 0.1615%. The difference comes from the optical data. The lesson interpolates the CXRO tables at exactly 13.500 nm; the scripts use the nearest table point, which falls at 13.4948 nm.": "Confronto con gli script del progetto, a 6° e polarizzazione s: questa lezione dà 0,1618%, <span class=\"mono\">02_fresnel_single_interface.py</span> dà 0,1615%. La differenza viene dai dati ottici. La lezione interpola le tabelle CXRO esattamente a 13,500 nm; gli script usano il punto di tabella più vicino, che cade a 13,4948 nm.",
+  "Direction matters: Si to Mo, or Mo to Si": "Il verso conta: da Si a Mo, o da Mo a Si",
+  "Inside the mirror, light does not meet vacuum: it goes from silicon to molybdenum and back, dozens of times. Swap the order of the two layers and watch <span class=\"mono\">r</span>.": "Dentro lo specchio la luce non incontra il vuoto: passa da silicio a molibdeno e viceversa, decine di volte. Scambia l'ordine dei due strati e guarda <span class=\"mono\">r</span>.",
+  "Si on top, Mo below": "Si sopra, Mo sotto",
+  "Mo on top, Si below": "Mo sopra, Si sotto",
+  "light arrives from above": "la luce arriva dall'alto",
+  "r (real part)": "r (parte reale)",
+  "−0.05": "−0,05",
+  "+0.05": "+0,05",
+  "r": "r",
+  "R": "R",
+  "When you swap the two materials, what changes?": "Scambiando i due materiali, cosa cambia?",
+  "R changes, r stays the same": "R cambia, r resta uguale",
+  "r changes sign, R stays the same": "r cambia segno, R resta uguale",
+  "Nothing changes": "Non cambia niente",
+  "<strong>Same intensity, opposite sign.</strong> Swapping the materials swaps <span class=\"mono\">n₁</span> and <span class=\"mono\">n₂</span> in the numerator.": "<strong>Stessa intensità, segno opposto.</strong> Scambiare i materiali scambia <span class=\"mono\">n₁</span> e <span class=\"mono\">n₂</span> nel numeratore.",
+  "An opposite sign means the reflected wave starts out flipped. In a layered mirror half the surfaces reflect upright and half flipped: added as they are, they would cancel. The layer thickness is what brings them back into agreement. That is the subject of module 2.": "Un segno opposto vuol dire che l'onda riflessa parte capovolta. In uno specchio a strati metà delle superfici riflette dritto e metà capovolto: sommate così come sono, si cancellerebbero. Lo spessore degli strati serve a rimetterle d'accordo. È il tema del modulo 2.",
+  "What if the light arrives at an angle?": "E se la luce arriva inclinata?",
+  "In scanners the light hits the mirrors at about 6° from perpendicular. Move the angle on molybdenum at 13.5 nm. The two curves are the two polarizations: s solid, p dashed.": "Negli scanner la luce colpisce gli specchi a circa 6° dalla perpendicolare. Muovi l'angolo sul molibdeno a 13,5 nm. Le due curve sono le due polarizzazioni: s a tratto pieno, p tratteggiata.",
+  "Angle": "Angolo",
+  "R, s polarization": "R, polarizzazione s",
+  "R, p polarization": "R, polarizzazione p",
+  "Find an angle at which molybdenum reflects more than 90%.": "Trova un angolo a cui il molibdeno riflette più del 90%.",
+  "<strong>Near grazing, even EUV reflects well.</strong> This is the principle of grazing-incidence mirrors, used in collectors and X-ray telescopes.": "<strong>Quasi radente, anche l'EUV si riflette bene.</strong> È il principio degli specchi a incidenza radente, usati nei collettori e nei telescopi a raggi X.",
+  "Near 43° the reflection of p-polarized light reaches a very small minimum; absorption prevents it from vanishing completely.": "Intorno a 43° la riflessione della polarizzazione p raggiunge un minimo molto piccolo; l'assorbimento impedisce che si annulli completamente.",
+  "Forming a sharp image over a wide field, however, takes mirrors hit almost head-on. There, between 0° and 6°, R stays pinned around 0.16%.": "Per formare un'immagine nitida su un campo largo servono però specchi colpiti quasi in perpendicolare. Lì, tra 0° e 6°, R resta inchiodato intorno allo 0,16%.",
+  "The problem to solve": "Il problema da risolvere",
+  "One surface reflects 0.16% in intensity, that is <span class=\"mono\">|r| ≈ 0.04</span> in amplitude. A real mirror has 40 Mo/Si pairs: 80 surfaces.": "Una superficie riflette lo 0,16% in intensità, cioè <span class=\"mono\">|r| ≈ 0,04</span> in ampiezza. Uno specchio vero ha 40 coppie Mo/Si: 80 superfici.",
+  "If all 80 reflections added up in agreement, the amplitude would be <span class=\"mono\">80 × 0.04 = 3.2</span> and the reflectance would exceed 1000%.": "Se le 80 riflessioni si sommassero tutte d'accordo, l'ampiezza sarebbe <span class=\"mono\">80 × 0,04 = 3,2</span> e la riflettanza supererebbe il 1000%.",
+  "That is impossible. What prevents it?": "È impossibile. Cosa lo impedisce?",
+  "Deep layers receive less light: part has already been reflected and part absorbed": "Gli strati profondi ricevono meno luce: una parte è già stata riflessa e una parte assorbita",
+  "The Fresnel formula stops holding below the first surface": "La formula di Fresnel smette di valere sotto la prima superficie",
+  "Silicon surfaces do not reflect": "Le superfici del silicio non riflettono",
+  "<strong>The sum saturates.</strong> The real mirror stops at 74.2% with 40 pairs: that is the number the script <span class=\"mono\">04_tmm.py</span> reproduces. Understanding where that 74% comes from is the work of the next two modules.": "<strong>La somma satura.</strong> Lo specchio vero si ferma al 74,2% con 40 coppie: è il numero che lo script <span class=\"mono\">04_tmm.py</span> riproduce. Capire da dove viene quel 74% è il lavoro dei prossimi due moduli.",
+  "The module is closed if you can answer without looking": "Il modulo è chiuso se sai rispondere senza guardare",
+  "What do n and k represent?": "Cosa rappresentano n e k?",
+  "n says how different the material is from vacuum for light, and so how much it reflects and bends. k says how much it absorbs.": "n dice quanto il materiale è diverso dal vuoto per la luce, e quindi quanto riflette e piega. k dice quanto assorbe.",
+  "Why does EUV work at 13.5 nm and not at 12 nm?": "Perché l'EUV lavora a 13,5 nm e non a 12 nm?",
+  "Below 12.4 nm silicon starts absorbing much more. At 13.5 nm it is nearly transparent and acts as a spacer.": "Sotto 12,4 nm il silicio comincia ad assorbire molto di più. A 13,5 nm è quasi trasparente e fa da distanziatore.",
+  "Why are there no EUV lenses?": "Perché non esistono lenti EUV?",
+  "Light is halved in about 400 nm of silicon and in a little over 100 nm of molybdenum. A lens is thousands of times thicker.": "La luce si dimezza in circa 400 nm di silicio e in poco più di 100 nm di molibdeno. Una lente è migliaia di volte più spessa.",
+  "How much does a molybdenum surface reflect, and why so little?": "Quanto riflette una superficie di molibdeno, e perché così poco?",
+  "0.16%. Its n is only 0.076 away from 1, and Fresnel squares that difference.": "Lo 0,16%. Il suo n dista da 1 solo di 0,076, e Fresnel eleva quella differenza al quadrato.",
+  "What is the difference between Si→Mo and Mo→Si?": "Che differenza c'è tra Si→Mo e Mo→Si?",
+  "Same R, but r has the opposite sign: the reflected wave starts out flipped.": "Stessa R, ma r ha segno opposto: l'onda riflessa parte capovolta.",
+  "Back": "Indietro",
+  "Look at the formula: k sits below the fraction bar.": "Guarda la formula: k sta sotto la linea di frazione.",
+  "k appears to the first power, not squared. Try it with the slider: from 0.002 to 0.004.": "k compare alla prima potenza, non al quadrato. Prova con il cursore: da 0,002 a 0,004.",
+  "Molybdenum has n ≈ 0.924: almost eighty times further from 1 than silicon.": "Il molibdeno ha n ≈ 0,924: è lontano da 1 quasi ottanta volte più del silicio.",
+  "Look at the left chart: the two curves are well apart.": "Guarda il grafico di sinistra: le due curve sono ben separate.",
+  "The k of molybdenum is 0.006: small. And a surface that absorbs more reflects more, not less.": "Il k del molibdeno è 0,006: piccolo. E una superficie che assorbe di più riflette di più, non di meno.",
+  "6° from perpendicular changes R very little. You will see that two steps from now.": "6° dalla perpendicolare cambiano R di pochissimo. Lo vedrai tra due passi.",
+  "Look at the value of R in the two cases: it is identical.": "Guarda il valore di R nei due casi: è identico.",
+  "Something does change: follow the dot on the line.": "Qualcosa cambia: segui il pallino sulla linea.",
+  "The formula holds at every surface, buried ones included. The limit comes from how much light gets that far.": "La formula vale a ogni superficie, comprese quelle sepolte. Il limite viene da quanta luce arriva fin lì.",
+  "Silicon reflects very little in vacuum, but against molybdenum every surface is worth 0.15%.": "Il silicio riflette pochissimo nel vuoto, ma contro il molibdeno ogni superficie vale lo 0,15%.",
+  "about 40%": "circa il 40%",
+  "about 4%": "circa il 4%",
+  "less than 1%": "meno dell'1%",
+  "Step": "Passo",
+  "Hide explanation": "Nascondi la spiegazione",
+  "Show explanation": "Mostra la spiegazione",
+  "Module 1 · Guided": "Modulo 1 · Guidato",
+  "Module 1 · Explore": "Modulo 1 · Esplora",
+  "Continue": "Continua",
+  "Module complete": "Modulo completato",
+  "Last step": "Ultimo passo",
+  "Answer to continue": "Rispondi per continuare",
+  "Next: module 2, a single layer.": "Prossimo: modulo 2, un singolo strato.",
+  "no prediction": "nessuna previsione",
+  "{n} of {m} steps completed": "{n} di {m} passi completati",
+  "Start": "Inizia",
+  "Review": "Rivedi",
+  "Resume": "Riprendi",
+  "EUV Mirror · Module 1": "Specchio EUV · Modulo 1",
+  "Correct.": "Esatto.",
+  "Type a number.": "Scrivi un numero.",
+  "0.04 is the fraction. As a percentage?": "0,04 è la frazione. In percentuale?",
+  "That is r. The square is missing.": "Quello è r. Manca il quadrato.",
+  "Not yet. First compute r = (1 − 1.5) / (1 + 1.5), then square it.": "Non ancora. Calcola prima r = (1 − 1,5) / (1 + 1,5), poi elevalo al quadrato.",
+  "vacuum": "vuoto",
+  "material": "materiale",
+  "depth z (nm)": "profondità z (nm)",
+  "angle from perpendicular": "angolo dalla perpendicolare",
+  "silicon": "silicio",
+  "molybdenum": "molibdeno",
+  "EUV Module 1": "EUV Modulo 1" };
+const LANG_KEY = "litho-lang";
+let lang = "en";
+try { lang = localStorage.getItem(LANG_KEY) || ((navigator.language || "").toLowerCase().startsWith("it") ? "it" : "en"); } catch (e) {}
+const t = s => (lang === "it" && IT[s]) || s;
+const loc = v => lang === "it" ? String(v).replace(".", ",") : String(v);
+
 /* ---------- helpers ---------- */
 const $ = id => document.getElementById(id);
-const fmt = (x, d) => x.toFixed(d);
+const fmt = (x, d) => loc(x.toFixed(d));
 const pct = (x, d) => fmt(100 * x, d) + "%";
 // Percentage with digits suited to the magnitude, for values spanning many orders.
-const pctAuto = x => { const p = 100 * x; return (p >= 10 ? fmt(p, 1) : p >= 0.01 ? fmt(p, 3) : String(Number(p.toPrecision(2)))) + "%"; };
+const pctAuto = x => { const p = 100 * x; return (p >= 10 ? fmt(p, 1) : p >= 0.01 ? fmt(p, 3) : loc(Number(p.toPrecision(2)))) + "%"; };
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 function prep(c) {
   const r = c.getBoundingClientRect(), d = window.devicePixelRatio || 1;
@@ -489,6 +667,10 @@ let st = { mode: "home", cur: 0, ecur: 0, solved: [], pred: null };
 try { Object.assign(st, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
 const draws = {}, opened = {};
+// Static text to translate: outermost matches only, with their English HTML kept as the source.
+const TSEL = "h1, h2, p, summary, .cap:not([id]), .goal, .ctrl label, .opts button, .toggle button, .reads b, [data-t], #back, #b-glass, #menu, a.linkbtn";
+const tEls = [...document.querySelectorAll(TSEL)].filter(e => !e.parentElement.closest(TSEL)).map(e => [e, e.innerHTML]);
+const setFb = (fb, en) => { fb.dataset.en = en; fb.textContent = t(en); };
 const guided = () => st.mode === "guided";
 const isSolved = i => st.solved.includes(i);
 const reach = () => { let i = 0; while (i < steps.length - 1 && isSolved(i)) i++; return i; };
@@ -496,9 +678,9 @@ const pos = () => guided() ? st.cur : st.ecur;
 const title = i => steps[i].querySelector("h1").textContent;
 
 steps.forEach((s, i) => {
-  const b = document.createElement("button"); b.className = "seg"; b.setAttribute("aria-label", "Step " + (i + 1) + ": " + title(i));
+  const b = document.createElement("button"); b.className = "seg"; b.setAttribute("aria-label", t("Step") + " " + (i + 1) + ": " + title(i));
   b.onclick = () => { if (!guided() || i <= reach()) show(i); }; $("segs").append(b);
-  const li = document.createElement("li"), t = document.createElement("button"); t.textContent = title(i); t.onclick = () => enter("explore", i); li.append(t); $("toc").append(li);
+  const li = document.createElement("li"), tb = document.createElement("button"); tb.textContent = title(i); tb.onclick = () => enter("explore", i); li.append(tb); $("toc").append(li);
   const a = s.querySelector(".after");
   if (a) { const e = document.createElement("button"); e.className = "btn expl explore-only"; e.onclick = () => { opened[i] = !opened[i]; syncAfter(i); }; a.before(e); }
 });
@@ -506,7 +688,7 @@ steps.forEach((s, i) => {
 function syncAfter(i) {
   const a = steps[i].querySelector(".after"); if (!a) return;
   a.hidden = guided() ? !isSolved(i) : !opened[i];
-  steps[i].querySelector(".expl").textContent = opened[i] ? "Hide explanation" : "Show explanation";
+  steps[i].querySelector(".expl").textContent = t(opened[i] ? "Hide explanation" : "Show explanation");
 }
 function solve(i) {
   if (!guided()) return;
@@ -516,20 +698,20 @@ function solve(i) {
 function refresh() {
   const g = guided(), cur = pos(), r = reach(), last = cur === steps.length - 1;
   [...$("segs").children].forEach((b, i) => { b.className = "seg" + (g && isSolved(i) ? " done" : "") + (i === cur ? " cur" : "") + (!g || i <= r ? " reach" : ""); });
-  $("where").textContent = "Module 1 · " + (g ? "Guided path" : "Explore");
+  $("where").textContent = t(g ? "Module 1 · Guided" : "Module 1 · Explore");
   $("count").textContent = (cur + 1) + " / " + steps.length;
   $("back").disabled = cur === 0;
   $("next").disabled = last || (g && !isSolved(cur));
-  $("next").textContent = !last ? "Continue" : g ? "Module complete" : "Last step";
-  $("hint").textContent = !g ? "" : !isSolved(cur) ? "Answer to continue" : last ? "Next: module 2, a single layer." : "";
+  $("next").textContent = t(!last ? "Continue" : g ? "Module complete" : "Last step");
+  $("hint").textContent = !g ? "" : !isSolved(cur) ? t("Answer to continue") : last ? t("Next: module 2, a single layer.") : "";
 }
-function show(i) {
+function show(i, keep) {
   if (guided()) st.cur = i; else st.ecur = i;
   save();
   home.hidden = true; steps.forEach((s, j) => s.hidden = j !== i);
-  if (i === 6) $("pred-echo").textContent = st.pred || "no prediction";
+  if (i === 6) $("pred-echo").textContent = t(st.pred || "no prediction");
   syncAfter(i); refresh(); if (draws[i]) draws[i]();
-  window.scrollTo(0, 0);
+  if (!keep) window.scrollTo(0, 0);
 }
 // Put sliders and toggles back to their defaults, so a goal is never met by what was done in the other mode.
 function resetControls() {
@@ -540,25 +722,25 @@ function enter(mode, i) {
   st.mode = mode; app.dataset.mode = mode; resetControls();
   show(i != null ? i : mode === "guided" ? Math.min(st.cur, reach()) : st.ecur);
 }
-function goHome() {
+function goHome(keep) {
   st.mode = "home"; app.dataset.mode = "home"; save();
   steps.forEach(s => s.hidden = true); home.hidden = false;
   const n = st.solved.length;
-  $("home-prog").textContent = n + " of " + steps.length + " steps completed";
-  $("go-guided").textContent = n === 0 && !st.pred ? "Start" : n === steps.length ? "Review" : "Resume";
-  $("where").textContent = "EUV Mirror · Module 1";
-  window.scrollTo(0, 0);
+  $("home-prog").textContent = t("{n} of {m} steps completed").replace("{n}", n).replace("{m}", steps.length);
+  $("go-guided").textContent = t(n === 0 && !st.pred ? "Start" : n === steps.length ? "Review" : "Resume");
+  $("where").textContent = t("EUV Mirror · Module 1");
+  if (!keep) window.scrollTo(0, 0);
 }
 $("go-guided").onclick = () => enter("guided");
-$("menu").onclick = goHome;
+$("menu").onclick = () => goHome();
 $("back").onclick = () => show(pos() - 1);
 $("next").onclick = () => show(pos() + 1);
 
 // Multiple-choice questions
 steps.forEach((s, i) => s.querySelectorAll(".mc").forEach(mc => {
   const fb = mc.parentElement.querySelector(".fb"), btns = [...mc.children];
-  const win = () => { btns.forEach(b => { b.disabled = true; if ("ok" in b.dataset) b.classList.add("right"); }); fb.textContent = "Correct."; fb.classList.add("ok"); };
-  btns.forEach(b => b.onclick = () => { if ("ok" in b.dataset) { win(); solve(i); } else { b.classList.add("wrong"); b.disabled = true; fb.textContent = b.dataset.hint; } });
+  const win = () => { btns.forEach(b => { b.disabled = true; if ("ok" in b.dataset) b.classList.add("right"); }); setFb(fb, "Correct."); fb.classList.add("ok"); };
+  btns.forEach(b => b.onclick = () => { if ("ok" in b.dataset) { win(); solve(i); } else { b.classList.add("wrong"); b.disabled = true; setFb(fb, b.dataset.hint); } });
   if (isSolved(i)) win();
 }));
 steps.forEach((s, i) => { if (isSolved(i)) { const g = s.querySelector(".goal"); if (g) g.classList.add("met"); } });
@@ -583,7 +765,7 @@ draws[1] = () => {
   const ray = (ang, up, alpha) => { ctx.globalAlpha = alpha; ctx.strokeStyle = acc; ctx.lineWidth = 3.5; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + len * Math.sin(ang), cy + (up ? -1 : 1) * len * Math.cos(ang)); ctx.stroke(); ctx.globalAlpha = 1; };
   ray(-th, true, 1); ray(th, true, Math.min(1, Math.sqrt(R) * 4)); ray(Math.asin(Math.sin(th) / n), false, 1 - R);
   ctx.fillStyle = css("--muted"); ctx.font = "12px " + css("--mono"); ctx.textBaseline = "top"; ctx.textAlign = "left";
-  ctx.fillText("vacuum  n = 1", 8, 8); ctx.fillText("material  n = " + fmt(n, 2), 8, cy + 8);
+  ctx.fillText(t("vacuum") + "  n = 1", 8, 8); ctx.fillText(t("material") + "  n = " + fmt(n, 2), 8, cy + 8);
   goal("g-n", 1, R < 1e-7);
 };
 $("s-n").oninput = draws[1];
@@ -596,7 +778,7 @@ draws[2] = () => {
   strip($("c-kstrip"), f => Math.exp(-f * 1000 / L), acc, true);
   const pts = []; for (let z = 0; z <= 1000; z += 5) pts.push([z, 100 * Math.exp(-z / L)]);
   plot($("c-k"), { x: [0, 1000], y: [0, 100], xt: [0, 250, 500, 750, 1000], yt: [0, 37, 100], yf: v => v + "%", series: [{ pts, color: acc }],
-    vline: L <= 1000 ? L : null, marks: L <= 1000 ? [{ x: L, y: 36.8, color: acc }] : [], xlabel: "depth z (nm)" });
+    vline: L <= 1000 ? L : null, marks: L <= 1000 ? [{ x: L, y: 36.8, color: acc }] : [], xlabel: t("depth z (nm)") });
 };
 $("s-k").oninput = draws[2];
 
@@ -610,7 +792,7 @@ draws[3] = () => {
   plot($("c-mn"), { x: LAMR, y: [0.78, 1.04], xt, yt: [0.8, 0.9, 1], yf: v => fmt(v, 1), vline: lam, xlabel: "λ (nm)",
     series: [{ pts: [[LAMR[0], 1], [LAMR[1], 1]], color: css("--muted"), dash: [4, 4], width: 1.2 }, { pts: curve("Mo", "n"), color: cm }, { pts: curve("Si", "n"), color: cs }],
     marks: [{ x: lam, y: mo[0], color: cm }, { x: lam, y: si[0], color: cs }] });
-  plot($("c-mk"), { x: LAMR, y: [0.001, 0.2], logy: true, xt, yt: [0.001, 0.01, 0.1], yf: v => String(v), vline: lam, xlabel: "λ (nm)",
+  plot($("c-mk"), { x: LAMR, y: [0.001, 0.2], logy: true, xt, yt: [0.001, 0.01, 0.1], yf: loc, vline: lam, xlabel: "λ (nm)",
     series: [{ pts: curve("Mo", "k"), color: cm }, { pts: curve("Si", "k"), color: cs }],
     marks: [{ x: lam, y: mo[1], color: cm }, { x: lam, y: si[1], color: cs }] });
 };
@@ -632,14 +814,14 @@ toggle("t-mat", d => { mat = d.m; draws[4](); });
 $("b-glass").onclick = () => {
   const v = parseFloat($("in-glass").value.replace(",", ".").replace("%", "")), fb = $("fb-glass");
   fb.classList.remove("ok");
-  if (isNaN(v)) fb.textContent = "Type a number.";
-  else if (Math.abs(v - 4) < 0.11) { fb.textContent = "Correct."; fb.classList.add("ok"); solve(5); }
-  else if (Math.abs(v - 0.04) < 0.002) fb.textContent = "0.04 is the fraction. As a percentage?";
-  else if (Math.abs(v - 20) < 0.5 || Math.abs(Math.abs(v) - 0.2) < 0.01) fb.textContent = "That is r. The square is missing.";
-  else fb.textContent = "Not yet. First compute r = (1 − 1.5) / (1 + 1.5), then square it.";
+  if (isNaN(v)) setFb(fb, "Type a number.");
+  else if (Math.abs(v - 4) < 0.11) { setFb(fb, "Correct."); fb.classList.add("ok"); solve(5); }
+  else if (Math.abs(v - 0.04) < 0.002) setFb(fb, "0.04 is the fraction. As a percentage?");
+  else if (Math.abs(v - 20) < 0.5 || Math.abs(Math.abs(v) - 0.2) < 0.01) setFb(fb, "That is r. The square is missing.");
+  else setFb(fb, "Not yet. First compute r = (1 − 1.5) / (1 + 1.5), then square it.");
 };
 $("in-glass").onkeydown = e => { if (e.key === "Enter") $("b-glass").click(); };
-if (isSolved(5)) { $("in-glass").value = "4"; $("fb-glass").textContent = "Correct."; $("fb-glass").classList.add("ok"); }
+if (isSolved(5)) { $("in-glass").value = "4"; setFb($("fb-glass"), "Correct."); $("fb-glass").classList.add("ok"); }
 
 /* ---------- step 7: photons ---------- */
 let nPh = 16;
@@ -660,7 +842,7 @@ draws[7] = () => {
   const top = ord === "SiMo" ? "Si" : "Mo", bot = ord === "SiMo" ? "Mo" : "Si";
   const r = fresnel(index(top, LAM0), index(bot, LAM0), 0, "s");
   const name = { Si: "silicon", Mo: "molybdenum" };
-  $("stack").innerHTML = `<div class="l-${top.toLowerCase()}">${name[top]}</div><div class="l-${bot.toLowerCase()}">${name[bot]}</div>`;
+  $("stack").innerHTML = `<div class="l-${top.toLowerCase()}">${t(name[top])}</div><div class="l-${bot.toLowerCase()}">${t(name[bot])}</div>`;
   $("ax-b").style.left = (50 + r[0] / 0.05 * 50) + "%";
   $("r-r").textContent = (r[0] > 0 ? "+" : "−") + fmt(Math.abs(r[0]), 4); $("r-refl").textContent = pct(C.abs2(r), 3);
 };
@@ -673,7 +855,7 @@ const curS = angCurve("s"), curP = angCurve("p");
 draws[8] = () => {
   const th = +$("s-th").value, Rs = C.abs2(fresnel(1, nMo, rad(th), "s")), Rp = C.abs2(fresnel(1, nMo, rad(th), "p")), cm = css("--mo");
   $("o-th").textContent = fmt(th, 1) + "°"; $("r-rs").textContent = pctAuto(Rs); $("r-rp").textContent = pctAuto(Rp);
-  plot($("c-ang"), { x: [0, 90], y: [1e-5, 100], logy: true, xt: [0, 30, 60, 90], xf: v => v + "°", yt: [1e-4, 1e-2, 1, 100], yf: v => String(v) + "%", vline: th, xlabel: "angle from perpendicular",
+  plot($("c-ang"), { x: [0, 90], y: [1e-5, 100], logy: true, xt: [0, 30, 60, 90], xf: v => v + "°", yt: [1e-4, 1e-2, 1, 100], yf: v => loc(v) + "%", vline: th,
     series: [{ pts: curS, color: cm }, { pts: curP, color: cm, dash: [6, 4] }], marks: [{ x: th, y: 100 * Rs, color: cm }, { x: th, y: 100 * Rp, color: cm }] });
   goal("g-th", 8, Rs > .9);
 };
@@ -685,6 +867,19 @@ window.addEventListener("resize", redraw);
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw);
 new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
+// Rewrites every static text in the current language; dynamic text follows on the next render.
+function translateDom() {
+  document.documentElement.lang = lang; document.title = t("EUV Module 1");
+  tEls.forEach(([e, en]) => e.innerHTML = t(en));
+  document.querySelectorAll(".fb").forEach(f => { if (f.dataset.en) f.textContent = t(f.dataset.en); });
+  steps.forEach((s, i) => { $("toc").children[i].firstChild.textContent = title(i); $("segs").children[i].setAttribute("aria-label", t("Step") + " " + (i + 1) + ": " + title(i)); });
+  [...$("t-lang").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
+}
+[...$("t-lang").children].forEach(b => b.onclick = () => {
+  lang = b.dataset.l; try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+  translateDom(); if (st.mode === "home") goHome(true); else show(pos(), true);
+});
+translateDom();
 if (st.mode === "guided" || st.mode === "explore") enter(st.mode); else goHome();
 </script>
 </body>

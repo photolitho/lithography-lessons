@@ -44,6 +44,10 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; }
 main { max-width: 720px; margin: 0 auto; padding: calc(40px + env(safe-area-inset-top, 0px)) 16px calc(40px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 22px; }
+.bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
+.lang button { font: 500 11px var(--mono); border: 0; background: none; color: var(--muted); padding: 3px 8px; border-radius: 999px; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .eyebrow { font: 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 h1 { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 6vw, 42px); line-height: 1.08; margin: 0; text-wrap: balance; }
 p { margin: 0; max-width: 60ch; }
@@ -62,7 +66,7 @@ a.mod:hover { border-color: var(--accent); }
 </head>
 <body>
 <main>
-  <div class="eyebrow">Lithography Lessons</div>
+  <div class="bar"><div class="eyebrow">Lithography Lessons</div><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
   <h1>How an EUV mirror works, one experiment at a time</h1>
   <p>Short interactive lessons on the Mo/Si multilayer mirrors used in EUV lithography. Each module answers one question, with sliders to move and a goal to reach.</p>
   <ul class="list">
@@ -72,5 +76,30 @@ a.mod:hover { border-color: var(--accent); }
   </ul>
   <p class="foot">Optical constants from the CXRO database (Henke, Gullikson, Davis; Lawrence Berkeley National Laboratory).</p>
 </main>
+<script>
+// Italian strings keyed by their English source; the choice is shared with the lesson pages.
+const IT = {
+  "How an EUV mirror works, one experiment at a time": "Come funziona uno specchio EUV, un esperimento alla volta",
+  "Short interactive lessons on the Mo/Si multilayer mirrors used in EUV lithography. Each module answers one question, with sliders to move and a goal to reach.": "Brevi lezioni interattive sugli specchi multistrato Mo/Si usati nella litografia EUV. Ogni modulo risponde a una domanda, con cursori da muovere e un obiettivo da raggiungere.",
+  "How much EUV light does a single surface reflect?": "Quanta luce EUV riflette una singola superficie?",
+  "Refractive index, absorption, Fresnel reflection. Ten steps, seven experiments.": "Indice di rifrazione, assorbimento, riflessione di Fresnel. Dieci passi, sette esperimenti.",
+  "A single layer": "Un singolo strato",
+  "The full stack": "Lo stack completo",
+  "In preparation.": "In preparazione.",
+  "Optical constants from the CXRO database (Henke, Gullikson, Davis; Lawrence Berkeley National Laboratory).": "Costanti ottiche dal database CXRO (Henke, Gullikson, Davis; Lawrence Berkeley National Laboratory).",
+  "Lithography Lessons": "Lezioni di litografia"
+};
+const LANG_KEY = "litho-lang";
+let lang = "en";
+try { lang = localStorage.getItem(LANG_KEY) || ((navigator.language || "").toLowerCase().startsWith("it") ? "it" : "en"); } catch (e) {}
+const tEls = [...document.querySelectorAll("h1, p, .mod b, .mod span:not(.n), .eyebrow")].map(e => [e, e.innerHTML]);
+function translateDom() {
+  document.documentElement.lang = lang;
+  tEls.forEach(([e, en]) => e.innerHTML = (lang === "it" && IT[en]) || en);
+  [...document.getElementById("t-lang").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
+}
+[...document.getElementById("t-lang").children].forEach(b => b.onclick = () => { lang = b.dataset.l; try { localStorage.setItem(LANG_KEY, lang); } catch (e) {} translateDom(); });
+translateDom();
+</script>
 </body>
 </html>
