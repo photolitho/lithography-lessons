@@ -14,6 +14,8 @@ Live site: https://photolitho.github.io/lithography-lessons/
 
 Each module is one self-contained HTML file: markup, styles, script and data together, with charts drawn on canvas. There is no build step and no dependency beyond web fonts.
 
+Every important formula comes with a card that states where it comes from, its assumptions, the meaning of its terms and one check the reader can do. Mathematical prerequisites are introduced at the step that first needs them.
+
 Every module has two modes. The guided path asks for a prediction and unlocks each step with a question or a goal. Explore gives direct access to all steps with no required answers. Progress is kept separately for the two modes, in the browser's local storage.
 
 ## Languages
