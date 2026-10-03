@@ -10,7 +10,7 @@ Live site: https://photolitho.github.io/lithography-lessons/
 | 2 | What do two surfaces close together do? | Available |
 | 3 | How do 80 weak surfaces make a 74% mirror? | Available |
 | 4 | How narrow is the peak, and what moves it? | Available |
-| 5 | Where the light that does not come back goes | In preparation |
+| 5 | Where does the light that does not come back go? | Available |
 
 ## How it is built
 

@@ -51,6 +51,25 @@ function tmm(layers, n0, ns, lam, theta0, pol) {
   const r = C.div(C.sub(C.mul(eta0, B), Cc), den), tt = C.div(C.mul([2, 0], eta0), den), R = C.abs2(r), T = etaS[0] / eta0[0] * C.abs2(tt);
   return { r, R, T, A: 1 - R - T, M, eta0, etaS, n0sin };
 }
+// Fields and energy flow inside a stack, for an incoming wave of amplitude 1.
+// Returns, besides r, R, T: tops[j] = (E, H) at the top of layer j (last entry: top of the substrate),
+// flux[j] = net power crossing that plane as a fraction of the incident power, absorbed[j] = flux[j] − flux[j+1].
+function stackFields(layers, n0, ns, lam, theta0, pol) {
+  const x = tmm(layers, n0, ns, lam, theta0, pol), eta0 = x.eta0;
+  let E = C.add([1, 0], x.r), H = C.mul(eta0, C.sub([1, 0], x.r));
+  const info = layers.map(L => { const q = qOf(L.n, x.n0sin); return { q, eta: admittance(L.n, q, pol), d: L.d }; });
+  const fluxOf = (e, h) => (e[0] * h[0] + e[1] * h[1]) / eta0[0];      // Re(E·conj(H)) / Re(η0)
+  // State a depth z below a plane, inside a material: the inverse of the layer matrix.
+  const down = (e, h, L, z) => { const dl = C.mul(L.q, [2 * Math.PI * z / lam, 0]), c = cCos(dl), sn = cSin(dl), i = [0, 1];
+    return [C.add(C.mul(c, e), C.div(C.mul(C.mul(i, sn), h), L.eta)), C.add(C.mul(C.mul(C.mul(i, L.eta), sn), e), C.mul(c, h))]; };
+  const tops = [], flux = [];
+  for (const L of info) { tops.push([E, H]); flux.push(fluxOf(E, H)); [E, H] = down(E, H, L, L.d); }
+  tops.push([E, H]); flux.push(fluxOf(E, H));
+  const absorbed = info.map((L, j) => flux[j] - flux[j + 1]);
+  // |E|² at depth z below the top of layer j.
+  const E2 = (j, z) => C.abs2(down(tops[j][0], tops[j][1], info[j], z)[0]);
+  return Object.assign(x, { tops, flux, absorbed, E2, info });
+}
 // N pairs of two materials, top layer first.
 const pairs = (N, a, b) => Array.from({ length: 2 * N }, (_, i) => i % 2 ? b : a);
 // Factor a wave picks up crossing a film of complex index n and thickness d twice: e^(i·4π·n·d/λ).
@@ -129,6 +148,7 @@ function plot(c, o) {
   ctx.textAlign = "right"; ctx.textBaseline = "middle";
   for (const t of o.yt) { ctx.beginPath(); ctx.moveTo(PAD.l, Y(t)); ctx.lineTo(w - PAD.r, Y(t)); ctx.stroke(); ctx.fillText(o.yf ? o.yf(t) : t, PAD.l - 7, Y(t)); }
   ctx.save(); ctx.beginPath(); ctx.rect(PAD.l, PAD.t, w - PAD.l - PAD.r, h - PAD.t - PAD.b); ctx.clip();
+  for (const bd of o.bands || []) { ctx.globalAlpha = .22; ctx.fillStyle = bd.color; ctx.fillRect(X(bd.x0), PAD.t, X(bd.x1) - X(bd.x0), h - PAD.t - PAD.b); ctx.globalAlpha = 1; }
   if (o.vline != null) { ctx.strokeStyle = css("--accent"); ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(X(o.vline), PAD.t); ctx.lineTo(X(o.vline), h - PAD.b); ctx.stroke(); ctx.setLineDash([]); }
   for (const s of o.series) {
     ctx.strokeStyle = s.color; ctx.lineWidth = s.width || 2.2; ctx.setLineDash(s.dash || []);
