@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EUV Module 2</title>
+<meta name="description" content="Interactive lesson on interference in a single thin film: phase, the quarter-wave thickness and the Airy formula.">
+<meta name="theme-color" content="#F2F4F9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1220" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Litho Lessons">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="lesson.css">
+</head>
+<body>
+<div class="app" data-mode="home">
+<header class="top"><div class="top-in">
+  <div class="crumbs"><span id="where">EUV Mirror · Module 2</span><button class="linkbtn" id="menu">Menu</button><span id="count"></span><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
+  <div class="segs" id="segs"></div>
+</div></header>
+
+<main>
+
+<section class="step" id="home">
+  <a class="linkbtn" href="./" style="text-decoration:none;align-self:flex-start">← All lessons</a>
+  <h1>What do two surfaces close together do?</h1>
+  <p class="lead">Seven steps, five interactive experiments on interference, the phase a layer adds and the Airy formula for a single film. Choose how to take them.</p>
+  <div class="modes">
+    <div class="mode">
+      <h2>Guided path</h2>
+      <p>One opening prediction, then one step at a time. You move on by answering a question or reaching a goal.</p>
+      <div class="cap" id="home-prog"></div>
+      <button class="btn go" id="go-guided">Start</button>
+    </div>
+    <div class="mode">
+      <h2>Explore</h2>
+      <p>Every experiment, in any order, with no required answers. Explanations open on request.</p>
+      <div class="cap">Exploring does not complete steps of the guided path.</div>
+      <ol class="toc" id="toc"></ol>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="predict">
+  <h1>One surface reflects 0.16%. What do two surfaces do?</h1>
+  <p class="lead">Module 1 ended with a single molybdenum surface sending back 0.16% of the light. Now put a thin molybdenum film on silicon. The light meets two surfaces: the top of the film, and the boundary between film and silicon a few nanometres below.</p>
+  <p class="guided-only">Before computing anything, make a prediction. You will meet it again later.</p>
+  <p class="explore-only">The steps that follow build the answer one piece at a time.</p>
+  <div class="q">
+    <p>With the best possible thickness, how much does the film reflect compared with a single surface?</p>
+    <div class="opts" id="pred">
+      <button data-v="about the same">About the same: the second surface adds almost nothing</button>
+      <button data-v="about twice as much">About twice as much: two surfaces, twice the light</button>
+      <button data-v="about four times as much">About four times as much</button>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="add">
+  <h1>A tool you need now: adding two waves</h1>
+  <p>When two waves of the same wavelength overlap, their fields add point by point. The result depends on how the two are shifted against each other: their phase difference <span class="mono">φ</span>. Crest on crest, they reinforce. Crest on trough, they cancel.</p>
+  <p>Module 1 gave the bookkeeping. Each wave is an arrow, with its amplitude as length and its phase as angle. Adding waves is adding arrows, tip to tail. The length of the resulting arrow is the amplitude <span class="mono">A</span> of the combined wave.</p>
+  <div class="formula"><span>A² = a₁² + a₂² + 2·a₁·a₂·cos φ</span></div>
+  <div class="lab">
+    <canvas id="c-ph2" style="height:190px"></canvas>
+    <canvas id="c-sum" style="height:140px"></canvas>
+    <div class="ctrl"><label for="s-a2">Amplitude of wave 2</label><input type="range" id="s-a2" min="0" max="1" step="0.01" value="0.6"><output id="o-a2"></output></div>
+    <div class="ctrl"><label for="s-phi">Phase difference</label><input type="range" id="s-phi" min="0" max="360" step="1" value="60"><output id="o-phi"></output></div>
+    <div class="reads"><span><b>combined amplitude</b><span id="r-Asum"></span></span><span><b>combined intensity</b><span class="big" id="r-Isum"></span></span></div>
+    <div class="cap">Wave 1 has amplitude 1. Intensity is given relative to wave 1 alone.</div>
+  </div>
+  <div class="goal" id="g-cancel">Make the two waves cancel: combined intensity below 1%.</div>
+  <div class="q">
+    <p>Two equal waves of amplitude 1, perfectly in step. What is the combined intensity, compared with one wave alone?</p>
+    <div class="numq" data-ans="4" data-tol="0.01" data-hint="Amplitudes add first: 1 + 1 = 2. Then square."><input type="text" inputmode="decimal" id="in-four" aria-label="intensity ratio"><button class="btn">Check</button></div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>Amplitudes add; intensities do not.</strong> Two equal waves in step give four times the intensity of one, not twice. Two equal waves half a turn apart give nothing at all. No energy is destroyed: at a mirror, the light that does not come back goes forward instead.</p>
+    <p>This is interference, and it is the whole working principle of a multilayer mirror: arrange many weak reflections so that their arrows line up.</p>
+    <div class="fcard">
+      <div class="formula"><span>A² = a₁² + a₂² + 2·a₁·a₂·cos φ</span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>Draw the two waves as arrows, a₁ along the horizontal axis and a₂ at angle φ. Their sum has a horizontal part a₁ + a₂·cos φ and a vertical part a₂·sin φ. Pythagoras on those two parts, together with cos² φ + sin² φ = 1, gives the formula.</dd>
+        <dt>Assumptions</dt><dd>Two waves of the same wavelength, travelling in the same direction, with a phase difference that stays fixed in time.</dd>
+        <dt>The terms</dt><dd>a₁ and a₂ are the two amplitudes. φ is the phase difference between them. A is the amplitude of the combined wave, and A² its intensity.</dd>
+        <dt>Check</dt><dd>φ = 0 gives (a₁ + a₂)²: the amplitudes add. φ = 180° gives (a₁ − a₂)²: they subtract. φ = 90° gives a₁² + a₂²: only in that case do the intensities simply add. Try all three in the experiment.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="phase">
+  <h1>The phase a layer adds</h1>
+  <p>A wave that crosses a layer comes out with its arrow turned. Module 1 gave the rule: crossing a thickness <span class="mono">d</span> in a material of index <span class="mono">n</span> turns the arrow by one full turn, 2π, for every wavelength-inside <span class="mono">λ/n</span> that fits in the layer. Call that angle <span class="mono">β</span>.</p>
+  <p>Light reflected at the bottom of a film crosses it twice, down and back up. Compared with light reflected at the top, it comes out turned by <span class="mono">2β</span>.</p>
+  <div class="formula"><span>β = <span class="frac"><span>2π·n·d</span><span>λ</span></span></span><span>round trip = 2β = <span class="frac"><span>4π·n·d</span><span>λ</span></span></span></div>
+  <div class="lab">
+    <canvas id="c-trip" style="height:220px"></canvas>
+    <div class="ctrl"><label for="s-dp">Thickness</label><input type="range" id="s-dp" min="0" max="15" step="0.05" value="1.5"><output id="o-dp"></output></div>
+    <div class="reads"><span><b>one crossing, β</b><span id="r-beta"></span></span><span><b>round trip, 2β</b><span id="r-trip"></span></span><span><b>in turns</b><span id="r-turns"></span></span></div>
+    <div class="cap">A molybdenum film at 13.5 nm. The dial shows the arrow of the wave that went down and came back.</div>
+  </div>
+  <div class="goal" id="g-half">Find the thickness whose round trip is half a turn (between 177° and 183°).</div>
+  <div class="q">
+    <p>Solve 4π·n·d/λ = π for d, with n = 0.924 and λ = 13.5 nm. Answer in nm.</p>
+    <div class="numq" data-ans="3.65" data-tol="0.03" data-hint="The π cancels: d = λ / (4·n) = 13.5 / (4 × 0.924)."><input type="text" inputmode="decimal" id="in-qw" aria-label="thickness in nm"><span class="mono">nm</span><button class="btn">Check</button></div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>A film a quarter of a wavelength thick turns the returning wave by half a turn.</strong> The wavelength meant here is the one inside the material, <span class="mono">λ/n = 14.6 nm</span> for molybdenum, so the quarter-wave thickness is 3.65 nm.</p>
+    <p>This step counts only the real part of the index. The imaginary part <span class="mono">k</span> does its own job on the same trip: it shortens the arrow. Over 3.65 nm down and back the amplitude drops by about 2%.</p>
+    <div class="fcard">
+      <div class="formula"><span>2β = <span class="frac"><span>4π·n·d</span><span>λ</span></span></span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>One turn is 2π. The number of wavelengths that fit in one crossing is d divided by the wavelength inside the material, λ/n. Multiply the two, and double for the return trip.</dd>
+        <dt>Assumptions</dt><dd>A film with flat, parallel faces, and light travelling perpendicular to it. At an angle the phase is smaller: d is replaced by d·cos θ, with θ the angle of the ray inside the film.</dd>
+        <dt>The terms</dt><dd>n is the real part of the film's index. d is its thickness. λ is the wavelength in vacuum. β is the phase of one crossing.</dd>
+        <dt>Check</dt><dd>d = 0 gives no turn. A film one wavelength-inside thick, 14.6 nm, gives two full turns on the round trip: set 14.6 nm and read about 720°.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="film">
+  <h1>Two reflections from one film</h1>
+  <p>Now the two reflections of a molybdenum film on silicon. From module 1: the top surface, vacuum to molybdenum, reflects with <span class="mono">r₁ = +0.040</span>. The bottom surface, molybdenum to silicon, reflects with <span class="mono">r₂ = −0.039</span>. Almost equal in size, opposite in sign.</p>
+  <p>The second wave also makes the round trip through the film, so its arrow arrives turned by <span class="mono">2β</span> and slightly shortened by absorption. The reflection of the film is the sum of the two arrows.</p>
+  <div class="formula"><span>r ≈ r₁ + r₂ · e<sup>i·2β</sup></span></div>
+  <div class="lab">
+    <canvas id="c-rr" style="height:170px"></canvas>
+    <div class="cap">Arrows: <span class="mo">top reflection</span>, <span class="si">bottom reflection after its round trip</span>, and their sum.</div>
+    <canvas id="c-Rd" style="height:210px"></canvas>
+    <div class="cap">Reflectance against thickness. The dashed line is a single molybdenum surface.</div>
+    <div class="ctrl"><label for="s-df">Thickness</label><input type="range" id="s-df" min="0" max="15" step="0.01" value="0.5"><output id="o-df"></output></div>
+    <div class="reads"><span><b>R of the film</b><span class="big" id="r-Rf"></span></span><span><b>compared with one surface</b><span id="r-ratio"></span></span></div>
+  </div>
+  <div class="goal" id="g-max">Find the thickness where the film reflects the most (above 0.60%).</div>
+  <div class="q">
+    <p>At the best thickness the round trip is about half a turn. Why does that make the two reflections add?</p>
+    <div class="opts mc">
+      <button data-hint="Turning an arrow never changes its length. Look at which way the two arrows point.">Because half a turn doubles the amplitude of the second wave</button>
+      <button data-ok>Because the bottom reflection starts out flipped, and half a turn flips it back</button>
+      <button data-hint="Absorption hardly changes over a few nanometres. What changes is the direction of the arrows.">Because at that thickness the film stops absorbing</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>Two flips make the arrows line up.</strong> <span class="guided-only">You predicted: <strong id="pred-echo">—</strong>. </span>The minus sign of <span class="mono">r₂</span> is one half turn, the round trip is the other. Together they bring the second arrow parallel to the first, and the amplitudes add: <span class="mono">0.040 + 0.038 = 0.078</span>. Squared, that is 0.61%, almost four times a single surface.</p>
+    <p>It is 3.85 times and not 4 for three small reasons you can see in the arrows. The bottom reflection is a little weaker than the top one. Absorption shortens it by another 2%. And because the indices are complex, the two arrows are never perfectly parallel.</p>
+    <p>The peak sits at 3.61 nm, a little below the quarter-wave value of 3.65 nm. The quarter-wave rule uses only the real part of the index, so for an absorbing film it is a first estimate: the small imaginary parts tilt the arrows by a few degrees, and a thinner film absorbs less. With all bounces included the peak is 0.608%. At the 6° used in scanners, for s polarization, it moves to 3.63 nm and 0.623%.</p>
+    <p>At <span class="mono">d = 0</span> the two arrows nearly cancel, as they should. With no film the light goes from vacuum straight to silicon, which reflects almost nothing.</p>
+    <div class="fcard">
+      <div class="formula"><span>r ≈ r₁ + r₂ · e<sup>i·2β</sup></span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>Add the arrows of the two reflected waves. The first is r₁. The second has travelled down and back, so it carries the factor e<sup>i·2β</sup>, with the complex index inside β: the real part turns the arrow, the imaginary part shortens it.</dd>
+        <dt>Assumptions</dt><dd>Both surfaces are weak. Almost all the light reaches the bottom surface and comes back out, so the transmission through the top surface is taken as 1, and light that bounces more than once inside the film is ignored. Perpendicular incidence, flat and sharp surfaces.</dd>
+        <dt>The terms</dt><dd>r₁ is the reflection of the top surface and r₂ that of the bottom surface, each from the Fresnel formula. β = 2π·ñ·d/λ is the complex phase of one crossing.</dd>
+        <dt>Check</dt><dd>At d = 0 the formula gives r₁ + r₂ ≈ 0.0005 − 0.0009i, so R = 0.0001%: the tiny reflectance of bare silicon. Set the thickness to 0 and read it.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="airy">
+  <h1>All the bounces: the Airy formula</h1>
+  <p>The two-arrow sum left something out. The wave coming back up meets the top surface from below. A small part of it is reflected down again, bounces off the bottom once more, and so on. Each extra round trip multiplies the wave by the same factor.</p>
+  <p>Adding infinitely many terms, each a fixed factor <span class="mono">x</span> times the one before, is called a geometric series. When <span class="mono">x</span> is smaller than 1 in size, the sum is finite:</p>
+  <div class="formula"><span>1 + x + x² + x³ + … = <span class="frac"><span>1</span><span>1 − x</span></span></span></div>
+  <p>Summing all the bounces this way gives the exact reflection of a single film, the Airy formula:</p>
+  <div class="formula"><span>r = <span class="frac"><span>r₁ + r₂ · e<sup>i·2β</sup></span><span>1 + r₁ · r₂ · e<sup>i·2β</sup></span></span></span></div>
+  <div class="lab">
+    <div class="toggle" id="t-sys"><button data-s="euv" aria-pressed="true">Mo film on Si, 13.5 nm</button><button data-s="soap" aria-pressed="false">Soap film in air, 550 nm</button></div>
+    <canvas id="c-airy" style="height:220px"></canvas>
+    <div class="cap">Solid: all bounces. Dashed: two arrows only.</div>
+    <div class="ctrl"><label for="s-da">Thickness</label><input type="range" id="s-da" min="0" max="1" step="0.002" value="0.24"><output id="o-da"></output></div>
+    <div class="reads"><span><b>two arrows only</b><span id="r-two"></span></span><span><b>all bounces</b><span id="r-all"></span></span></div>
+  </div>
+  <div class="q">
+    <p>A geometric series: what is 1 + 0.5 + 0.25 + 0.125 + … ?</p>
+    <div class="numq" data-ans="2" data-tol="0.01" data-hint="Here x = 0.5, so the sum is 1 / (1 − 0.5)."><input type="text" inputmode="decimal" id="in-geo" aria-label="sum"><button class="btn">Check</button></div>
+    <div class="fb"></div>
+  </div>
+  <div class="q">
+    <p>For the molybdenum film the two curves are almost indistinguishable. Why?</p>
+    <div class="opts mc">
+      <button data-hint="Absorption over a few nanometres is about 2%. The extra bounces are weak for another reason: look at the size of r₁ and r₂.">Because molybdenum absorbs the extra bounces</button>
+      <button data-ok>Because r₁·r₂ is about 0.0015: each extra bounce is a thousand times weaker</button>
+      <button data-hint="It converges, and very fast, because x is tiny.">Because the geometric series does not converge in EUV</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>In EUV, two arrows are almost the whole story.</strong> Each surface reflects about 4% of the amplitude, so a wave that bounces twice more is weaker by a factor 0.0015. The soap film shows the other case: each surface reflects 14% of the amplitude, and the exact curve peaks at 7.7% against 8.0% for two arrows only.</p>
+    <p>This is why EUV mirrors are simple to reason about, and also why they need so many layers: each surface does very little.</p>
+    <div class="fcard">
+      <div class="formula"><span>r = <span class="frac"><span>r₁ + r₂ · e<sup>i·2β</sup></span><span>1 + r₁ · r₂ · e<sup>i·2β</sup></span></span></span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>Follow the wave. The first reflection is r₁. The part that enters, reflects at the bottom and leaves contributes t·t′·r₂·e<sup>i·2β</sup>. Each further round trip multiplies by −r₁·r₂·e<sup>i·2β</sup>, because seen from inside the film the top surface reflects with −r₁. Sum the geometric series and use t·t′ = 1 − r₁².</dd>
+        <dt>Assumptions</dt><dd>One film with flat, parallel, sharp faces. Light of a single wavelength, perpendicular to the film. Nothing else: for this ideal film the formula is exact.</dd>
+        <dt>The terms</dt><dd>r₁ and r₂ are the Fresnel reflections of the top and bottom surfaces. t and t′ are the transmissions through the top surface, going down and coming up. β = 2π·ñ·d/λ.</dd>
+        <dt>Check</dt><dd>With d = 0 the formula becomes (r₁ + r₂)/(1 + r₁·r₂). Written out with the three indices, that reduces exactly to (n₁ − n₃)/(n₁ + n₃): the film has vanished and the Fresnel formula for the two outer materials is back. When r₁·r₂ is tiny, the denominator is 1 and the two-arrow sum is recovered.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="thick">
+  <h1>A film too thick stops working</h1>
+  <p>Keep adding molybdenum. Every extra 7.3 nm the round trip gains a full turn and the pattern repeats: peaks where the arrows line up, dips where they oppose. But the bottom reflection has to cross more and more absorbing material.</p>
+  <div class="lab">
+    <canvas id="c-thick2" style="height:220px"></canvas>
+    <div class="cap">Molybdenum film on silicon, all bounces included. The dashed line is a single molybdenum surface.</div>
+    <div class="ctrl"><label for="s-dt">Thickness</label><input type="range" id="s-dt" min="0" max="600" step="0.5" value="20"><output id="o-dt"></output></div>
+    <div class="reads"><span><b>R of the film</b><span id="r-Rt"></span></span><span><b>strength of the returning wave</b><span id="r-back"></span></span></div>
+  </div>
+  <div class="goal" id="g-thick">Find a thickness at which the returning wave keeps less than 5% of its strength.</div>
+  <div class="q">
+    <p>A molybdenum film 500 nm thick on silicon reflects about…</p>
+    <div class="opts mc">
+      <button data-hint="For that, the bottom reflection must get back out. Check how strong it is after 500 nm down and 500 nm up.">0.61%, like the best thin film</button>
+      <button data-ok>0.16%, like a single molybdenum surface</button>
+      <button data-hint="The film absorbs what enters it. The top surface reflects before any absorption happens.">Nothing: the film absorbs everything</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>Past a few hundred nanometres, only the top surface is left.</strong> The returning wave fades as <span class="mono">e<sup>−d/L</sup></span>, with the same <span class="mono">L = 167 nm</span> as in module 1.</p>
+    <p>The lesson for a mirror: more molybdenum does not mean more reflection. To use many surfaces the light must reach them and come back, so the absorbing layers have to stay thin, separated by something nearly transparent. That something is silicon.</p>
+    <div class="fcard">
+      <div class="formula"><span>|r₂ · e<sup>i·2β</sup>| = |r₂| · e<sup>−d/L</sup></span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>In module 1 the intensity fell as e<sup>−z/L</sup> over a path z, so the amplitude falls as e<sup>−z/(2L)</sup>. The round trip has path z = 2d. The two factors of 2 cancel and leave e<sup>−d/L</sup>.</dd>
+        <dt>Assumptions</dt><dd>A uniform film and perpendicular light, as for L itself.</dd>
+        <dt>The terms</dt><dd>d is the film thickness. L = λ/(4πk) is the attenuation length of the film material. The left-hand side is the length of the second arrow.</dd>
+        <dt>Check</dt><dd>At d = 3.65 nm the factor is e<sup>−3.65/167</sup> = 0.978: the 2% loss quoted two steps ago. At d = 167 nm it is 0.37. Set 167 nm and read 37%.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="apply">
+  <h1>What one film cannot do, and when these formulas apply</h1>
+  <p>The best single film reflects 0.61%. That is almost four times one surface, and still a hundred times short of a useful mirror.</p>
+  <p>The way forward is in the arrows. One film lines up two reflections. A stack of films could line up dozens.</p>
+  <div class="q">
+    <p>Why not simply make the molybdenum film thicker to collect more reflection?</p>
+    <div class="opts mc">
+      <button data-hint="The sign of each surface's reflection does not depend on thickness. Count the surfaces instead.">Because thicker films reflect with the wrong sign</button>
+      <button data-ok>Because a film has only two surfaces however thick it is, and a thick one hides the bottom surface behind absorption</button>
+      <button data-hint="The Airy formula holds at any thickness: the previous step used it up to 600 nm.">Because the Airy formula stops working above 15 nm</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="q">
+    <p>A film's thickness varies between 3 nm and 4 nm from place to place. Can the Airy formula with one value of d describe it?</p>
+    <div class="opts mc">
+      <button data-hint="R does not follow a straight line in d, so averaging the thickness and averaging the reflectance give different answers.">Yes: using the average thickness is exact</button>
+      <button data-ok>Only patch by patch: the formula assumes flat, parallel faces</button>
+      <button data-hint="Each small patch has a definite thickness and obeys the formula.">No formula can describe such a film</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="q">
+    <p>Two films stacked: molybdenum, then silicon, on a molybdenum base. Is one application of the Airy formula enough?</p>
+    <div class="opts mc">
+      <button data-hint="The formula has one phase factor, for one film between two surfaces. Here there are two films and three surfaces.">Yes: use the total thickness as d</button>
+      <button data-hint="A 3.6 nm film absorbs about 2% of the light. The surfaces below are fully lit.">Yes: in EUV only the top film matters</button>
+      <button data-ok>No: there are three surfaces, so the bookkeeping has to be extended</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="after" hidden>
+    <p><strong>One film, two surfaces, a factor of almost four.</strong> The same idea repeated is the multilayer mirror: 40 pairs give 80 surfaces whose arrows can be lined up. Module 3 extends the bookkeeping to any number of layers.</p>
+    <h2>What to carry forward</h2>
+    <ul class="carry">
+      <li><strong>A² = a₁² + a₂² + 2·a₁·a₂·cos φ.</strong> Use it whenever two waves of the same wavelength overlap with a fixed phase difference. Amplitudes add, intensities do not.</li>
+      <li><strong>Round trip 2β = 4π·n·d/λ.</strong> Use it for the phase gained by crossing a flat film twice. At an angle, multiply by the cosine of the angle inside the film.</li>
+      <li><strong>r = (r₁ + r₂·e<sup>i·2β</sup>)/(1 + r₁·r₂·e<sup>i·2β</sup>).</strong> Exact for one ideal film. In EUV the denominator differs from 1 by about 0.2%. It is not enough for two or more films.</li>
+    </ul>
+    <h2>The module is closed if you can rebuild the reasoning without looking</h2>
+    <div>
+      <details><summary>Why can two reflections give four times the intensity of one?</summary><p>Amplitudes add before squaring: 1 + 1 = 2, and 2² = 4.</p></details>
+      <details><summary>Where does 2β = 4π·n·d/λ come from?</summary><p>One crossing turns the arrow by 2π for every wavelength-inside, λ/n, that fits in d. The reflected wave crosses twice.</p></details>
+      <details><summary>Why is the best thickness a quarter of a wavelength?</summary><p>The bottom reflection starts out flipped. A quarter wave down and a quarter back make half a turn, which flips it again and lines it up with the top reflection.</p></details>
+      <details><summary>What does the Airy formula add to the two-arrow sum?</summary><p>All the further bounces inside the film, summed as a geometric series. In EUV they change the result by about 0.3%.</p></details>
+      <details><summary>Why does a thick film reflect like a single surface?</summary><p>The wave from the bottom surface is absorbed on its way down and back, by the factor e<sup>−d/L</sup>.</p></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="nav"><div class="nav-in">
+  <button class="btn" id="back">Back</button>
+  <span class="hint" id="hint"></span>
+  <button class="btn go" id="next">Continue</button>
+</div></footer>
+</div>
+
+<script src="cxro.js"></script>
+<script src="lesson.js"></script>
+<script>
+Object.assign(IT, {
+  "What do two surfaces close together do?": "Cosa fanno due superfici vicine?",
+  "Seven steps, five interactive experiments on interference, the phase a layer adds and the Airy formula for a single film. Choose how to take them.": "Sette passi, cinque esperimenti interattivi su interferenza, fase aggiunta da uno strato e formula di Airy per un singolo film. Scegli come affrontarli.",
+  "One surface reflects 0.16%. What do two surfaces do?": "Una superficie riflette lo 0,16%. E due superfici?",
+  "Module 1 ended with a single molybdenum surface sending back 0.16% of the light. Now put a thin molybdenum film on silicon. The light meets two surfaces: the top of the film, and the boundary between film and silicon a few nanometres below.": "Il modulo 1 si è chiuso con una singola superficie di molibdeno che rimanda indietro lo 0,16% della luce. Ora metti un film sottile di molibdeno sul silicio. La luce incontra due superfici: la faccia superiore del film e il confine tra film e silicio, pochi nanometri più sotto.",
+  "Before computing anything, make a prediction. You will meet it again later.": "Prima di calcolare qualsiasi cosa, fai una previsione. La ritroverai più avanti.",
+  "The steps that follow build the answer one piece at a time.": "I passi che seguono costruiscono la risposta un pezzo alla volta.",
+  "With the best possible thickness, how much does the film reflect compared with a single surface?": "Con lo spessore migliore possibile, quanto riflette il film rispetto a una singola superficie?",
+  "About the same: the second surface adds almost nothing": "Circa lo stesso: la seconda superficie non aggiunge quasi nulla",
+  "About twice as much: two surfaces, twice the light": "Circa il doppio: due superfici, il doppio della luce",
+  "About four times as much": "Circa quattro volte tanto",
+  "A tool you need now: adding two waves": "Uno strumento che serve adesso: sommare due onde",
+  "When two waves of the same wavelength overlap, their fields add point by point. The result depends on how the two are shifted against each other: their phase difference <span class=\"mono\">φ</span>. Crest on crest, they reinforce. Crest on trough, they cancel.": "Quando due onde della stessa lunghezza d'onda si sovrappongono, i loro campi si sommano punto per punto. Il risultato dipende da quanto sono spostate l'una rispetto all'altra: la loro differenza di fase <span class=\"mono\">φ</span>. Cresta su cresta, si rinforzano. Cresta su valle, si cancellano.",
+  "Module 1 gave the bookkeeping. Each wave is an arrow, with its amplitude as length and its phase as angle. Adding waves is adding arrows, tip to tail. The length of the resulting arrow is the amplitude <span class=\"mono\">A</span> of the combined wave.": "Il modulo 1 ha dato il modo di tenere i conti. Ogni onda è una freccia, con l'ampiezza come lunghezza e la fase come angolo. Sommare onde è sommare frecce, punta contro coda. La lunghezza della freccia risultante è l'ampiezza <span class=\"mono\">A</span> dell'onda complessiva.",
+  "Amplitude of wave 2": "Ampiezza dell'onda 2",
+  "Phase difference": "Differenza di fase",
+  "combined amplitude": "ampiezza complessiva",
+  "combined intensity": "intensità complessiva",
+  "Wave 1 has amplitude 1. Intensity is given relative to wave 1 alone.": "L'onda 1 ha ampiezza 1. L'intensità è riferita alla sola onda 1.",
+  "Make the two waves cancel: combined intensity below 1%.": "Fai cancellare le due onde: intensità complessiva sotto l'1%.",
+  "Two equal waves of amplitude 1, perfectly in step. What is the combined intensity, compared with one wave alone?": "Due onde uguali di ampiezza 1, perfettamente in fase. Quanto vale l'intensità complessiva, rispetto a una sola onda?",
+  "<strong>Amplitudes add; intensities do not.</strong> Two equal waves in step give four times the intensity of one, not twice. Two equal waves half a turn apart give nothing at all. No energy is destroyed: at a mirror, the light that does not come back goes forward instead.": "<strong>Si sommano le ampiezze, non le intensità.</strong> Due onde uguali in fase danno quattro volte l'intensità di una, non due. Due onde uguali sfasate di mezzo giro non danno nulla. Nessuna energia viene distrutta: in uno specchio la luce che non torna indietro prosegue in avanti.",
+  "This is interference, and it is the whole working principle of a multilayer mirror: arrange many weak reflections so that their arrows line up.": "Questa è l'interferenza, ed è tutto il principio di funzionamento di uno specchio multistrato: disporre molte riflessioni deboli in modo che le loro frecce si allineino.",
+  "Draw the two waves as arrows, a₁ along the horizontal axis and a₂ at angle φ. Their sum has a horizontal part a₁ + a₂·cos φ and a vertical part a₂·sin φ. Pythagoras on those two parts, together with cos² φ + sin² φ = 1, gives the formula.": "Disegna le due onde come frecce, a₁ lungo l'asse orizzontale e a₂ all'angolo φ. La loro somma ha una parte orizzontale a₁ + a₂·cos φ e una parte verticale a₂·sin φ. Pitagora su queste due parti, insieme a cos² φ + sin² φ = 1, dà la formula.",
+  "Two waves of the same wavelength, travelling in the same direction, with a phase difference that stays fixed in time.": "Due onde della stessa lunghezza d'onda, che viaggiano nella stessa direzione, con una differenza di fase che resta fissa nel tempo.",
+  "a₁ and a₂ are the two amplitudes. φ is the phase difference between them. A is the amplitude of the combined wave, and A² its intensity.": "a₁ e a₂ sono le due ampiezze. φ è la differenza di fase tra loro. A è l'ampiezza dell'onda complessiva, e A² la sua intensità.",
+  "φ = 0 gives (a₁ + a₂)²: the amplitudes add. φ = 180° gives (a₁ − a₂)²: they subtract. φ = 90° gives a₁² + a₂²: only in that case do the intensities simply add. Try all three in the experiment.": "φ = 0 dà (a₁ + a₂)²: le ampiezze si sommano. φ = 180° dà (a₁ − a₂)²: si sottraggono. φ = 90° dà a₁² + a₂²: solo in quel caso le intensità si sommano semplicemente. Prova tutti e tre nell'esperimento.",
+  "The phase a layer adds": "La fase aggiunta da uno strato",
+  "A wave that crosses a layer comes out with its arrow turned. Module 1 gave the rule: crossing a thickness <span class=\"mono\">d</span> in a material of index <span class=\"mono\">n</span> turns the arrow by one full turn, 2π, for every wavelength-inside <span class=\"mono\">λ/n</span> that fits in the layer. Call that angle <span class=\"mono\">β</span>.": "Un'onda che attraversa uno strato ne esce con la freccia ruotata. Il modulo 1 ha dato la regola: attraversare uno spessore <span class=\"mono\">d</span> in un materiale di indice <span class=\"mono\">n</span> ruota la freccia di un giro completo, 2π, per ogni lunghezza d'onda nel materiale <span class=\"mono\">λ/n</span> che entra nello strato. Chiama quell'angolo <span class=\"mono\">β</span>.",
+  "Light reflected at the bottom of a film crosses it twice, down and back up. Compared with light reflected at the top, it comes out turned by <span class=\"mono\">2β</span>.": "La luce riflessa in fondo a un film lo attraversa due volte, in giù e di nuovo in su. Rispetto alla luce riflessa in cima, esce ruotata di <span class=\"mono\">2β</span>.",
+  "Thickness": "Spessore",
+  "one crossing, β": "un attraversamento, β",
+  "round trip, 2β": "andata e ritorno, 2β",
+  "in turns": "in giri",
+  "A molybdenum film at 13.5 nm. The dial shows the arrow of the wave that went down and came back.": "Un film di molibdeno a 13,5 nm. Il quadrante mostra la freccia dell'onda che è scesa ed è tornata.",
+  "Find the thickness whose round trip is half a turn (between 177° and 183°).": "Trova lo spessore per cui l'andata e ritorno vale mezzo giro (tra 177° e 183°).",
+  "Solve 4π·n·d/λ = π for d, with n = 0.924 and λ = 13.5 nm. Answer in nm.": "Risolvi 4π·n·d/λ = π rispetto a d, con n = 0,924 e λ = 13,5 nm. Risposta in nm.",
+  "<strong>A film a quarter of a wavelength thick turns the returning wave by half a turn.</strong> The wavelength meant here is the one inside the material, <span class=\"mono\">λ/n = 14.6 nm</span> for molybdenum, so the quarter-wave thickness is 3.65 nm.": "<strong>Un film spesso un quarto di lunghezza d'onda ruota l'onda di ritorno di mezzo giro.</strong> La lunghezza d'onda qui è quella dentro il materiale, <span class=\"mono\">λ/n = 14,6 nm</span> per il molibdeno, quindi lo spessore a quarto d'onda è 3,65 nm.",
+  "This step counts only the real part of the index. The imaginary part <span class=\"mono\">k</span> does its own job on the same trip: it shortens the arrow. Over 3.65 nm down and back the amplitude drops by about 2%.": "Questo passo conta solo la parte reale dell'indice. La parte immaginaria <span class=\"mono\">k</span> fa il suo lavoro sullo stesso percorso: accorcia la freccia. In 3,65 nm di andata e ritorno l'ampiezza cala di circa il 2%.",
+  "One turn is 2π. The number of wavelengths that fit in one crossing is d divided by the wavelength inside the material, λ/n. Multiply the two, and double for the return trip.": "Un giro è 2π. Il numero di lunghezze d'onda che entrano in un attraversamento è d diviso per la lunghezza d'onda nel materiale, λ/n. Moltiplica i due, e raddoppia per il ritorno.",
+  "A film with flat, parallel faces, and light travelling perpendicular to it. At an angle the phase is smaller: d is replaced by d·cos θ, with θ the angle of the ray inside the film.": "Un film con facce piane e parallele, e luce che viaggia perpendicolare al film. Con un angolo la fase è più piccola: d va sostituito con d·cos θ, dove θ è l'angolo del raggio dentro il film.",
+  "n is the real part of the film's index. d is its thickness. λ is the wavelength in vacuum. β is the phase of one crossing.": "n è la parte reale dell'indice del film. d è il suo spessore. λ è la lunghezza d'onda nel vuoto. β è la fase di un attraversamento.",
+  "d = 0 gives no turn. A film one wavelength-inside thick, 14.6 nm, gives two full turns on the round trip: set 14.6 nm and read about 720°.": "d = 0 non dà alcuna rotazione. Un film spesso una lunghezza d'onda nel materiale, 14,6 nm, dà due giri completi nell'andata e ritorno: imposta 14,6 nm e leggi circa 720°.",
+  "Two reflections from one film": "Due riflessioni da un solo film",
+  "Now the two reflections of a molybdenum film on silicon. From module 1: the top surface, vacuum to molybdenum, reflects with <span class=\"mono\">r₁ = +0.040</span>. The bottom surface, molybdenum to silicon, reflects with <span class=\"mono\">r₂ = −0.039</span>. Almost equal in size, opposite in sign.": "Ora le due riflessioni di un film di molibdeno sul silicio. Dal modulo 1: la superficie superiore, da vuoto a molibdeno, riflette con <span class=\"mono\">r₁ = +0,040</span>. La superficie inferiore, da molibdeno a silicio, riflette con <span class=\"mono\">r₂ = −0,039</span>. Quasi uguali in grandezza, opposte in segno.",
+  "The second wave also makes the round trip through the film, so its arrow arrives turned by <span class=\"mono\">2β</span> and slightly shortened by absorption. The reflection of the film is the sum of the two arrows.": "La seconda onda fa anche l'andata e ritorno nel film, quindi la sua freccia arriva ruotata di <span class=\"mono\">2β</span> e leggermente accorciata dall'assorbimento. La riflessione del film è la somma delle due frecce.",
+  "Arrows: <span class=\"mo\">top reflection</span>, <span class=\"si\">bottom reflection after its round trip</span>, and their sum.": "Frecce: <span class=\"mo\">riflessione superiore</span>, <span class=\"si\">riflessione inferiore dopo l'andata e ritorno</span>, e la loro somma.",
+  "Reflectance against thickness. The dashed line is a single molybdenum surface.": "Riflettanza in funzione dello spessore. La linea tratteggiata è una singola superficie di molibdeno.",
+  "R of the film": "R del film",
+  "compared with one surface": "rispetto a una superficie",
+  "Find the thickness where the film reflects the most (above 0.60%).": "Trova lo spessore a cui il film riflette di più (sopra 0,60%).",
+  "At the best thickness the round trip is about half a turn. Why does that make the two reflections add?": "Allo spessore migliore l'andata e ritorno vale circa mezzo giro. Perché questo fa sommare le due riflessioni?",
+  "Because half a turn doubles the amplitude of the second wave": "Perché mezzo giro raddoppia l'ampiezza della seconda onda",
+  "Because the bottom reflection starts out flipped, and half a turn flips it back": "Perché la riflessione inferiore parte capovolta, e mezzo giro la raddrizza",
+  "Because at that thickness the film stops absorbing": "Perché a quello spessore il film smette di assorbire",
+  "<strong>Two flips make the arrows line up.</strong> <span class=\"guided-only\">You predicted: <strong id=\"pred-echo\">—</strong>. </span>The minus sign of <span class=\"mono\">r₂</span> is one half turn, the round trip is the other. Together they bring the second arrow parallel to the first, and the amplitudes add: <span class=\"mono\">0.040 + 0.038 = 0.078</span>. Squared, that is 0.61%, almost four times a single surface.": "<strong>Due capovolgimenti allineano le frecce.</strong> <span class=\"guided-only\">Avevi previsto: <strong id=\"pred-echo\">—</strong>. </span>Il segno meno di <span class=\"mono\">r₂</span> è un mezzo giro, l'andata e ritorno è l'altro. Insieme portano la seconda freccia parallela alla prima, e le ampiezze si sommano: <span class=\"mono\">0,040 + 0,038 = 0,078</span>. Al quadrato fa 0,61%, quasi quattro volte una singola superficie.",
+  "It is 3.85 times and not 4 for three small reasons you can see in the arrows. The bottom reflection is a little weaker than the top one. Absorption shortens it by another 2%. And because the indices are complex, the two arrows are never perfectly parallel.": "È 3,85 volte e non 4 per tre piccoli motivi che si vedono nelle frecce. La riflessione inferiore è un po' più debole di quella superiore. L'assorbimento la accorcia di un altro 2%. E poiché gli indici sono complessi, le due frecce non sono mai perfettamente parallele.",
+  "At <span class=\"mono\">d = 0</span> the two arrows nearly cancel, as they should. With no film the light goes from vacuum straight to silicon, which reflects almost nothing.": "A <span class=\"mono\">d = 0</span> le due frecce quasi si cancellano, come deve essere. Senza film la luce va dal vuoto direttamente al silicio, che non riflette quasi nulla.",
+  "Add the arrows of the two reflected waves. The first is r₁. The second has travelled down and back, so it carries the factor e<sup>i·2β</sup>, with the complex index inside β: the real part turns the arrow, the imaginary part shortens it.": "Somma le frecce delle due onde riflesse. La prima è r₁. La seconda è scesa e risalita, quindi porta il fattore e<sup>i·2β</sup>, con l'indice complesso dentro β: la parte reale ruota la freccia, la parte immaginaria la accorcia.",
+  "Both surfaces are weak. Almost all the light reaches the bottom surface and comes back out, so the transmission through the top surface is taken as 1, and light that bounces more than once inside the film is ignored. Perpendicular incidence, flat and sharp surfaces.": "Entrambe le superfici sono deboli. Quasi tutta la luce raggiunge la superficie inferiore e torna fuori, quindi la trasmissione attraverso la superficie superiore è presa uguale a 1, e la luce che rimbalza più di una volta dentro il film è ignorata. Incidenza perpendicolare, superfici piane e nette.",
+  "r₁ is the reflection of the top surface and r₂ that of the bottom surface, each from the Fresnel formula. β = 2π·ñ·d/λ is the complex phase of one crossing.": "r₁ è la riflessione della superficie superiore e r₂ quella della superficie inferiore, ciascuna dalla formula di Fresnel. β = 2π·ñ·d/λ è la fase complessa di un attraversamento.",
+  "At d = 0 the formula gives r₁ + r₂ ≈ 0.0005 − 0.0009i, so R = 0.0001%: the tiny reflectance of bare silicon. Set the thickness to 0 and read it.": "A d = 0 la formula dà r₁ + r₂ ≈ 0,0005 − 0,0009i, quindi R = 0,0001%: la minuscola riflettanza del silicio nudo. Porta lo spessore a 0 e leggila.",
+  "All the bounces: the Airy formula": "Tutti i rimbalzi: la formula di Airy",
+  "The two-arrow sum left something out. The wave coming back up meets the top surface from below. A small part of it is reflected down again, bounces off the bottom once more, and so on. Each extra round trip multiplies the wave by the same factor.": "La somma di due frecce ha lasciato fuori qualcosa. L'onda che risale incontra la superficie superiore da sotto. Una piccola parte viene riflessa di nuovo in giù, rimbalza ancora sul fondo, e così via. Ogni andata e ritorno in più moltiplica l'onda per lo stesso fattore.",
+  "Adding infinitely many terms, each a fixed factor <span class=\"mono\">x</span> times the one before, is called a geometric series. When <span class=\"mono\">x</span> is smaller than 1 in size, the sum is finite:": "Sommare infiniti termini, ciascuno pari a un fattore fisso <span class=\"mono\">x</span> per il precedente, si chiama serie geometrica. Quando <span class=\"mono\">x</span> è in grandezza minore di 1, la somma è finita:",
+  "Summing all the bounces this way gives the exact reflection of a single film, the Airy formula:": "Sommando così tutti i rimbalzi si ottiene la riflessione esatta di un singolo film, la formula di Airy:",
+  "Mo film on Si, 13.5 nm": "Film di Mo su Si, 13,5 nm",
+  "Soap film in air, 550 nm": "Film di sapone in aria, 550 nm",
+  "Solid: all bounces. Dashed: two arrows only.": "Linea piena: tutti i rimbalzi. Tratteggiata: solo due frecce.",
+  "two arrows only": "solo due frecce",
+  "all bounces": "tutti i rimbalzi",
+  "A geometric series: what is 1 + 0.5 + 0.25 + 0.125 + … ?": "Una serie geometrica: quanto vale 1 + 0,5 + 0,25 + 0,125 + … ?",
+  "For the molybdenum film the two curves are almost indistinguishable. Why?": "Per il film di molibdeno le due curve sono quasi indistinguibili. Perché?",
+  "Because molybdenum absorbs the extra bounces": "Perché il molibdeno assorbe i rimbalzi in più",
+  "Because r₁·r₂ is about 0.0015: each extra bounce is a thousand times weaker": "Perché r₁·r₂ vale circa 0,0015: ogni rimbalzo in più è mille volte più debole",
+  "Because the geometric series does not converge in EUV": "Perché in EUV la serie geometrica non converge",
+  "<strong>In EUV, two arrows are almost the whole story.</strong> Each surface reflects about 4% of the amplitude, so a wave that bounces twice more is weaker by a factor 0.0015. The soap film shows the other case: each surface reflects 14% of the amplitude, and the exact curve peaks at 7.7% against 8.0% for two arrows only.": "<strong>In EUV, due frecce sono quasi tutta la storia.</strong> Ogni superficie riflette circa il 4% dell'ampiezza, quindi un'onda che rimbalza altre due volte è più debole di un fattore 0,0015. Il film di sapone mostra l'altro caso: ogni superficie riflette il 14% dell'ampiezza, e la curva esatta ha il massimo a 7,7% contro 8,0% con sole due frecce.",
+  "This is why EUV mirrors are simple to reason about, and also why they need so many layers: each surface does very little.": "Per questo gli specchi EUV sono semplici da ragionare, e anche per questo hanno bisogno di così tanti strati: ogni superficie fa pochissimo.",
+  "Follow the wave. The first reflection is r₁. The part that enters, reflects at the bottom and leaves contributes t·t′·r₂·e<sup>i·2β</sup>. Each further round trip multiplies by −r₁·r₂·e<sup>i·2β</sup>, because seen from inside the film the top surface reflects with −r₁. Sum the geometric series and use t·t′ = 1 − r₁².": "Segui l'onda. La prima riflessione è r₁. La parte che entra, si riflette sul fondo ed esce contribuisce con t·t′·r₂·e<sup>i·2β</sup>. Ogni ulteriore andata e ritorno moltiplica per −r₁·r₂·e<sup>i·2β</sup>, perché vista dall'interno del film la superficie superiore riflette con −r₁. Somma la serie geometrica e usa t·t′ = 1 − r₁².",
+  "One film with flat, parallel, sharp faces. Light of a single wavelength, perpendicular to the film. Nothing else: for this ideal film the formula is exact.": "Un solo film con facce piane, parallele e nette. Luce di una sola lunghezza d'onda, perpendicolare al film. Nient'altro: per questo film ideale la formula è esatta.",
+  "r₁ and r₂ are the Fresnel reflections of the top and bottom surfaces. t and t′ are the transmissions through the top surface, going down and coming up. β = 2π·ñ·d/λ.": "r₁ e r₂ sono le riflessioni di Fresnel delle superfici superiore e inferiore. t e t′ sono le trasmissioni attraverso la superficie superiore, in discesa e in salita. β = 2π·ñ·d/λ.",
+  "With d = 0 the formula becomes (r₁ + r₂)/(1 + r₁·r₂). Written out with the three indices, that reduces exactly to (n₁ − n₃)/(n₁ + n₃): the film has vanished and the Fresnel formula for the two outer materials is back. When r₁·r₂ is tiny, the denominator is 1 and the two-arrow sum is recovered.": "Con d = 0 la formula diventa (r₁ + r₂)/(1 + r₁·r₂). Scritta con i tre indici, si riduce esattamente a (n₁ − n₃)/(n₁ + n₃): il film è sparito ed è tornata la formula di Fresnel per i due materiali esterni. Quando r₁·r₂ è minuscolo il denominatore vale 1 e si ritrova la somma di due frecce.",
+  "A film too thick stops working": "Un film troppo spesso smette di funzionare",
+  "Keep adding molybdenum. Every extra 7.3 nm the round trip gains a full turn and the pattern repeats: peaks where the arrows line up, dips where they oppose. But the bottom reflection has to cross more and more absorbing material.": "Continua ad aggiungere molibdeno. Ogni 7,3 nm in più l'andata e ritorno guadagna un giro completo e il disegno si ripete: massimi dove le frecce si allineano, minimi dove si oppongono. Ma la riflessione inferiore deve attraversare sempre più materiale che assorbe.",
+  "Molybdenum film on silicon, all bounces included. The dashed line is a single molybdenum surface.": "Film di molibdeno su silicio, con tutti i rimbalzi. La linea tratteggiata è una singola superficie di molibdeno.",
+  "strength of the returning wave": "forza dell'onda di ritorno",
+  "Find a thickness at which the returning wave keeps less than 5% of its strength.": "Trova uno spessore a cui l'onda di ritorno conserva meno del 5% della sua forza.",
+  "A molybdenum film 500 nm thick on silicon reflects about…": "Un film di molibdeno spesso 500 nm su silicio riflette circa…",
+  "0.61%, like the best thin film": "0,61%, come il miglior film sottile",
+  "0.16%, like a single molybdenum surface": "0,16%, come una singola superficie di molibdeno",
+  "Nothing: the film absorbs everything": "Nulla: il film assorbe tutto",
+  "<strong>Past a few hundred nanometres, only the top surface is left.</strong> The returning wave fades as <span class=\"mono\">e<sup>−d/L</sup></span>, with the same <span class=\"mono\">L = 167 nm</span> as in module 1.": "<strong>Oltre qualche centinaio di nanometri resta solo la superficie superiore.</strong> L'onda di ritorno si attenua come <span class=\"mono\">e<sup>−d/L</sup></span>, con lo stesso <span class=\"mono\">L = 167 nm</span> del modulo 1.",
+  "The lesson for a mirror: more molybdenum does not mean more reflection. To use many surfaces the light must reach them and come back, so the absorbing layers have to stay thin, separated by something nearly transparent. That something is silicon.": "La lezione per uno specchio: più molibdeno non significa più riflessione. Per usare molte superfici la luce deve raggiungerle e tornare, quindi gli strati che assorbono devono restare sottili, separati da qualcosa di quasi trasparente. Quel qualcosa è il silicio.",
+  "In module 1 the intensity fell as e<sup>−z/L</sup> over a path z, so the amplitude falls as e<sup>−z/(2L)</sup>. The round trip has path z = 2d. The two factors of 2 cancel and leave e<sup>−d/L</sup>.": "Nel modulo 1 l'intensità calava come e<sup>−z/L</sup> lungo un percorso z, quindi l'ampiezza cala come e<sup>−z/(2L)</sup>. L'andata e ritorno ha percorso z = 2d. I due fattori 2 si cancellano e resta e<sup>−d/L</sup>.",
+  "A uniform film and perpendicular light, as for L itself.": "Un film uniforme e luce perpendicolare, come per L.",
+  "d is the film thickness. L = λ/(4πk) is the attenuation length of the film material. The left-hand side is the length of the second arrow.": "d è lo spessore del film. L = λ/(4πk) è la lunghezza di attenuazione del materiale del film. Il membro di sinistra è la lunghezza della seconda freccia.",
+  "At d = 3.65 nm the factor is e<sup>−3.65/167</sup> = 0.978: the 2% loss quoted two steps ago. At d = 167 nm it is 0.37. Set 167 nm and read 37%.": "A d = 3,65 nm il fattore è e<sup>−3,65/167</sup> = 0,978: la perdita del 2% citata due passi fa. A d = 167 nm vale 0,37. Imposta 167 nm e leggi 37%.",
+  "What one film cannot do, and when these formulas apply": "Cosa un solo film non può fare, e quando valgono queste formule",
+  "The best single film reflects 0.61%. That is almost four times one surface, and still a hundred times short of a useful mirror.": "Il miglior film singolo riflette lo 0,61%. È quasi quattro volte una superficie, e ancora cento volte meno di uno specchio utile.",
+  "The way forward is in the arrows. One film lines up two reflections. A stack of films could line up dozens.": "La strada è nelle frecce. Un film allinea due riflessioni. Una pila di film potrebbe allinearne decine.",
+  "Why not simply make the molybdenum film thicker to collect more reflection?": "Perché non rendere semplicemente più spesso il film di molibdeno per raccogliere più riflessione?",
+  "Because thicker films reflect with the wrong sign": "Perché i film più spessi riflettono con il segno sbagliato",
+  "Because a film has only two surfaces however thick it is, and a thick one hides the bottom surface behind absorption": "Perché un film ha solo due superfici, per quanto sia spesso, e uno spesso nasconde la superficie inferiore dietro l'assorbimento",
+  "Because the Airy formula stops working above 15 nm": "Perché la formula di Airy smette di valere sopra 15 nm",
+  "A film's thickness varies between 3 nm and 4 nm from place to place. Can the Airy formula with one value of d describe it?": "Lo spessore di un film varia tra 3 nm e 4 nm da un punto all'altro. La formula di Airy con un solo valore di d può descriverlo?",
+  "Yes: using the average thickness is exact": "Sì: usare lo spessore medio è esatto",
+  "Only patch by patch: the formula assumes flat, parallel faces": "Solo zona per zona: la formula presuppone facce piane e parallele",
+  "No formula can describe such a film": "Nessuna formula può descrivere un film così",
+  "Two films stacked: molybdenum, then silicon, on a molybdenum base. Is one application of the Airy formula enough?": "Due film impilati: molibdeno, poi silicio, su una base di molibdeno. Basta una sola applicazione della formula di Airy?",
+  "Yes: use the total thickness as d": "Sì: si usa lo spessore totale come d",
+  "Yes: in EUV only the top film matters": "Sì: in EUV conta solo il film superiore",
+  "No: there are three surfaces, so the bookkeeping has to be extended": "No: le superfici sono tre, quindi il modo di tenere i conti va esteso",
+  "<strong>One film, two surfaces, a factor of almost four.</strong> The same idea repeated is the multilayer mirror: 40 pairs give 80 surfaces whose arrows can be lined up. Module 3 extends the bookkeeping to any number of layers.": "<strong>Un film, due superfici, un fattore quasi quattro.</strong> La stessa idea ripetuta è lo specchio multistrato: 40 coppie danno 80 superfici le cui frecce si possono allineare. Il modulo 3 estende i conti a un numero qualsiasi di strati.",
+  "What to carry forward": "Cosa portarsi dietro",
+  "<strong>A² = a₁² + a₂² + 2·a₁·a₂·cos φ.</strong> Use it whenever two waves of the same wavelength overlap with a fixed phase difference. Amplitudes add, intensities do not.": "<strong>A² = a₁² + a₂² + 2·a₁·a₂·cos φ.</strong> Usala ogni volta che due onde della stessa lunghezza d'onda si sovrappongono con una differenza di fase fissa. Si sommano le ampiezze, non le intensità.",
+  "<strong>Round trip 2β = 4π·n·d/λ.</strong> Use it for the phase gained by crossing a flat film twice. At an angle, multiply by the cosine of the angle inside the film.": "<strong>Andata e ritorno 2β = 4π·n·d/λ.</strong> Usala per la fase guadagnata attraversando due volte un film piano. Con un angolo, moltiplica per il coseno dell'angolo dentro il film.",
+  "<strong>r = (r₁ + r₂·e<sup>i·2β</sup>)/(1 + r₁·r₂·e<sup>i·2β</sup>).</strong> Exact for one ideal film. In EUV the denominator differs from 1 by about 0.2%. It is not enough for two or more films.": "<strong>r = (r₁ + r₂·e<sup>i·2β</sup>)/(1 + r₁·r₂·e<sup>i·2β</sup>).</strong> Esatta per un film ideale. In EUV il denominatore differisce da 1 di circa lo 0,2%. Non basta per due o più film.",
+  "The module is closed if you can rebuild the reasoning without looking": "Il modulo è chiuso se sai ricostruire il ragionamento senza guardare",
+  "Why can two reflections give four times the intensity of one?": "Perché due riflessioni possono dare quattro volte l'intensità di una?",
+  "Amplitudes add before squaring: 1 + 1 = 2, and 2² = 4.": "Le ampiezze si sommano prima di elevare al quadrato: 1 + 1 = 2, e 2² = 4.",
+  "Where does 2β = 4π·n·d/λ come from?": "Da dove viene 2β = 4π·n·d/λ?",
+  "One crossing turns the arrow by 2π for every wavelength-inside, λ/n, that fits in d. The reflected wave crosses twice.": "Un attraversamento ruota la freccia di 2π per ogni lunghezza d'onda nel materiale, λ/n, che entra in d. L'onda riflessa attraversa due volte.",
+  "Why is the best thickness a quarter of a wavelength?": "Perché lo spessore migliore è un quarto di lunghezza d'onda?",
+  "The bottom reflection starts out flipped. A quarter wave down and a quarter back make half a turn, which flips it again and lines it up with the top reflection.": "La riflessione inferiore parte capovolta. Un quarto d'onda in discesa e un quarto in salita fanno mezzo giro, che la capovolge di nuovo e la allinea con la riflessione superiore.",
+  "What does the Airy formula add to the two-arrow sum?": "Cosa aggiunge la formula di Airy alla somma di due frecce?",
+  "All the further bounces inside the film, summed as a geometric series. In EUV they change the result by about 0.3%.": "Tutti gli ulteriori rimbalzi dentro il film, sommati come serie geometrica. In EUV cambiano il risultato di circa lo 0,3%.",
+  "Why does a thick film reflect like a single surface?": "Perché un film spesso riflette come una singola superficie?",
+  "The wave from the bottom surface is absorbed on its way down and back, by the factor e<sup>−d/L</sup>.": "L'onda dalla superficie inferiore viene assorbita durante la discesa e la risalita, del fattore e<sup>−d/L</sup>.",
+  "about the same": "circa lo stesso",
+  "about twice as much": "circa il doppio",
+  "about four times as much": "circa quattro volte tanto",
+  "Amplitudes add first: 1 + 1 = 2. Then square.": "Prima si sommano le ampiezze: 1 + 1 = 2. Poi si eleva al quadrato.",
+  "The π cancels: d = λ / (4·n) = 13.5 / (4 × 0.924).": "Il π si semplifica: d = λ / (4·n) = 13,5 / (4 × 0,924).",
+  "Turning an arrow never changes its length. Look at which way the two arrows point.": "Ruotare una freccia non ne cambia mai la lunghezza. Guarda da che parte puntano le due frecce.",
+  "Absorption hardly changes over a few nanometres. What changes is the direction of the arrows.": "L'assorbimento cambia pochissimo in pochi nanometri. Quello che cambia è la direzione delle frecce.",
+  "Here x = 0.5, so the sum is 1 / (1 − 0.5).": "Qui x = 0,5, quindi la somma è 1 / (1 − 0,5).",
+  "Absorption over a few nanometres is about 2%. The extra bounces are weak for another reason: look at the size of r₁ and r₂.": "L'assorbimento in pochi nanometri è circa il 2%. I rimbalzi in più sono deboli per un altro motivo: guarda quanto valgono r₁ e r₂.",
+  "It converges, and very fast, because x is tiny.": "Converge, e molto in fretta, perché x è minuscolo.",
+  "For that, the bottom reflection must get back out. Check how strong it is after 500 nm down and 500 nm up.": "Per quello la riflessione inferiore dovrebbe tornare fuori. Controlla quanto è forte dopo 500 nm in discesa e 500 nm in salita.",
+  "The film absorbs what enters it. The top surface reflects before any absorption happens.": "Il film assorbe quello che vi entra. La superficie superiore riflette prima che avvenga qualsiasi assorbimento.",
+  "The sign of each surface's reflection does not depend on thickness. Count the surfaces instead.": "Il segno della riflessione di ogni superficie non dipende dallo spessore. Conta piuttosto le superfici.",
+  "The Airy formula holds at any thickness: the previous step used it up to 600 nm.": "La formula di Airy vale a qualsiasi spessore: il passo precedente l'ha usata fino a 600 nm.",
+  "R does not follow a straight line in d, so averaging the thickness and averaging the reflectance give different answers.": "R non segue una retta in d, quindi fare la media dello spessore e fare la media della riflettanza danno risultati diversi.",
+  "Each small patch has a definite thickness and obeys the formula.": "Ogni piccola zona ha uno spessore definito e obbedisce alla formula.",
+  "The formula has one phase factor, for one film between two surfaces. Here there are two films and three surfaces.": "La formula ha un solo fattore di fase, per un film tra due superfici. Qui ci sono due film e tre superfici.",
+  "A 3.6 nm film absorbs about 2% of the light. The surfaces below are fully lit.": "Un film da 3,6 nm assorbe circa il 2% della luce. Le superfici sottostanti sono pienamente illuminate.",
+  "thickness d (nm)": "spessore d (nm)",
+  "Next: module 3, the full stack.": "Prossimo: modulo 3, lo stack completo.",
+  "The peak sits at 3.61 nm, a little below the quarter-wave value of 3.65 nm. The quarter-wave rule uses only the real part of the index, so for an absorbing film it is a first estimate: the small imaginary parts tilt the arrows by a few degrees, and a thinner film absorbs less. With all bounces included the peak is 0.608%. At the 6° used in scanners, for s polarization, it moves to 3.63 nm and 0.623%.": "Il massimo cade a 3,61 nm, poco sotto il valore a quarto d'onda di 3,65 nm. La regola del quarto d'onda usa solo la parte reale dell'indice, quindi per un film che assorbe è una prima stima: le piccole parti immaginarie inclinano le frecce di qualche grado, e un film più sottile assorbe meno. Con tutti i rimbalzi il massimo è 0,608%. Ai 6° usati negli scanner, in polarizzazione s, si sposta a 3,63 nm e 0,623%."
+});
+
+startLesson({
+  n: 2,
+  key: "euv-module-2",
+  next: "Next: module 3, the full stack.",
+  setup() {
+    const nMo = index("Mo", LAM0), nSi = index("Si", LAM0);
+    const r1 = fresnel(1, nMo, 0, "s"), r2 = fresnel(nMo, nSi, 0, "s"), R1 = C.abs2(r1);
+    const two = (ra, rb, P) => C.add(ra, C.mul(rb, P));
+    const airy = (ra, rb, P) => C.div(C.add(ra, C.mul(rb, P)), C.add([1, 0], C.mul(C.mul(ra, rb), P)));
+    const deg = v => fmt(v, 0) + "°";
+
+    /* ---------- adding two waves ---------- */
+    draws.add = () => {
+      const a2 = +$("s-a2").value, phi = +$("s-phi").value, f = phi * Math.PI / 180;
+      const A2 = 1 + a2 * a2 + 2 * a2 * Math.cos(f), cm = css("--mo"), cs = css("--si"), acc = css("--accent");
+      $("o-a2").textContent = fmt(a2, 2); $("o-phi").textContent = phi + "°";
+      $("r-Asum").textContent = fmt(Math.sqrt(Math.max(0, A2)), 2); $("r-Isum").textContent = pct(A2, 0);
+      let { ctx, w, h } = prep($("c-ph2"));
+      const u = Math.min(w / 2.3, h / 2.2), ox = w / 2 - u * .9, oy = h / 2, x1 = ox + u, ex = x1 + a2 * u * Math.cos(f), ey = oy - a2 * u * Math.sin(f);
+      ctx.strokeStyle = css("--line"); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, oy); ctx.lineTo(w, oy); ctx.stroke();
+      arrow(ctx, ox, oy, x1, oy, cm, 3.5); arrow(ctx, x1, oy, ex, ey, cs, 3.5); arrow(ctx, ox, oy, ex, ey, acc, 2.5);
+      ({ ctx, w, h } = prep($("c-sum")));
+      const cy = h / 2, amp = h * .22, per = w / 3;
+      ctx.strokeStyle = css("--line"); ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+      const wave = (fn, color, width, dash) => { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.setLineDash(dash); ctx.beginPath(); for (let x = 0; x <= w; x += 2) { const y = cy - amp * fn(2 * Math.PI * x / per); x ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); ctx.setLineDash([]); };
+      wave(p => Math.cos(p), cm, 1.5, [5, 4]); wave(p => a2 * Math.cos(p + f), cs, 1.5, [5, 4]); wave(p => Math.cos(p) + a2 * Math.cos(p + f), acc, 3, []);
+      goal("g-cancel", A2 < 0.01);
+    };
+    $("s-a2").oninput = $("s-phi").oninput = draws.add;
+
+    /* ---------- phase of a round trip ---------- */
+    draws.phase = () => {
+      const d = +$("s-dp").value, beta = 360 * nMo[0] * d / LAM0, trip = 2 * beta, acc = css("--accent");
+      $("o-dp").textContent = fmt(d, 2) + " nm"; $("r-beta").textContent = deg(beta); $("r-trip").textContent = deg(trip); $("r-turns").textContent = fmt(trip / 360, 2);
+      const { ctx, w, h } = prep($("c-trip")), fw = w * .52, top = h * .2, th = (h * .62) * d / 15;
+      ctx.font = "12px " + css("--mono"); ctx.textBaseline = "top"; ctx.textAlign = "left";
+      ctx.globalAlpha = .55; ctx.fillStyle = css("--mo"); ctx.fillRect(0, top, fw, th); ctx.fillStyle = css("--si"); ctx.fillRect(0, top + th, fw, h - top - th); ctx.globalAlpha = 1;
+      ctx.fillStyle = css("--muted"); ctx.fillText(t("vacuum"), 6, 4); ctx.fillStyle = css("--ink"); if (th > 16) ctx.fillText("Mo", 6, top + 3); ctx.fillText("Si", 6, top + th + 4);
+      const x = fw * .55; arrow(ctx, x - 9, 6, x - 9, top + th, acc, 2.5); arrow(ctx, x + 9, top + th, x + 9, 6, acc, 2.5);
+      const cx = fw + (w - fw) / 2, cy = h / 2, r = Math.min((w - fw) / 2, h / 2) - 14, a = trip * Math.PI / 180;
+      ctx.strokeStyle = css("--line"); ctx.lineWidth = 1; ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(cx - r, cy); ctx.lineTo(cx + r, cy); ctx.stroke();
+      arrow(ctx, cx, cy, cx + r * Math.cos(a), cy - r * Math.sin(a), acc, 3.5);
+      goal("g-half", trip >= 177 && trip <= 183);
+    };
+    $("s-dp").oninput = draws.phase;
+
+    /* ---------- two reflections from a film ---------- */
+    const twoCurve = []; for (let d = 0; d <= 15.001; d += 0.05) twoCurve.push([d, 100 * C.abs2(two(r1, r2, roundTrip(nMo, d, LAM0)))]);
+    draws.film = () => {
+      const d = +$("s-df").value, b = C.mul(r2, roundTrip(nMo, d, LAM0)), sum = C.add(r1, b), R = C.abs2(sum), cm = css("--mo");
+      $("o-df").textContent = fmt(d, 2) + " nm"; $("r-Rf").textContent = pct(R, 3); $("r-ratio").textContent = fmt(R / R1, 2) + "×";
+      const { ctx, w, h } = prep($("c-rr")), s = w * .8 / 0.085, ox = w * .1, oy = h / 2, X = z => ox + z[0] * s, Y = z => oy - z[1] * s;
+      ctx.strokeStyle = css("--line"); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, oy); ctx.lineTo(w, oy); ctx.stroke();
+      arrow(ctx, ox, oy, X(r1), Y(r1), cm, 6); arrow(ctx, X(r1), Y(r1), X(sum), Y(sum), css("--si"), 3.5); arrow(ctx, ox, oy + 16, X(sum), Y(sum) + 16, css("--accent"), 3);
+      plot($("c-Rd"), { x: [0, 15], y: [0, 0.7], xt: [0, 5, 10, 15], yt: [0, 0.2, 0.4, 0.6], yf: v => loc(v) + "%", vline: d, xlabel: t("thickness d (nm)"),
+        series: [{ pts: [[0, 100 * R1], [15, 100 * R1]], color: css("--muted"), dash: [5, 4], width: 1.2 }, { pts: twoCurve, color: cm }], marks: [{ x: d, y: 100 * R, color: cm }] });
+      goal("g-max", R >= 0.006);
+    };
+    $("s-df").oninput = draws.film;
+
+    /* ---------- Airy formula against the two-arrow sum ---------- */
+    const SYS = {
+      euv: { n: nMo, ra: r1, rb: r2, lam: LAM0, dmax: 15, ymax: 0.7, yt: [0, 0.2, 0.4, 0.6], xt: [0, 5, 10, 15], dec: 3 },
+      soap: { n: [1.33, 0], ra: fresnel(1, 1.33, 0, "s"), rb: fresnel(1.33, 1, 0, "s"), lam: 550, dmax: 600, ymax: 9, yt: [0, 3, 6, 9], xt: [0, 200, 400, 600], dec: 2 }
+    };
+    for (const s of Object.values(SYS)) { s.all = []; s.two = []; for (let i = 0; i <= 400; i++) { const d = s.dmax * i / 400, P = roundTrip(s.n, d, s.lam); s.all.push([d, 100 * C.abs2(airy(s.ra, s.rb, P))]); s.two.push([d, 100 * C.abs2(two(s.ra, s.rb, P))]); } }
+    let sys = "euv";
+    draws.airy = () => {
+      const s = SYS[sys], d = s.dmax * +$("s-da").value, P = roundTrip(s.n, d, s.lam), Ra = C.abs2(airy(s.ra, s.rb, P)), Rt = C.abs2(two(s.ra, s.rb, P)), c = css("--accent");
+      $("o-da").textContent = fmt(d, sys === "euv" ? 2 : 0) + " nm"; $("r-two").textContent = pct(Rt, s.dec); $("r-all").textContent = pct(Ra, s.dec);
+      plot($("c-airy"), { x: [0, s.dmax], y: [0, s.ymax], xt: s.xt, yt: s.yt, yf: v => loc(v) + "%", vline: d, xlabel: t("thickness d (nm)"),
+        series: [{ pts: s.two, color: css("--muted"), dash: [5, 4], width: 1.6 }, { pts: s.all, color: c }], marks: [{ x: d, y: 100 * Ra, color: c }] });
+    };
+    $("s-da").oninput = draws.airy;
+    toggle("t-sys", d => { sys = d.s; draws.airy(); });
+
+    /* ---------- thick film ---------- */
+    const thickCurve = []; for (let d = 0; d <= 600; d += 0.5) thickCurve.push([d, 100 * C.abs2(airy(r1, r2, roundTrip(nMo, d, LAM0)))]);
+    draws.thick = () => {
+      const d = +$("s-dt").value, P = roundTrip(nMo, d, LAM0), R = C.abs2(airy(r1, r2, P)), back = Math.hypot(P[0], P[1]), cm = css("--mo");
+      $("o-dt").textContent = fmt(d, d < 100 ? 1 : 0) + " nm"; $("r-Rt").textContent = pct(R, 3); $("r-back").textContent = pct(back, back < .1 ? 1 : 0);
+      plot($("c-thick2"), { x: [0, 600], y: [0, 0.7], xt: [0, 200, 400, 600], yt: [0, 0.2, 0.4, 0.6], yf: v => loc(v) + "%", vline: d, xlabel: t("thickness d (nm)"),
+        series: [{ pts: [[0, 100 * R1], [600, 100 * R1]], color: css("--muted"), dash: [5, 4], width: 1.2 }, { pts: thickCurve, color: cm, width: 1.3 }], marks: [{ x: d, y: 100 * R, color: cm }] });
+      goal("g-thick", back < 0.05);
+    };
+    $("s-dt").oninput = draws.thick;
+  }
+});
+</script>
+</body>
+</html>

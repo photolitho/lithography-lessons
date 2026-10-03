@@ -7,7 +7,7 @@ Live site: https://photolitho.github.io/lithography-lessons/
 | Module | Question | Status |
 |---|---|---|
 | 1 | How much EUV light does a single surface reflect? | Available |
-| 2 | A single layer | In preparation |
+| 2 | What do two surfaces close together do? | Available |
 | 3 | The full stack | In preparation |
 
 ## How it is built

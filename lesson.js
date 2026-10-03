@@ -28,6 +28,8 @@ function fresnel(n1, n2, theta, pol) {
   return C.div(C.sub(a, b), C.add(a, b));
 }
 const attLen = (k, lam) => lam / (4 * Math.PI * k);
+// Factor a wave picks up crossing a film of complex index n and thickness d twice: e^(i·4π·n·d/λ).
+function roundTrip(n, d, lam) { const a = 4 * Math.PI * d / lam, m = Math.exp(-a * n[1]); return [m * Math.cos(a * n[0]), m * Math.sin(a * n[0])]; }
 
 /* ---------- language ---------- */
 // Italian strings keyed by their English source; anything missing falls back to English.
@@ -110,6 +112,14 @@ function plot(c, o) {
   for (const m of o.marks || []) { ctx.fillStyle = m.color; ctx.beginPath(); ctx.arc(X(m.x), Y(m.y), 5, 0, 7); ctx.fill(); }
   ctx.restore();
   if (o.xlabel) { ctx.fillStyle = css("--muted"); ctx.textAlign = "right"; ctx.textBaseline = "bottom"; ctx.fillText(o.xlabel, w - PAD.r, h - PAD.b - 4); }
+}
+// Arrow from (x0, y0) to (x1, y1), used for phasors and rays.
+function arrow(ctx, x0, y0, x1, y1, color, width) {
+  const len = Math.hypot(x1 - x0, y1 - y0), a = Math.atan2(y1 - y0, x1 - x0), hd = Math.min(11, len * .6);
+  ctx.strokeStyle = ctx.fillStyle = color; ctx.lineWidth = width; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+  if (len < 3) return;
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 - hd * Math.cos(a - .42), y1 - hd * Math.sin(a - .42)); ctx.lineTo(x1 - hd * Math.cos(a + .42), y1 - hd * Math.sin(a + .42)); ctx.closePath(); ctx.fill();
 }
 // Strip of material: light enters from the left and fades.
 function strip(c, frac, color, inset) {
