@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EUV Module 6</title>
+<meta name="description" content="Interactive lesson on the heat flux of a Gaussian spot, heat conduction and the temperature rise of an EUV mirror.">
+<meta name="theme-color" content="#F2F4F9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1220" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Litho Lessons">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="lesson.css">
+</head>
+<body>
+<div class="app" data-mode="home">
+<header class="top"><div class="top-in">
+  <div class="crumbs"><span id="where">EUV Mirror · Module 6</span><button class="linkbtn" id="menu">Menu</button><span id="count"></span><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
+  <div class="segs" id="segs"></div>
+</div></header>
+
+<main>
+
+<section class="step" id="home">
+  <a class="linkbtn" href="./" style="text-decoration:none;align-self:flex-start">← All lessons</a>
+  <h1>How hot does the mirror get?</h1>
+  <p class="lead">Module 5 found that the mirror keeps a quarter of the light as heat, within a few hundred nanometres of its surface. This module follows that heat into the body of the mirror and turns it into a temperature. Five ideas, three of them with an experiment. Open any of them, in any order.</p>
+  <div class="mode">
+    <ol class="toc" id="toc"></ol>
+    <button class="btn go" id="go">Start</button>
+  </div>
+  <p class="why">This is the bridge between the optics and the mechanics of the project. The optical modules end with one number, the fraction of light absorbed. The mechanical ones, deformation and wavefront error, start from a temperature at every point of the mirror. In between sits the conduction of heat, and one awkward fact: the glass chosen for mirrors because it barely expands is also a poor conductor of heat.</p>
+</section>
+
+<section class="step" data-id="source" data-sum="Why the 278 nm stack can be treated as a sheet of heat on the glass.">
+  <h1>From a stack to a sheet of heat</h1>
+  <p class="why">A thermal calculation needs a heat source: how much power, and where it is released. Module 5 gave both answers in the language of optics. This step puts them in the form a heat calculation uses, and makes the simplification that everything after it relies on.</p>
+  <p>The multilayer is 40 pairs of 6.96 nm: 278 nm in all. The body of the mirror under it is some 50 mm of glass, about 180,000 times thicker. Module 5 showed that about 95% of the heat is released in the top 210 nm.</p>
+  <p>Seen from the glass, then, the stack is a sheet: all the heat enters through the top face. A calculation of the mirror's temperature does not need the layers at all. It needs one quantity at each point of the surface: the absorbed power per unit area, called the heat flux <span class="mono">q</span>, in watts per square metre.</p>
+  <div class="formula"><span>q = (1 − R) · I</span></div>
+  <p>Here <span class="mono">I</span> is the intensity of the light arriving at that point, also in watts per square metre, and <span class="mono">1 − R = 25.8%</span> is the fraction that module 5 found to end as heat.</p>
+  <div class="after">
+    <p><strong>The optics hands over one map: watts per square metre on the surface.</strong> Everything the first five modules computed, indices, phases, matrices, fields, reaches the thermal calculation through the single factor <span class="mono">1 − R</span>.</p>
+    <p>Is it safe to forget the thickness of the stack? Two checks say yes. First, the temperature difference across it. Molybdenum and silicon conduct heat well, and pushing the flux of this module through 278 nm of them takes a few hundred-thousandths of a kelvin. Even if such thin layers conducted a hundred times worse than the bulk materials, the difference would stay below a hundredth of a kelvin. Second, the time. Heat crosses 278 nm in far less than a millionth of a second, so the stack follows the light instantly on any scale that matters for the mirror.</p>
+    <div class="fcard">
+      <div class="formula"><span>q = (1 − R) · I</span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>It is P<sub>heat</sub> = (1 − R)·P<sub>in</sub> of module 5, applied to each small patch of the surface instead of to the whole mirror.</dd>
+        <dt>Assumptions</dt><dd>The same reflectance everywhere on the mirror. Light of one wavelength inside the band of the mirror. A stack thin enough to count as a surface, as checked above. Nothing scattered out of the mirror.</dd>
+        <dt>The terms</dt><dd>q is the heat flux entering the glass, in W/m². I is the intensity of the light on the surface, in W/m². R is the reflectance.</dd>
+        <dt>Check</dt><dd>A perfect mirror, R = 1, gives q = 0: no heat. With R = 74.2%, a point that receives 1 W/cm² of light takes in 0.258 W/cm² of heat.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="spot" data-sum="The heat flux of a Gaussian spot. Experiment: power, spot radius and fraction absorbed.">
+  <h1>The light arrives as a spot</h1>
+  <p class="why">The flux is not the same everywhere: a beam is brighter at its centre. It is the peak of the flux, more than the total power, that decides how hot the hottest point gets. This step gives the beam a shape and finds that peak.</p>
+  <p>The beam on a mirror is modelled here as a Gaussian spot: brightest at the centre, fading smoothly outwards. Its size is the radius <span class="mono">w</span>, the distance from the centre at which the intensity has dropped to <span class="mono">1/e²</span> of the peak, 13.5%.</p>
+  <div class="formula lines"><span>I(r) = I₀ · e<sup>−2r²/w²</sup></span><span>I₀ = <span class="frac"><span>2 · P</span><span>π · w²</span></span></span></div>
+  <div class="lab">
+    <canvas id="c-top" style="height:150px"></canvas>
+    <canvas id="c-q" style="height:180px"></canvas>
+    <div class="ctrl"><label for="s-P6">Light on the mirror</label><input type="range" id="s-P6" min="20" max="250" step="5" value="70"><output id="o-P6"></output></div>
+    <div class="ctrl"><label for="s-w6">Spot radius w</label><input type="range" id="s-w6" min="10" max="60" step="1" value="30"><output id="o-w6"></output></div>
+    <div class="ctrl"><label for="s-A6">Fraction absorbed</label><input type="range" id="s-A6" min="20" max="30" step="0.1" value="25.8"><output id="o-A6"></output></div>
+    <div class="reads"><span><b>peak heat flux</b><span class="big" id="r-q0"></span></span><span><b>power absorbed</b><span id="r-Pa"></span></span><span><b>99% of it within</b><span id="r-r99"></span></span></div>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="s-P6:70 s-w6:30 s-A6:25.8" data-note="The case used in the rest of this module: 18.1 W absorbed, with a peak of 1.28 W/cm².">70 W, 30 mm</button>
+      <button class="chip" data-set="s-P6:70 s-w6:15 s-A6:25.8" data-note="Half the radius puts the same power on a quarter of the area: the peak is four times higher, 5.11 W/cm².">70 W, 15 mm</button>
+      <button class="chip" data-set="s-P6:70 s-w6:30 s-A6:24.7" data-note="The project's own calculation counts only what its layers absorb, 24.7%, and leaves out the substrate: 17.3 W, with a peak of 1.22 W/cm².">24.7% absorbed</button>
+      <div class="note" hidden></div>
+    </div>
+    <div class="cap">Above: the mirror seen from the front, 150 mm in radius, with the heat it takes in. Below: the heat flux against the distance from the centre of the spot.</div>
+  </div>
+  <div class="after">
+    <p><strong>The peak flux is the power divided by the area of the spot.</strong> Halve the radius and the same power lands on a quarter of the area: four times the flux. Double the power and the flux doubles everywhere.</p>
+    <p>To give the number a scale: 1.28 W/cm² is about thirteen times the midday sun on the ground, which delivers 0.1 W/cm². The 70 W are the example used by the project. For scale: in the chain of module 5, with 250 W on the first mirror, the fifth receives 76 W.</p>
+    <div class="fcard">
+      <div class="formula lines"><span>q(r) = (1 − R) · <span class="frac"><span>2 · P</span><span>π · w²</span></span> · e<sup>−2r²/w²</sup></span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>Add up the intensity over the whole surface, ring by ring. The total of e<sup>−2r²/w²</sup> over the plane is π·w²/2, so for the total to be P the peak must be P divided by that. Multiplying by 1 − R turns light into heat.</dd>
+        <dt>Assumptions</dt><dd>A circular Gaussian spot under steady light. At 6° the spot on the mirror is stretched by 1/cos 6°, less than 1%, and that is ignored. The mirror is wide enough to hold the whole spot.</dd>
+        <dt>The terms</dt><dd>P is the power of the light arriving. w is the radius at which the intensity is 1/e² of its peak. r is the distance from the centre. q is the heat flux.</dd>
+        <dt>Check</dt><dd>With 70 W, w = 30 mm and 25.8%: I₀ = 2 × 70 / (π × 0.03²) = 49,500 W/m², and q at the centre is 0.258 times that, 12,800 W/m² or 1.28 W/cm². The width of the spot at half its peak is 1.18·w, and 99% of the power falls within 1.52·w.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="conduct" data-sum="Fourier's law and the conductivity of mirror glass. Experiment: flux through a plate of ULE or silicon.">
+  <h1>Heat flows down a temperature slope</h1>
+  <p class="why">A heat flux is not yet a temperature. What links the two is how well the material conducts heat. This step introduces that property in the simplest geometry there is, and meets the awkward number of this project: the conductivity of the glass a mirror is made of.</p>
+  <p>Heat flows from hot to cold, and the flow is proportional to how steeply the temperature falls. The constant is the thermal conductivity <span class="mono">k</span>, in watts per metre per kelvin. This is Fourier's law.</p>
+  <div class="formula"><span>q = −k · <span class="frac"><span>dT</span><span>dz</span></span></span><span>ΔT = <span class="frac"><span>q · H</span><span>k</span></span></span></div>
+  <p>Take a plate of thickness <span class="mono">H</span>, heated evenly on top with flux <span class="mono">q</span> and held at a fixed temperature at the bottom. Once things are steady the same flux crosses every depth, so the temperature falls in a straight line, and the top is hotter than the bottom by <span class="mono">ΔT</span>.</p>
+  <div class="lab">
+    <div class="toggle" id="t-mk"><button data-k="1.31" aria-pressed="true">ULE glass</button><button data-k="150" aria-pressed="false">Silicon</button></div>
+    <canvas id="c-slab" style="height:200px"></canvas>
+    <div class="ctrl"><label for="s-qk">Heat flux q</label><input type="range" id="s-qk" min="0.1" max="5" step="0.01" value="1.28"><output id="o-qk"></output></div>
+    <div class="ctrl"><label for="s-Hk">Thickness H</label><input type="range" id="s-Hk" min="5" max="100" step="1" value="50"><output id="o-Hk"></output></div>
+    <div class="reads"><span><b>top hotter than bottom by</b><span class="big" id="r-dT"></span></span><span><b>k</b><span id="r-k"></span></span></div>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="t-mk:0 s-qk:1.28 s-Hk:50" data-note="With 1.28 W/cm² on the whole top face, 50 mm of this glass would need 489 K between top and bottom.">ULE, 50 mm</button>
+      <button class="chip" data-set="t-mk:1 s-qk:1.28 s-Hk:50" data-note="Silicon conducts more than a hundred times better: the same flux needs 4.3 K.">Silicon, 50 mm</button>
+      <button class="chip" data-set="t-mk:0 s-qk:1.28 s-Hk:10" data-note="A fifth of the thickness, a fifth of the difference: 97.7 K.">ULE, 10 mm</button>
+      <div class="note" hidden></div>
+    </div>
+    <div class="cap">Temperature rise against depth in the plate, with the heated face on the left and the cooled face on the right.</div>
+  </div>
+  <div class="after">
+    <p><strong>A good material for a mirror is a poor conductor of heat.</strong> ULE is a glass made to have almost no thermal expansion near room temperature: a mirror made of it keeps its shape when its temperature changes a little. Its conductivity, 1.31 W/(m·K), is about a hundred times lower than that of silicon or molybdenum.</p>
+    <p>The 489 K is not the answer for the mirror. It assumes the peak flux over the whole face, with the heat going straight down. The real spot is small, and around it there is cold glass into which the heat can also spread sideways. The next step lets it.</p>
+    <div class="fcard">
+      <div class="formula lines"><span>ΔT = <span class="frac"><span>q · H</span><span>k</span></span></span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>Fourier's law is an observed fact about solids: the heat flux is proportional to the slope of the temperature. In a steady state no slice of the plate gains or loses energy, so the same flux crosses every depth. A constant flux means a constant slope, q/k, and over a thickness H that adds up to q·H/k.</dd>
+        <dt>Assumptions</dt><dd>A steady state. An even flux over a face much wider than the plate is thick, so that heat flows straight down. A conductivity that does not change with temperature.</dd>
+        <dt>The terms</dt><dd>q is the heat flux, in W/m². k is the thermal conductivity, in W/(m·K). H is the thickness. ΔT is the temperature of the heated face above the cooled one. The minus sign in Fourier's law says that heat flows towards lower temperature.</dd>
+        <dt>Check</dt><dd>Units: (W/m²) · m / (W/(m·K)) = K. Numbers: 12,800 W/m² × 0.05 m / 1.31 W/(m·K) = 489 K. Twice the thickness, or half the conductivity, doubles it.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="mirror" data-sum="The temperature inside a disc of glass cooled from behind. Experiment: power, spot, thickness and material.">
+  <h1>The temperature of the real mirror</h1>
+  <p class="why">Now the three pieces meet: the Gaussian spot, the conductivity of the glass, and the real shape of the mirror, a disc cooled from behind. The result is the number the mechanical part of the project starts from.</p>
+  <p>The mirror of the project is a disc of ULE, 150 mm in radius and 50 mm thick. Its top face receives the Gaussian flux. Its back rests on a cooled plate, idealised as a face held at one fixed temperature. Its side is in vacuum and exchanges almost no heat, so it is treated as insulated. Inside, heat flows both down and sideways.</p>
+  <div class="lab">
+    <div class="toggle" id="t-mm"><button data-k="1.31" aria-pressed="true">ULE glass</button><button data-k="150" aria-pressed="false">Silicon</button></div>
+    <canvas id="c-map" style="height:140px"></canvas>
+    <canvas id="c-Ts" style="height:180px"></canvas>
+    <div class="ctrl"><label for="s-Pm">Light on the mirror</label><input type="range" id="s-Pm" min="20" max="250" step="5" value="70"><output id="o-Pm"></output></div>
+    <div class="ctrl"><label for="s-wm">Spot radius w</label><input type="range" id="s-wm" min="10" max="60" step="1" value="30"><output id="o-wm"></output></div>
+    <div class="ctrl"><label for="s-Hm">Thickness H</label><input type="range" id="s-Hm" min="10" max="100" step="1" value="50"><output id="o-Hm"></output></div>
+    <div class="reads"><span><b>rise at the centre</b><span class="big" id="r-Tp"></span></span><span><b>at distance w</b><span id="r-Tw"></span></span><span><b>thick-mirror formula</b><span id="r-Th"></span></span></div>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="t-mm:0 s-Pm:70 s-wm:30 s-Hm:50" data-note="The centre of the spot is 154 K above the cooled back, and still 57.3 K at the distance w. The thick-mirror formula would say 183 K.">The project's mirror</button>
+      <button class="chip" data-set="t-mm:0 s-Pm:70 s-wm:60 s-Hm:50" data-note="The peak flux is a quarter of what it was, and the temperature falls to 64.1 K, less than half.">Spot twice as wide</button>
+      <button class="chip" data-set="t-mm:0 s-Pm:70 s-wm:30 s-Hm:20" data-note="With the cooled back closer to the surface, the centre falls to 117 K.">Thinner: 20 mm</button>
+      <button class="chip" data-set="t-mm:1 s-Pm:70 s-wm:30 s-Hm:50" data-note="The same disc in silicon stays within 1.3 K. Silicon is not the easy answer, though: it expands far more than this glass when its temperature changes.">Silicon</button>
+      <div class="note" hidden></div>
+    </div>
+    <div class="cap">Above: a cut through the disc, drawn to scale, coloured by temperature in ten steps from the cooled back to the hottest point. Below: the temperature rise above the cooled back along the top face, from the centre to the edge. Dashed: the heat flux, scaled to the same height. 25.8% of the light is absorbed.</div>
+  </div>
+  <div class="after">
+    <p><strong>154 K above the cooled back, in a glass chosen to stay within a few kelvin of room temperature.</strong> That is the result of this module, and the starting point of the mechanical part of the project.</p>
+    <p>Compare it with the last step. Heat going straight down gave 489 K. Letting it spread sideways brings that to 154 K. The surface is warm well outside the lit area: at the distance <span class="mono">w</span>, where the flux is down to 13.5% of its peak, the temperature is still 37% of its peak.</p>
+    <p>For a mirror much thicker and wider than the spot there is an exact formula, shown in the card below, which gives 183 K here. The cooled back, 50 mm down, takes about a sixth off that.</p>
+    <p>The formula also shows what counts. At a given absorbed power the temperature goes as <span class="mono">1/w</span> and as <span class="mono">1/k</span>. A spot twice as wide has a quarter of the peak flux, yet the formula only halves the temperature, because the heat of a wider spot has further to go before it can spread. In the disc of the experiment it falls a little more, to 64 K, because the cooled back helps a wide spot more.</p>
+    <p>With the 24.7% of the project's own calculation, which counts the layers alone, the same disc gives 147 K. That is the value the project finds with a finite-element model. The experiment here adds up the exact solution for a disc instead, and the two agree to about one part in a thousand.</p>
+    <p>Why it matters. The mirror sits at about 22 °C, and ULE barely expands only within a few kelvin of that. A rise of 154 K puts the centre of the spot near 175 °C, far outside that range, and this is with an ideal cooling plate. A better conductor is not the easy answer: the same disc in silicon would warm by 1.3 K, but silicon expands with temperature roughly a hundred times more than this glass does near room temperature.</p>
+    <div class="fcard">
+      <div class="formula"><span>T = <span class="frac"><span>P<sub>abs</sub></span><span>√(2π) · k · w</span></span></span></div>
+      <dl>
+        <dt>Where it comes from</dt><dd>Inside the glass two facts hold at every point: Fourier's law, and conservation of energy, which in a steady state says that as much heat leaves any small volume as enters it. For a Gaussian flux on a body much thicker and wider than the spot the two can be solved exactly, a classic result of heat conduction (Carslaw and Jaeger): T = q₀·w·√(π/8)/k. Writing q₀ as 2·P<sub>abs</sub>/(π·w²) gives the form above.</dd>
+        <dt>Assumptions</dt><dd>A steady state, a constant conductivity, heat entering only through the top face. The formula needs a body much larger than the spot. The experiment does not: it solves the disc of the stated radius and thickness, with insulated side and cooled back, by adding up 60 circular patterns of heat flow, each of which fades with depth in a known way.</dd>
+        <dt>The terms</dt><dd>P<sub>abs</sub> = (1 − R)·P is the absorbed power. k is the conductivity. w is the spot radius. T is the temperature of the hottest point above the temperature far from the spot; in the experiment, above the cooled back.</dd>
+        <dt>Check</dt><dd>18.06 W / (2.507 × 1.31 W/(m·K) × 0.03 m) = 183 K. In the experiment a thicker disc moves towards this value: 170 K at 100 mm. A thinner one moves away from it: 117 K at 20 mm.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="step" data-id="apply" data-sum="What the temperature assumes, what to carry forward, and a list to check your own reasoning.">
+  <h1>What this number assumes, and what comes next</h1>
+  <p class="why">A temperature is the hand-over point of the project: optics before it, mechanics after. This step states what went into it, so that it can be trusted for what it is, and says where the chain goes next.</p>
+  <p>The temperature of the last step is as good as what went into it. Four things went in that a real mirror does not fully respect.</p>
+  <div class="after">
+    <p><strong>A steady state.</strong> These are the temperatures the mirror settles to under constant light. Glass this thick takes time to get there. Heat needs a time of order <span class="mono">H²/α</span> to cross a thickness <span class="mono">H</span>, where <span class="mono">α</span> is the thermal diffusivity, the conductivity divided by the heat a cubic metre stores per kelvin. For 50 mm of ULE that is close to an hour.</p>
+    <p><strong>An ideal cooled back.</strong> A real cooling plate is not at one temperature, and its contact with the glass is not perfect. Both make the real mirror warmer than computed here.</p>
+    <p><strong>Only the light inside the band.</strong> The 25.8% holds for light of 13.5 nm. Module 5 noted that a real source also emits other wavelengths, and the mirror turns most of those into heat.</p>
+    <p><strong>A constant conductivity and an insulated side.</strong> The conductivity of the glass changes a little over 150 K. The side of the mirror does lose some heat by radiation, about 1 W against the 18 W that come in.</p>
+    <p>What comes next in the project follows from the result itself. The glass under the spot is hot and the rest is not, so it expands unevenly and the surface rises where the light falls. A mirror for lithography has to keep its shape to a fraction of a nanometre. How large the bump is, and what it does to the reflected wave, is the mechanical part of the project.</p>
+    <h2>What to carry forward</h2>
+    <ul class="carry">
+      <li><strong>q₀ = 2·(1 − R)·P / (π·w²).</strong> Use it for the peak heat flux of a Gaussian spot. It needs the power on that mirror, the spot radius and the reflectance at the wavelength of the light.</li>
+      <li><strong>ΔT = q·H / k.</strong> Use it when heat flows straight through a plate. For a small spot on a wide mirror it overestimates, because it ignores the spreading sideways.</li>
+      <li><strong>T = P<sub>abs</sub> / (√(2π)·k·w).</strong> Use it for the hottest point under a Gaussian spot on a body much thicker and wider than the spot. A cooled back close to the surface lowers the result.</li>
+    </ul>
+    <h2>To retrace the reasoning</h2>
+    <div>
+      <details><summary>Why can the stack be treated as a sheet of heat?</summary><p>It is 278 nm thick on 50 mm of glass. The temperature difference across it is far below a hundredth of a kelvin, and heat crosses it in far less than a millionth of a second.</p></details>
+      <details><summary>What does halving the spot radius do, at the same power?</summary><p>The peak flux becomes four times larger, because the area is a quarter. The peak temperature of a thick mirror only doubles, because the heat of a smaller spot spreads out over a shorter distance.</p></details>
+      <details><summary>Why is ULE used although it conducts heat poorly?</summary><p>Because it barely expands near room temperature, which is what keeps the shape of the mirror. Its conductivity is the price paid for that.</p></details>
+      <details><summary>Why is the real mirror cooler than the straight-down estimate?</summary><p>The estimate puts the peak flux on the whole face. The real spot is small, and its heat also spreads sideways into cold glass.</p></details>
+      <details><summary>What does a rise of about 150 K mean for the glass?</summary><p>The centre of the mirror is far outside the narrow range around room temperature in which ULE barely expands, so the surface rises under the spot.</p></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="nav"><div class="nav-in">
+  <button class="btn" id="back">Back</button>
+  <span class="hint" id="hint"></span>
+  <button class="btn go" id="next">Continue</button>
+</div></footer>
+</div>
+
+<script src="cxro.js"></script>
+<script src="lesson.js"></script>
+<script src="thermal.js"></script>
+<script>
+Object.assign(IT, {
+  "How hot does the mirror get?": "Quanto si scalda lo specchio?",
+  "Module 5 found that the mirror keeps a quarter of the light as heat, within a few hundred nanometres of its surface. This module follows that heat into the body of the mirror and turns it into a temperature. Five ideas, three of them with an experiment. Open any of them, in any order.": "Il modulo 5 ha trovato che lo specchio trattiene un quarto della luce come calore, entro poche centinaia di nanometri dalla superficie. Questo modulo segue quel calore nel corpo dello specchio e lo trasforma in una temperatura. Cinque idee, tre delle quali con un esperimento. Aprine una qualsiasi, in qualsiasi ordine.",
+  "This is the bridge between the optics and the mechanics of the project. The optical modules end with one number, the fraction of light absorbed. The mechanical ones, deformation and wavefront error, start from a temperature at every point of the mirror. In between sits the conduction of heat, and one awkward fact: the glass chosen for mirrors because it barely expands is also a poor conductor of heat.": "Questo è il ponte tra l'ottica e la meccanica del progetto. I moduli di ottica finiscono con un numero, la frazione di luce assorbita. Quelli di meccanica, deformazione ed errore del fronte d'onda, partono da una temperatura in ogni punto dello specchio. In mezzo sta la conduzione del calore, e un fatto scomodo: il vetro scelto per gli specchi perché quasi non si dilata è anche un cattivo conduttore di calore.",
+  "The multilayer is 40 pairs of 6.96 nm: 278 nm in all. The body of the mirror under it is some 50 mm of glass, about 180,000 times thicker. Module 5 showed that about 95% of the heat is released in the top 210 nm.": "Il multistrato è fatto di 40 coppie da 6,96 nm: 278 nm in tutto. Il corpo dello specchio sotto di esso è di circa 50 mm di vetro, circa 180.000 volte più spesso. Il modulo 5 ha mostrato che circa il 95% del calore è rilasciato nei primi 210 nm.",
+  "Seen from the glass, then, the stack is a sheet: all the heat enters through the top face. A calculation of the mirror's temperature does not need the layers at all. It needs one quantity at each point of the surface: the absorbed power per unit area, called the heat flux <span class=\"mono\">q</span>, in watts per square metre.": "Visto dal vetro, quindi, lo stack è un foglio: tutto il calore entra dalla faccia superiore. Un calcolo della temperatura dello specchio non ha alcun bisogno degli strati. Gli serve una grandezza in ogni punto della superficie: la potenza assorbita per unità di area, detta flusso di calore <span class=\"mono\">q</span>, in watt per metro quadrato.",
+  "Here <span class=\"mono\">I</span> is the intensity of the light arriving at that point, also in watts per square metre, and <span class=\"mono\">1 − R = 25.8%</span> is the fraction that module 5 found to end as heat.": "Qui <span class=\"mono\">I</span> è l'intensità della luce che arriva in quel punto, anch'essa in watt per metro quadrato, e <span class=\"mono\">1 − R = 25,8%</span> è la frazione che secondo il modulo 5 finisce in calore.",
+  "<strong>The optics hands over one map: watts per square metre on the surface.</strong> Everything the first five modules computed, indices, phases, matrices, fields, reaches the thermal calculation through the single factor <span class=\"mono\">1 − R</span>.": "<strong>L'ottica consegna una sola mappa: watt per metro quadrato sulla superficie.</strong> Tutto ciò che i primi cinque moduli hanno calcolato, indici, fasi, matrici, campi, arriva al calcolo termico attraverso il solo fattore <span class=\"mono\">1 − R</span>.",
+  "Is it safe to forget the thickness of the stack? Two checks say yes. First, the temperature difference across it. Molybdenum and silicon conduct heat well, and pushing the flux of this module through 278 nm of them takes a few hundred-thousandths of a kelvin. Even if such thin layers conducted a hundred times worse than the bulk materials, the difference would stay below a hundredth of a kelvin. Second, the time. Heat crosses 278 nm in far less than a millionth of a second, so the stack follows the light instantly on any scale that matters for the mirror.": "È lecito dimenticare lo spessore dello stack? Due controlli dicono di sì. Primo, la differenza di temperatura attraverso di esso. Molibdeno e silicio conducono bene il calore, e far passare il flusso di questo modulo attraverso 278 nm di essi richiede qualche centomillesimo di kelvin. Anche se strati così sottili conducessero cento volte peggio dei materiali massicci, la differenza resterebbe sotto un centesimo di kelvin. Secondo, il tempo. Il calore attraversa 278 nm in molto meno di un milionesimo di secondo, quindi lo stack segue la luce all'istante su qualsiasi scala che conti per lo specchio.",
+  "It is P<sub>heat</sub> = (1 − R)·P<sub>in</sub> of module 5, applied to each small patch of the surface instead of to the whole mirror.": "È P<sub>heat</sub> = (1 − R)·P<sub>in</sub> del modulo 5, applicata a ogni piccola zona della superficie invece che allo specchio intero.",
+  "The same reflectance everywhere on the mirror. Light of one wavelength inside the band of the mirror. A stack thin enough to count as a surface, as checked above. Nothing scattered out of the mirror.": "La stessa riflettanza in ogni punto dello specchio. Luce di una sola lunghezza d'onda dentro la banda dello specchio. Uno stack abbastanza sottile da contare come una superficie, come controllato sopra. Nessuna luce diffusa fuori dallo specchio.",
+  "q is the heat flux entering the glass, in W/m². I is the intensity of the light on the surface, in W/m². R is the reflectance.": "q è il flusso di calore che entra nel vetro, in W/m². I è l'intensità della luce sulla superficie, in W/m². R è la riflettanza.",
+  "A perfect mirror, R = 1, gives q = 0: no heat. With R = 74.2%, a point that receives 1 W/cm² of light takes in 0.258 W/cm² of heat.": "Uno specchio perfetto, R = 1, dà q = 0: nessun calore. Con R = 74,2%, un punto che riceve 1 W/cm² di luce assorbe 0,258 W/cm² di calore.",
+  "The beam on a mirror is modelled here as a Gaussian spot: brightest at the centre, fading smoothly outwards. Its size is the radius <span class=\"mono\">w</span>, the distance from the centre at which the intensity has dropped to <span class=\"mono\">1/e²</span> of the peak, 13.5%.": "Il fascio su uno specchio è modellato qui come una macchia gaussiana: più luminosa al centro, e via via più debole verso l'esterno. La sua dimensione è il raggio <span class=\"mono\">w</span>, la distanza dal centro alla quale l'intensità è scesa a <span class=\"mono\">1/e²</span> del picco, il 13,5%.",
+  "Light on the mirror": "Luce sullo specchio",
+  "Spot radius w": "Raggio w della macchia",
+  "Fraction absorbed": "Frazione assorbita",
+  "peak heat flux": "flusso di calore al picco",
+  "power absorbed": "potenza assorbita",
+  "99% of it within": "il 99% entro",
+  "The case used in the rest of this module: 18.1 W absorbed, with a peak of 1.28 W/cm².": "Il caso usato nel resto di questo modulo: 18,1 W assorbiti, con un picco di 1,28 W/cm².",
+  "70 W, 30 mm": "70 W, 30 mm",
+  "Half the radius puts the same power on a quarter of the area: the peak is four times higher, 5.11 W/cm².": "Metà del raggio mette la stessa potenza su un quarto dell'area: il picco è quattro volte più alto, 5,11 W/cm².",
+  "70 W, 15 mm": "70 W, 15 mm",
+  "The project's own calculation counts only what its layers absorb, 24.7%, and leaves out the substrate: 17.3 W, with a peak of 1.22 W/cm².": "Il calcolo del progetto conta solo ciò che assorbono i suoi strati, il 24,7%, e lascia fuori il substrato: 17,3 W, con un picco di 1,22 W/cm².",
+  "24.7% absorbed": "24,7% assorbito",
+  "Above: the mirror seen from the front, 150 mm in radius, with the heat it takes in. Below: the heat flux against the distance from the centre of the spot.": "Sopra: lo specchio visto di fronte, 150 mm di raggio, con il calore che assorbe. Sotto: il flusso di calore in funzione della distanza dal centro della macchia.",
+  "<strong>The peak flux is the power divided by the area of the spot.</strong> Halve the radius and the same power lands on a quarter of the area: four times the flux. Double the power and the flux doubles everywhere.": "<strong>Il flusso al picco è la potenza divisa per l'area della macchia.</strong> Dimezza il raggio e la stessa potenza cade su un quarto dell'area: quattro volte il flusso. Raddoppia la potenza e il flusso raddoppia ovunque.",
+  "To give the number a scale: 1.28 W/cm² is about thirteen times the midday sun on the ground, which delivers 0.1 W/cm². The 70 W are the example used by the project. For scale: in the chain of module 5, with 250 W on the first mirror, the fifth receives 76 W.": "Per dare una scala al numero: 1,28 W/cm² è circa tredici volte il sole di mezzogiorno al suolo, che fornisce 0,1 W/cm². I 70 W sono l'esempio usato dal progetto. Per avere una scala: nella catena del modulo 5, con 250 W sul primo specchio, il quinto ne riceve 76.",
+  "Add up the intensity over the whole surface, ring by ring. The total of e<sup>−2r²/w²</sup> over the plane is π·w²/2, so for the total to be P the peak must be P divided by that. Multiplying by 1 − R turns light into heat.": "Somma l'intensità su tutta la superficie, anello per anello. Il totale di e<sup>−2r²/w²</sup> sul piano è π·w²/2, quindi perché il totale sia P il picco deve essere P diviso per quel valore. Moltiplicare per 1 − R trasforma la luce in calore.",
+  "A circular Gaussian spot under steady light. At 6° the spot on the mirror is stretched by 1/cos 6°, less than 1%, and that is ignored. The mirror is wide enough to hold the whole spot.": "Una macchia gaussiana circolare sotto luce costante. A 6° la macchia sullo specchio è allungata di 1/cos 6°, meno dell'1%, e questo è trascurato. Lo specchio è abbastanza largo da contenere l'intera macchia.",
+  "P is the power of the light arriving. w is the radius at which the intensity is 1/e² of its peak. r is the distance from the centre. q is the heat flux.": "P è la potenza della luce in arrivo. w è il raggio al quale l'intensità è 1/e² del picco. r è la distanza dal centro. q è il flusso di calore.",
+  "With 70 W, w = 30 mm and 25.8%: I₀ = 2 × 70 / (π × 0.03²) = 49,500 W/m², and q at the centre is 0.258 times that, 12,800 W/m² or 1.28 W/cm². The width of the spot at half its peak is 1.18·w, and 99% of the power falls within 1.52·w.": "Con 70 W, w = 30 mm e 25,8%: I₀ = 2 × 70 / (π × 0,03²) = 49.500 W/m², e q al centro è 0,258 volte tanto, 12.800 W/m² cioè 1,28 W/cm². La larghezza della macchia a metà del picco è 1,18·w, e il 99% della potenza cade entro 1,52·w.",
+  "Heat flows from hot to cold, and the flow is proportional to how steeply the temperature falls. The constant is the thermal conductivity <span class=\"mono\">k</span>, in watts per metre per kelvin. This is Fourier's law.": "Il calore fluisce dal caldo al freddo, e il flusso è proporzionale a quanto ripidamente scende la temperatura. La costante è la conducibilità termica <span class=\"mono\">k</span>, in watt per metro per kelvin. È la legge di Fourier.",
+  "Take a plate of thickness <span class=\"mono\">H</span>, heated evenly on top with flux <span class=\"mono\">q</span> and held at a fixed temperature at the bottom. Once things are steady the same flux crosses every depth, so the temperature falls in a straight line, and the top is hotter than the bottom by <span class=\"mono\">ΔT</span>.": "Prendi una lastra di spessore <span class=\"mono\">H</span>, scaldata in modo uniforme dall'alto con flusso <span class=\"mono\">q</span> e tenuta a temperatura fissa sul fondo. A regime lo stesso flusso attraversa ogni profondità, quindi la temperatura scende lungo una retta, e la cima è più calda del fondo di <span class=\"mono\">ΔT</span>.",
+  "ULE glass": "Vetro ULE",
+  "Silicon": "Silicio",
+  "Heat flux q": "Flusso di calore q",
+  "Thickness H": "Spessore H",
+  "top hotter than bottom by": "cima più calda del fondo di",
+  "With 1.28 W/cm² on the whole top face, 50 mm of this glass would need 489 K between top and bottom.": "Con 1,28 W/cm² su tutta la faccia superiore, 50 mm di questo vetro richiederebbero 489 K tra cima e fondo.",
+  "ULE, 50 mm": "ULE, 50 mm",
+  "Silicon conducts more than a hundred times better: the same flux needs 4.3 K.": "Il silicio conduce oltre cento volte meglio: allo stesso flusso bastano 4,3 K.",
+  "Silicon, 50 mm": "Silicio, 50 mm",
+  "A fifth of the thickness, a fifth of the difference: 97.7 K.": "Un quinto dello spessore, un quinto della differenza: 97,7 K.",
+  "ULE, 10 mm": "ULE, 10 mm",
+  "Temperature rise against depth in the plate, with the heated face on the left and the cooled face on the right.": "Aumento di temperatura in funzione della profondità nella lastra, con la faccia scaldata a sinistra e quella raffreddata a destra.",
+  "<strong>A good material for a mirror is a poor conductor of heat.</strong> ULE is a glass made to have almost no thermal expansion near room temperature: a mirror made of it keeps its shape when its temperature changes a little. Its conductivity, 1.31 W/(m·K), is about a hundred times lower than that of silicon or molybdenum.": "<strong>Un buon materiale per uno specchio è un cattivo conduttore di calore.</strong> L'ULE è un vetro fatto per avere dilatazione termica quasi nulla vicino alla temperatura ambiente: uno specchio fatto con esso mantiene la forma quando la sua temperatura cambia di poco. La sua conducibilità, 1,31 W/(m·K), è circa cento volte più bassa di quella del silicio o del molibdeno.",
+  "The 489 K is not the answer for the mirror. It assumes the peak flux over the whole face, with the heat going straight down. The real spot is small, and around it there is cold glass into which the heat can also spread sideways. The next step lets it.": "I 489 K non sono la risposta per lo specchio. Presuppongono il flusso di picco su tutta la faccia, con il calore che scende dritto. La macchia vera è piccola, e intorno c'è vetro freddo nel quale il calore può allargarsi anche di lato. Il prossimo passo glielo permette.",
+  "Fourier's law is an observed fact about solids: the heat flux is proportional to the slope of the temperature. In a steady state no slice of the plate gains or loses energy, so the same flux crosses every depth. A constant flux means a constant slope, q/k, and over a thickness H that adds up to q·H/k.": "La legge di Fourier è un fatto osservato sui solidi: il flusso di calore è proporzionale alla pendenza della temperatura. A regime nessuna fetta della lastra guadagna o perde energia, quindi lo stesso flusso attraversa ogni profondità. Un flusso costante significa una pendenza costante, q/k, e su uno spessore H questo dà q·H/k.",
+  "A steady state. An even flux over a face much wider than the plate is thick, so that heat flows straight down. A conductivity that does not change with temperature.": "Regime stazionario. Un flusso uniforme su una faccia molto più larga dello spessore della lastra, così il calore scende dritto. Una conducibilità che non cambia con la temperatura.",
+  "q is the heat flux, in W/m². k is the thermal conductivity, in W/(m·K). H is the thickness. ΔT is the temperature of the heated face above the cooled one. The minus sign in Fourier's law says that heat flows towards lower temperature.": "q è il flusso di calore, in W/m². k è la conducibilità termica, in W/(m·K). H è lo spessore. ΔT è la temperatura della faccia scaldata rispetto a quella raffreddata. Il segno meno nella legge di Fourier dice che il calore va verso la temperatura più bassa.",
+  "Units: (W/m²) · m / (W/(m·K)) = K. Numbers: 12,800 W/m² × 0.05 m / 1.31 W/(m·K) = 489 K. Twice the thickness, or half the conductivity, doubles it.": "Unità: (W/m²) · m / (W/(m·K)) = K. Numeri: 12.800 W/m² × 0,05 m / 1,31 W/(m·K) = 489 K. Il doppio dello spessore, o metà della conducibilità, lo raddoppia.",
+  "The mirror of the project is a disc of ULE, 150 mm in radius and 50 mm thick. Its top face receives the Gaussian flux. Its back rests on a cooled plate, idealised as a face held at one fixed temperature. Its side is in vacuum and exchanges almost no heat, so it is treated as insulated. Inside, heat flows both down and sideways.": "Lo specchio del progetto è un disco di ULE, con 150 mm di raggio e 50 mm di spessore. La faccia superiore riceve il flusso gaussiano. Il retro poggia su una piastra raffreddata, idealizzata come una faccia tenuta a una temperatura fissa. Il fianco è nel vuoto e non scambia quasi calore, quindi è trattato come isolato. All'interno il calore fluisce sia in giù sia di lato.",
+  "rise at the centre": "aumento al centro",
+  "at distance w": "a distanza w",
+  "thick-mirror formula": "formula per specchio spesso",
+  "Above: a cut through the disc, drawn to scale, coloured by temperature in ten steps from the cooled back to the hottest point. Below: the temperature rise above the cooled back along the top face, from the centre to the edge. Dashed: the heat flux, scaled to the same height. 25.8% of the light is absorbed.": "Sopra: una sezione del disco, in scala, colorata secondo la temperatura in dieci gradini dal retro raffreddato al punto più caldo. Sotto: l'aumento di temperatura rispetto al retro raffreddato lungo la faccia superiore, dal centro al bordo. Tratteggiato: il flusso di calore, riportato alla stessa altezza. È assorbito il 25,8% della luce.",
+  "The temperature of the last step is as good as what went into it. Four things went in that a real mirror does not fully respect.": "La temperatura del passo precedente vale quanto ciò che vi è entrato. Vi sono entrate quattro cose che uno specchio vero non rispetta del tutto.",
+  "<strong>A steady state.</strong> These are the temperatures the mirror settles to under constant light. Glass this thick takes time to get there. Heat needs a time of order <span class=\"mono\">H²/α</span> to cross a thickness <span class=\"mono\">H</span>, where <span class=\"mono\">α</span> is the thermal diffusivity, the conductivity divided by the heat a cubic metre stores per kelvin. For 50 mm of ULE that is close to an hour.": "<strong>Un regime stazionario.</strong> Queste sono le temperature a cui lo specchio si assesta sotto luce costante. A un vetro così spesso serve tempo per arrivarci. Il calore impiega un tempo dell'ordine di <span class=\"mono\">H²/α</span> per attraversare uno spessore <span class=\"mono\">H</span>, dove <span class=\"mono\">α</span> è la diffusività termica, la conducibilità divisa per il calore che un metro cubo immagazzina per kelvin. Per 50 mm di ULE è quasi un'ora.",
+  "<strong>An ideal cooled back.</strong> A real cooling plate is not at one temperature, and its contact with the glass is not perfect. Both make the real mirror warmer than computed here.": "<strong>Un retro raffreddato ideale.</strong> Una piastra di raffreddamento vera non è a una sola temperatura, e il suo contatto con il vetro non è perfetto. Entrambe le cose rendono lo specchio vero più caldo di quanto calcolato qui.",
+  "<strong>Only the light inside the band.</strong> The 25.8% holds for light of 13.5 nm. Module 5 noted that a real source also emits other wavelengths, and the mirror turns most of those into heat.": "<strong>Solo la luce dentro la banda.</strong> Il 25,8% vale per la luce a 13,5 nm. Il modulo 5 ha notato che una sorgente vera emette anche altre lunghezze d'onda, e lo specchio ne trasforma la maggior parte in calore.",
+  "<strong>A constant conductivity and an insulated side.</strong> The conductivity of the glass changes a little over 150 K. The side of the mirror does lose some heat by radiation, about 1 W against the 18 W that come in.": "<strong>Una conducibilità costante e un fianco isolato.</strong> La conducibilità del vetro cambia un poco su 150 K. Il fianco dello specchio perde in realtà un po' di calore per irraggiamento, circa 1 W contro i 18 W in entrata.",
+  "What comes next in the project follows from the result itself. The glass under the spot is hot and the rest is not, so it expands unevenly and the surface rises where the light falls. A mirror for lithography has to keep its shape to a fraction of a nanometre. How large the bump is, and what it does to the reflected wave, is the mechanical part of the project.": "Ciò che viene dopo nel progetto segue dal risultato stesso. Il vetro sotto la macchia è caldo e il resto no, quindi si dilata in modo disuguale e la superficie si solleva dove cade la luce. Uno specchio per litografia deve mantenere la forma entro una frazione di nanometro. Quanto è grande il rigonfiamento, e cosa fa all'onda riflessa, è la parte meccanica del progetto.",
+  "What to carry forward": "Cosa portarsi dietro",
+  "<strong>q₀ = 2·(1 − R)·P / (π·w²).</strong> Use it for the peak heat flux of a Gaussian spot. It needs the power on that mirror, the spot radius and the reflectance at the wavelength of the light.": "<strong>q₀ = 2·(1 − R)·P / (π·w²).</strong> Usala per il flusso di calore al picco di una macchia gaussiana. Richiede la potenza su quello specchio, il raggio della macchia e la riflettanza alla lunghezza d'onda della luce.",
+  "<strong>ΔT = q·H / k.</strong> Use it when heat flows straight through a plate. For a small spot on a wide mirror it overestimates, because it ignores the spreading sideways.": "<strong>ΔT = q·H / k.</strong> Usala quando il calore attraversa dritto una lastra. Per una macchia piccola su uno specchio largo sovrastima, perché ignora l'allargamento laterale.",
+  "<strong>T = P<sub>abs</sub> / (√(2π)·k·w).</strong> Use it for the hottest point under a Gaussian spot on a body much thicker and wider than the spot. A cooled back close to the surface lowers the result.": "<strong>T = P<sub>abs</sub> / (√(2π)·k·w).</strong> Usala per il punto più caldo sotto una macchia gaussiana su un corpo molto più spesso e largo della macchia. Un retro raffreddato vicino alla superficie abbassa il risultato.",
+  "To retrace the reasoning": "Per riprendere il ragionamento",
+  "Why can the stack be treated as a sheet of heat?": "Perché lo stack si può trattare come un foglio di calore?",
+  "It is 278 nm thick on 50 mm of glass. The temperature difference across it is far below a hundredth of a kelvin, and heat crosses it in far less than a millionth of a second.": "È spesso 278 nm su 50 mm di vetro. La differenza di temperatura attraverso di esso è molto sotto un centesimo di kelvin, e il calore lo attraversa in molto meno di un milionesimo di secondo.",
+  "What does halving the spot radius do, at the same power?": "Cosa fa dimezzare il raggio della macchia, a parità di potenza?",
+  "The peak flux becomes four times larger, because the area is a quarter. The peak temperature of a thick mirror only doubles, because the heat of a smaller spot spreads out over a shorter distance.": "Il flusso al picco diventa quattro volte più grande, perché l'area è un quarto. La temperatura al picco di uno specchio spesso raddoppia soltanto, perché il calore di una macchia più piccola si allarga su una distanza più corta.",
+  "Why is ULE used although it conducts heat poorly?": "Perché si usa l'ULE anche se conduce male il calore?",
+  "Because it barely expands near room temperature, which is what keeps the shape of the mirror. Its conductivity is the price paid for that.": "Perché quasi non si dilata vicino alla temperatura ambiente, ed è questo che mantiene la forma dello specchio. La sua conducibilità è il prezzo che si paga.",
+  "Why is the real mirror cooler than the straight-down estimate?": "Perché lo specchio vero è più freddo della stima con il calore che scende dritto?",
+  "The estimate puts the peak flux on the whole face. The real spot is small, and its heat also spreads sideways into cold glass.": "La stima mette il flusso di picco su tutta la faccia. La macchia vera è piccola, e il suo calore si allarga anche di lato nel vetro freddo.",
+  "What does a rise of about 150 K mean for the glass?": "Cosa significa per il vetro un aumento di circa 150 K?",
+  "The centre of the mirror is far outside the narrow range around room temperature in which ULE barely expands, so the surface rises under the spot.": "Il centro dello specchio è molto fuori dallo stretto intervallo attorno alla temperatura ambiente in cui l'ULE quasi non si dilata, quindi la superficie si solleva sotto la macchia.",
+  "Why the 278 nm stack can be treated as a sheet of heat on the glass.": "Perché lo stack da 278 nm si può trattare come un foglio di calore sul vetro.",
+  "From a stack to a sheet of heat": "Da uno stack a un foglio di calore",
+  "A thermal calculation needs a heat source: how much power, and where it is released. Module 5 gave both answers in the language of optics. This step puts them in the form a heat calculation uses, and makes the simplification that everything after it relies on.": "A un calcolo termico serve una sorgente di calore: quanta potenza, e dove viene rilasciata. Il modulo 5 ha dato entrambe le risposte nel linguaggio dell'ottica. Questo passo le mette nella forma che usa un calcolo termico, e fa la semplificazione su cui si appoggia tutto ciò che segue.",
+  "The heat flux of a Gaussian spot. Experiment: power, spot radius and fraction absorbed.": "Il flusso di calore di una macchia gaussiana. Esperimento: potenza, raggio della macchia e frazione assorbita.",
+  "The light arrives as a spot": "La luce arriva come una macchia",
+  "The flux is not the same everywhere: a beam is brighter at its centre. It is the peak of the flux, more than the total power, that decides how hot the hottest point gets. This step gives the beam a shape and finds that peak.": "Il flusso non è uguale ovunque: un fascio è più luminoso al centro. È il picco del flusso, più della potenza totale, a decidere quanto si scalda il punto più caldo. Questo passo dà una forma al fascio e trova quel picco.",
+  "Fourier's law and the conductivity of mirror glass. Experiment: flux through a plate of ULE or silicon.": "La legge di Fourier e la conducibilità del vetro per specchi. Esperimento: flusso attraverso una lastra di ULE o di silicio.",
+  "Heat flows down a temperature slope": "Il calore scende lungo una pendenza di temperatura",
+  "A heat flux is not yet a temperature. What links the two is how well the material conducts heat. This step introduces that property in the simplest geometry there is, and meets the awkward number of this project: the conductivity of the glass a mirror is made of.": "Un flusso di calore non è ancora una temperatura. A legare i due è quanto bene il materiale conduce il calore. Questo passo introduce quella proprietà nella geometria più semplice che esista, e incontra il numero scomodo di questo progetto: la conducibilità del vetro di cui è fatto uno specchio.",
+  "The temperature inside a disc of glass cooled from behind. Experiment: power, spot, thickness and material.": "La temperatura dentro un disco di vetro raffreddato da dietro. Esperimento: potenza, macchia, spessore e materiale.",
+  "The temperature of the real mirror": "La temperatura dello specchio vero",
+  "Now the three pieces meet: the Gaussian spot, the conductivity of the glass, and the real shape of the mirror, a disc cooled from behind. The result is the number the mechanical part of the project starts from.": "Ora i tre pezzi si incontrano: la macchia gaussiana, la conducibilità del vetro, e la forma vera dello specchio, un disco raffreddato da dietro. Il risultato è il numero da cui parte la parte meccanica del progetto.",
+  "What the temperature assumes, what to carry forward, and a list to check your own reasoning.": "Cosa presuppone la temperatura, cosa portarsi dietro, e un elenco per controllare il proprio ragionamento.",
+  "What this number assumes, and what comes next": "Cosa presuppone questo numero, e cosa viene dopo",
+  "A temperature is the hand-over point of the project: optics before it, mechanics after. This step states what went into it, so that it can be trusted for what it is, and says where the chain goes next.": "Una temperatura è il punto di consegna del progetto: prima l'ottica, dopo la meccanica. Questo passo dice cosa vi è entrato, così che ci si possa fidare di essa per quello che è, e dice dove prosegue la catena.",
+  "of the peak flux": "del flusso al picco",
+  "distance from the centre (mm)": "distanza dal centro (mm)",
+  "depth (mm)": "profondità (mm)",
+  "Next: the mechanical part of the project, deformation and wavefront error. In preparation.": "Prossimo: la parte meccanica del progetto, deformazione ed errore del fronte d'onda. In preparazione.",
+  "The centre of the spot is 154 K above the cooled back, and still 57.3 K at the distance w. The thick-mirror formula would say 183 K.": "Il centro della macchia è 154 K sopra il retro raffreddato, e ancora 57,3 K alla distanza w. La formula per specchio spesso direbbe 183 K.",
+  "The project's mirror": "Lo specchio del progetto",
+  "The peak flux is a quarter of what it was, and the temperature falls to 64.1 K, less than half.": "Il flusso al picco è un quarto di prima, e la temperatura scende a 64,1 K, meno della metà.",
+  "Spot twice as wide": "Macchia larga il doppio",
+  "With the cooled back closer to the surface, the centre falls to 117 K.": "Con il retro raffreddato più vicino alla superficie, il centro scende a 117 K.",
+  "Thinner: 20 mm": "Più sottile: 20 mm",
+  "The same disc in silicon stays within 1.3 K. Silicon is not the easy answer, though: it expands far more than this glass when its temperature changes.": "Lo stesso disco in silicio resta entro 1,3 K. Il silicio però non è la risposta facile: si dilata molto più di questo vetro quando la sua temperatura cambia.",
+  "<strong>154 K above the cooled back, in a glass chosen to stay within a few kelvin of room temperature.</strong> That is the result of this module, and the starting point of the mechanical part of the project.": "<strong>154 K sopra il retro raffreddato, in un vetro scelto per restare entro pochi kelvin dalla temperatura ambiente.</strong> È il risultato di questo modulo, e il punto di partenza della parte meccanica del progetto.",
+  "Compare it with the last step. Heat going straight down gave 489 K. Letting it spread sideways brings that to 154 K. The surface is warm well outside the lit area: at the distance <span class=\"mono\">w</span>, where the flux is down to 13.5% of its peak, the temperature is still 37% of its peak.": "Confrontalo con il passo precedente. Con il calore che scende dritto si avevano 489 K. Lasciandolo allargare di lato si arriva a 154 K. La superficie è calda ben oltre la zona illuminata: alla distanza <span class=\"mono\">w</span>, dove il flusso è sceso al 13,5% del picco, la temperatura è ancora il 37% del suo picco.",
+  "For a mirror much thicker and wider than the spot there is an exact formula, shown in the card below, which gives 183 K here. The cooled back, 50 mm down, takes about a sixth off that.": "Per uno specchio molto più spesso e largo della macchia c'è una formula esatta, mostrata nella scheda qui sotto, che qui dà 183 K. Il retro raffreddato, 50 mm più sotto, ne toglie circa un sesto.",
+  "The formula also shows what counts. At a given absorbed power the temperature goes as <span class=\"mono\">1/w</span> and as <span class=\"mono\">1/k</span>. A spot twice as wide has a quarter of the peak flux, yet the formula only halves the temperature, because the heat of a wider spot has further to go before it can spread. In the disc of the experiment it falls a little more, to 64 K, because the cooled back helps a wide spot more.": "La formula mostra anche cosa conta. A parità di potenza assorbita la temperatura va come <span class=\"mono\">1/w</span> e come <span class=\"mono\">1/k</span>. Una macchia larga il doppio ha un quarto del flusso al picco, eppure la formula dimezza soltanto la temperatura, perché il calore di una macchia più larga deve fare più strada prima di potersi allargare. Nel disco dell'esperimento scende un po' di più, a 64 K, perché il retro raffreddato aiuta di più una macchia larga.",
+  "With the 24.7% of the project's own calculation, which counts the layers alone, the same disc gives 147 K. That is the value the project finds with a finite-element model. The experiment here adds up the exact solution for a disc instead, and the two agree to about one part in a thousand.": "Con il 24,7% del calcolo del progetto, che conta i soli strati, lo stesso disco dà 147 K. È il valore che il progetto trova con un modello agli elementi finiti. L'esperimento qui somma invece la soluzione esatta per un disco, e i due concordano entro circa una parte su mille.",
+  "Why it matters. The mirror sits at about 22 °C, and ULE barely expands only within a few kelvin of that. A rise of 154 K puts the centre of the spot near 175 °C, far outside that range, and this is with an ideal cooling plate. A better conductor is not the easy answer: the same disc in silicon would warm by 1.3 K, but silicon expands with temperature roughly a hundred times more than this glass does near room temperature.": "Perché conta. Lo specchio sta a circa 22 °C, e l'ULE quasi non si dilata solo entro pochi kelvin da lì. Un aumento di 154 K porta il centro della macchia vicino a 175 °C, molto fuori da quell'intervallo, e questo con una piastra di raffreddamento ideale. Un conduttore migliore non è la risposta facile: lo stesso disco in silicio si scalderebbe di 1,3 K, ma il silicio si dilata con la temperatura circa cento volte più di quanto faccia questo vetro vicino alla temperatura ambiente.",
+  "Inside the glass two facts hold at every point: Fourier's law, and conservation of energy, which in a steady state says that as much heat leaves any small volume as enters it. For a Gaussian flux on a body much thicker and wider than the spot the two can be solved exactly, a classic result of heat conduction (Carslaw and Jaeger): T = q₀·w·√(π/8)/k. Writing q₀ as 2·P<sub>abs</sub>/(π·w²) gives the form above.": "Dentro il vetro valgono in ogni punto due fatti: la legge di Fourier, e la conservazione dell'energia, che a regime dice che da ogni piccolo volume esce tanto calore quanto ne entra. Per un flusso gaussiano su un corpo molto più spesso e largo della macchia i due si risolvono esattamente, un risultato classico della conduzione del calore (Carslaw e Jaeger): T = q₀·w·√(π/8)/k. Scrivendo q₀ come 2·P<sub>abs</sub>/(π·w²) si ottiene la forma qui sopra.",
+  "A steady state, a constant conductivity, heat entering only through the top face. The formula needs a body much larger than the spot. The experiment does not: it solves the disc of the stated radius and thickness, with insulated side and cooled back, by adding up 60 circular patterns of heat flow, each of which fades with depth in a known way.": "Regime stazionario, conducibilità costante, calore che entra solo dalla faccia superiore. La formula richiede un corpo molto più grande della macchia. L'esperimento no: risolve il disco con il raggio e lo spessore indicati, con fianco isolato e retro raffreddato, sommando 60 configurazioni circolari del flusso di calore, ciascuna delle quali si attenua con la profondità in modo noto.",
+  "P<sub>abs</sub> = (1 − R)·P is the absorbed power. k is the conductivity. w is the spot radius. T is the temperature of the hottest point above the temperature far from the spot; in the experiment, above the cooled back.": "P<sub>abs</sub> = (1 − R)·P è la potenza assorbita. k è la conducibilità. w è il raggio della macchia. T è la temperatura del punto più caldo rispetto a quella lontano dalla macchia; nell'esperimento, rispetto al retro raffreddato.",
+  "18.06 W / (2.507 × 1.31 W/(m·K) × 0.03 m) = 183 K. In the experiment a thicker disc moves towards this value: 170 K at 100 mm. A thinner one moves away from it: 117 K at 20 mm.": "18,06 W / (2,507 × 1,31 W/(m·K) × 0,03 m) = 183 K. Nell'esperimento un disco più spesso si avvicina a questo valore: 170 K a 100 mm. Uno più sottile se ne allontana: 117 K a 20 mm."
+});
+
+startLesson({
+  n: 6,
+  key: "euv-module-6",
+  open: true,   // one view, nothing to complete: see lesson.js
+  next: "Next: the mechanical part of the project, deformation and wavefront error. In preparation.",
+  setup() {
+    const K = v => (v >= 100 ? fmt(v, 0) : fmt(v, 1)) + " K", RAD = 150;
+    // Tick marks for an axis from 0 to about v: four or five round steps.
+    const ticks = v => { const p = Math.pow(10, Math.floor(Math.log10(v))), u = [1, 2, 2.5, 5, 10].map(m => m * p / 2).find(s => v / s <= 5), n = Math.ceil(v / u - 1e-9); return Array.from({ length: n + 1 }, (_, i) => +(i * u).toPrecision(6)); };
+    const rgb = v => { const h = css(v).replace("#", ""); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); };
+    // Colour for a fraction f of the hottest temperature: surface colour, then orange, then red.
+    const heat = f => { const a = rgb("--surface"), b = rgb("--si"), c = rgb("--bad"), [x, y, u] = f < .5 ? [a, b, f * 2] : [b, c, f * 2 - 2 + 1]; return "rgb(" + x.map((v, i) => Math.round(v + (y[i] - v) * u)).join(",") + ")"; };
+
+    /* ---------- the Gaussian spot ---------- */
+    draws.spot = () => {
+      const P = +$("s-P6").value, w = +$("s-w6").value, A = +$("s-A6").value / 100, q0 = A * 2 * P / (Math.PI * w * w * 1e-6) / 1e4;   // W/cm²
+      $("o-P6").textContent = P + " W"; $("o-w6").textContent = w + " mm"; $("o-A6").textContent = pct(A, 1);
+      $("r-q0").textContent = fmt(q0, 2) + " W/cm²"; $("r-Pa").textContent = fmt(A * P, 1) + " W"; $("r-r99").textContent = fmt(w * Math.sqrt(Math.log(100) / 2), 1) + " mm";
+      const { ctx, w: cw, h } = prep($("c-top")), cx = cw / 2, cy = h / 2, r = h / 2 - 4, s = r / RAD;
+      // Brightness follows the flux compared with the highest the sliders can give at this power.
+      const top = Math.min(1, Math.sqrt(q0 / 5));
+      ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.clip(); ctx.fillStyle = css("--surface"); ctx.fillRect(0, 0, cw, h);
+      for (let i = 40; i >= 1; i--) { const rr = i / 40 * 2 * w; ctx.fillStyle = heat(top * Math.exp(-2 * rr * rr / (w * w))); ctx.beginPath(); ctx.arc(cx, cy, rr * s, 0, 7); ctx.fill(); }
+      ctx.restore(); ctx.strokeStyle = css("--line"); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.stroke();
+      ctx.strokeStyle = css("--ink"); ctx.setLineDash([3, 4]); ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(cx, cy, w * s, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+      ctx.font = "11px " + css("--mono"); ctx.fillStyle = css("--muted"); ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText("w", cx + w * s + 5, cy);
+      const pts = []; for (let x = 0; x <= RAD; x += 1) pts.push([x, q0 * Math.exp(-2 * x * x / (w * w))]);
+      const yt = ticks(q0 * 1.05);
+      plot($("c-q"), { x: [0, RAD], y: [0, yt[yt.length - 1]], xt: [0, 50, 100, 150], yt, yf: v => loc(v), vline: w, xlabel: t("distance from the centre (mm)"), series: [{ pts, color: css("--bad") }], marks: [{ x: 0, y: q0, color: css("--bad") }] });
+    };
+    ["s-P6", "s-w6", "s-A6"].forEach(id => $(id).oninput = draws.spot);
+
+    /* ---------- conduction straight through a plate ---------- */
+    let kk = 1.31;
+    draws.conduct = () => {
+      const q = +$("s-qk").value * 1e4, H = +$("s-Hk").value, dT = q * H / 1000 / kk;
+      $("o-qk").textContent = fmt(q / 1e4, 2) + " W/cm²"; $("o-Hk").textContent = H + " mm"; $("r-dT").textContent = K(dT); $("r-k").textContent = loc(kk) + " W/(m·K)";
+      const yt = ticks(Math.max(dT, 5) * 1.05);
+      plot($("c-slab"), { x: [0, 100], y: [0, yt[yt.length - 1]], xt: [0, 25, 50, 75, 100], yt, yf: v => loc(v) + " K", vline: H, xlabel: t("depth (mm)"),
+        bands: [{ x0: 0, x1: H, color: css("--muted") }], series: [{ pts: [[0, dT], [H, 0]], color: css("--bad") }], marks: [{ x: 0, y: dT, color: css("--bad") }] });
+    };
+    $("s-qk").oninput = $("s-Hk").oninput = draws.conduct;
+    toggle("t-mk", d => { kk = +d.k; draws.conduct(); });
+
+    /* ---------- the disc cooled from behind ---------- */
+    let km = 1.31;
+    draws.mirror = () => {
+      const P = +$("s-Pm").value, w = +$("s-wm").value / 1000, H = +$("s-Hm").value / 1000, R = RAD / 1000, Pa = 0.258 * P, q0 = 2 * Pa / (Math.PI * w * w);
+      const T = discSolver(q0, w, R, H, km), Tp = T(0, 0);
+      $("o-Pm").textContent = P + " W"; $("o-wm").textContent = fmt(w * 1000, 0) + " mm"; $("o-Hm").textContent = fmt(H * 1000, 0) + " mm";
+      $("r-Tp").textContent = K(Tp); $("r-Tw").textContent = K(T(w, 0)); $("r-Th").textContent = K(Pa / (Math.sqrt(2 * Math.PI) * km * w));
+      // Cut through the disc, to scale: 300 mm across the canvas, the cooled plate drawn under it.
+      const { ctx, w: cw, h } = prep($("c-map")), s = cw / (2 * RAD), nx = 48, nz = 16, dx = cw / 2 / nx, hz = H * 1000 * s, dz = hz / nz;
+      for (let i = 0; i < nx; i++) for (let j = 0; j < nz; j++) {
+        const f = Math.max(0, T((i + .5) / nx * R, (j + .5) / nz * H) / Tp);
+        ctx.fillStyle = heat(Math.ceil(f * 10) / 10); ctx.fillRect(cw / 2 + i * dx, j * dz, dx + .6, dz + .6); ctx.fillRect(cw / 2 - (i + 1) * dx, j * dz, dx + .6, dz + .6);
+      }
+      ctx.strokeStyle = css("--line"); ctx.lineWidth = 1; ctx.strokeRect(.5, .5, cw - 1, hz);
+      ctx.fillStyle = css("--mo"); ctx.globalAlpha = .55; ctx.fillRect(0, hz + 1, cw, 7); ctx.globalAlpha = 1;
+      const pts = [], fl = []; for (let x = 0; x <= RAD; x += 2) { pts.push([x, T(x / 1000, 0)]); fl.push([x, Tp * Math.exp(-2 * x * x / (w * w * 1e6))]); }
+      const yt = ticks(Math.max(Tp, 1) * 1.05);
+      plot($("c-Ts"), { x: [0, RAD], y: [0, yt[yt.length - 1]], xt: [0, 50, 100, 150], yt, yf: v => loc(v) + " K", vline: w * 1000, xlabel: t("distance from the centre (mm)"),
+        series: [{ pts: fl, color: css("--muted"), dash: [5, 4], width: 1.4 }, { pts, color: css("--bad") }], marks: [{ x: 0, y: Tp, color: css("--bad") }] });
+    };
+    ["s-Pm", "s-wm", "s-Hm"].forEach(id => $(id).oninput = draws.mirror);
+    toggle("t-mm", d => { km = +d.k; draws.mirror(); });
+  }
+});
+</script>
+</body>
+</html>
