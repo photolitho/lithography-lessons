@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lithography Lessons</title>
-<meta name="description" content="Interactive lessons on the physics of EUV lithography mirrors.">
+<meta name="description" content="Interactive lessons on an EUV multilayer mirror: from the reflection of one surface to the heat it absorbs and its temperature.">
 <meta name="theme-color" content="#F2F4F9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0E1220" media="(prefers-color-scheme: dark)">
 <meta name="mobile-web-app-capable" content="yes">
@@ -43,64 +43,260 @@
 
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; }
-main { max-width: 720px; margin: 0 auto; padding: calc(40px + env(safe-area-inset-top, 0px)) 16px calc(40px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 22px; }
+main { max-width: 720px; margin: 0 auto; padding: calc(28px + env(safe-area-inset-top, 0px)) 16px calc(48px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 22px; }
+main > * { min-width: 0; }
 .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
 .lang button { font: 500 11px var(--mono); border: 0; background: none; color: var(--muted); padding: 3px 8px; border-radius: 999px; cursor: pointer; }
 .lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .eyebrow { font: 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 h1 { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 6vw, 42px); line-height: 1.08; margin: 0; text-wrap: balance; }
-p { margin: 0; max-width: 60ch; }
-.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-.mod { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; padding: 18px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; }
+h2 { font-family: var(--display); font-weight: 700; font-size: clamp(22px, 4.4vw, 28px); line-height: 1.15; margin: 18px 0 0; text-wrap: balance; }
+p { margin: 0; max-width: 62ch; }
+.lead { font-size: 19px; }
+.jump { display: flex; flex-wrap: wrap; gap: 8px; }
+.jump a { font: 500 14px var(--mono); color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 7px 13px; text-decoration: none; }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+figure svg { display: block; width: 100%; max-width: 440px; height: auto; margin: 0 auto; }
+figcaption { font-size: 13px; color: var(--muted); font-family: var(--mono); }
+svg text { font: 500 12px var(--mono); fill: var(--ink); }
+svg text.dim { fill: var(--muted); font-weight: 400; }
+svg text.num { font-size: 11.5px; }
+svg text.tmo { fill: var(--mo); } svg text.tsi { fill: var(--si); }
+svg .beam { stroke: var(--accent); stroke-linecap: round; }
+svg .src { fill: var(--accent); }
+svg .mir { stroke: var(--ink); stroke-width: 5; stroke-linecap: round; }
+svg .heat, svg .hot { fill: var(--bad); }
+svg .heat { opacity: .8; }
+svg .wafer { fill: var(--muted); }
+svg .glass { fill: var(--bg); stroke: var(--line); }
+svg .cool { fill: var(--mo); opacity: .6; }
+svg .mo { fill: var(--mo); opacity: .75; } svg .si { fill: var(--si); opacity: .75; }
+svg .zoom, svg .panel { fill: none; stroke: var(--muted); stroke-width: 1; }
+svg .zl { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 4; }
+svg .brace { fill: none; stroke: var(--ink); stroke-width: 1.2; }
+.part { font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-top: 6px; }
+.list { list-style: none; margin: 0; padding: 0 0 0 14px; display: flex; flex-direction: column; gap: 10px; border-left: 2px solid var(--line); }
+.mod { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; padding: 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; }
 a.mod:hover { border-color: var(--accent); }
-.mod .n { grid-row: span 2; font: 500 15px var(--mono); color: var(--accent); padding-top: 3px; }
+.mod .n { grid-row: span 3; font: 500 15px var(--mono); color: var(--accent); padding-top: 3px; }
 .mod b { font-family: var(--display); font-weight: 500; font-size: 20px; line-height: 1.2; }
-.mod span { color: var(--muted); font-size: 15px; }
+.mod .what { color: var(--muted); font-size: 15px; }
+.mod .key { font-size: 14px; font-family: var(--mono); color: var(--muted); }
+.mod .key strong { font: 700 20px var(--display); color: var(--ink); margin-right: 4px; }
+.mod .key em { font-style: normal; }
 .mod.soon { background: transparent; border-style: dashed; }
 .mod.soon .n, .mod.soon b { color: var(--muted); }
+.how { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; max-width: 62ch; }
 .foot { font-size: 13px; color: var(--muted); }
-.foot a { color: inherit; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 </style>
 </head>
 <body>
 <main>
   <div class="bar"><div class="eyebrow">Lithography Lessons</div><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
-  <h1>How an EUV mirror works, one experiment at a time</h1>
-  <p>Short interactive lessons on the Mo/Si multilayer mirrors used in EUV lithography. Each module answers one question, with sliders to move and a goal to reach.</p>
+  <h1>An EUV mirror, from its first surface to its temperature</h1>
+  <p class="lead">The most advanced chips are printed with light of 13.5 nm. No material is transparent to it, so the machine that prints them steers the light with mirrors only. Each mirror returns about three quarters of the light and keeps the rest as heat.</p>
+  <p>This project follows one such mirror all the way: why a single surface reflects almost nothing, how 40 pairs of thin layers bring that to 74%, where the remaining light ends up, and how hot it makes the glass. Each idea comes with the reason it is there, an experiment to move with your hands, a full explanation and the formulas with their origin.</p>
+  <div class="jump"><a href="#map">See the modules</a><a href="module-1.html">Start from module 1</a></div>
+  <h2>The problem in one picture</h2>
+  <p>Between the source and the wafer the light meets a chain of mirrors. With the ideal mirror of these lessons, which reflects 74.2%, ten reflections leave 5% of the light. Everything else has become heat in the mirrors, most of it in the first ones.</p>
+  <figure>
+    <svg viewBox="0 0 360 430" role="img" aria-labelledby="f1t"><title id="f1t">Light bouncing along ten mirrors, weaker after each one, with the heat left in each mirror.</title>
+    <line class="beam" x1="84" y1="46" x2="276" y2="77" stroke-width="9.2" opacity="1.00"/>
+    <line class="beam" x1="276" y1="77" x2="84" y2="108" stroke-width="7.1" opacity="0.83"/>
+    <line class="beam" x1="84" y1="108" x2="276" y2="139" stroke-width="5.6" opacity="0.71"/>
+    <line class="beam" x1="276" y1="139" x2="84" y2="170" stroke-width="4.5" opacity="0.62"/>
+    <line class="beam" x1="84" y1="170" x2="276" y2="201" stroke-width="3.6" opacity="0.55"/>
+    <line class="beam" x1="276" y1="201" x2="84" y2="232" stroke-width="3.0" opacity="0.50"/>
+    <line class="beam" x1="84" y1="232" x2="276" y2="263" stroke-width="2.5" opacity="0.46"/>
+    <line class="beam" x1="276" y1="263" x2="84" y2="294" stroke-width="2.2" opacity="0.43"/>
+    <line class="beam" x1="84" y1="294" x2="276" y2="325" stroke-width="1.9" opacity="0.41"/>
+    <line class="beam" x1="276" y1="325" x2="84" y2="356" stroke-width="1.7" opacity="0.39"/>
+    <line class="beam" x1="84" y1="356" x2="276" y2="387" stroke-width="1.6" opacity="0.38"/>
+    <circle class="src" cx="84" cy="46" r="9"/>
+    <text x="84" y="24" text-anchor="middle">source: 100%</text>
+    <line class="mir" x1="280" y1="65" x2="280" y2="89"/>
+    <circle class="heat" cx="298" cy="77" r="11.0"/>
+    <text class="num" x="316" y="81" text-anchor="start">74%</text>
+    <line class="mir" x1="80" y1="96" x2="80" y2="120"/>
+    <circle class="heat" cx="62" cy="108" r="9.8"/>
+    <text class="num" x="44" y="112" text-anchor="end">55%</text>
+    <line class="mir" x1="280" y1="127" x2="280" y2="151"/>
+    <circle class="heat" cx="298" cy="139" r="8.7"/>
+    <text class="num" x="316" y="143" text-anchor="start">41%</text>
+    <line class="mir" x1="80" y1="158" x2="80" y2="182"/>
+    <circle class="heat" cx="62" cy="170" r="7.8"/>
+    <text class="num" x="44" y="174" text-anchor="end">30%</text>
+    <line class="mir" x1="280" y1="189" x2="280" y2="213"/>
+    <circle class="heat" cx="298" cy="201" r="7.0"/>
+    <text class="num" x="316" y="205" text-anchor="start">22%</text>
+    <line class="mir" x1="80" y1="220" x2="80" y2="244"/>
+    <circle class="heat" cx="62" cy="232" r="6.3"/>
+    <text class="num" x="44" y="236" text-anchor="end">17%</text>
+    <line class="mir" x1="280" y1="251" x2="280" y2="275"/>
+    <circle class="heat" cx="298" cy="263" r="5.7"/>
+    <text class="num" x="316" y="267" text-anchor="start">12%</text>
+    <line class="mir" x1="80" y1="282" x2="80" y2="306"/>
+    <circle class="heat" cx="62" cy="294" r="5.2"/>
+    <text class="num" x="44" y="298" text-anchor="end">9%</text>
+    <line class="mir" x1="280" y1="313" x2="280" y2="337"/>
+    <circle class="heat" cx="298" cy="325" r="4.7"/>
+    <text class="num" x="316" y="329" text-anchor="start">7%</text>
+    <line class="mir" x1="80" y1="344" x2="80" y2="368"/>
+    <circle class="heat" cx="62" cy="356" r="4.3"/>
+    <text class="num" x="44" y="360" text-anchor="end">5%</text>
+    <rect class="wafer" x="246" y="389" width="60" height="8" rx="2"/>
+    <text x="276" y="413" text-anchor="middle">wafer</text>
+    </svg>
+    <figcaption>A schematic chain of ten mirrors, not the layout of a real machine. Line thickness: the light still travelling. Numbers: the light left after each mirror. Red discs: the heat left in each mirror.</figcaption>
+  </figure>
+  <p>Two questions follow, and they organise the whole project. How can a mirror reflect as much as 74% of a light that every material absorbs? And what does the quarter it keeps do to it?</p>
+  <h2>What the mirror is</h2>
+  <p>A thick disc of glass carries, on its surface, 40 pairs of layers: molybdenum, which reflects, and silicon, which keeps the molybdenum layers at the right distance. Each layer is a few nanometres thick, a few tens of atoms. The light is reflected a little at every boundary, and the thicknesses are chosen so that all those small reflections add up.</p>
+  <figure>
+    <svg viewBox="0 0 360 500" role="img" aria-labelledby="f2t"><title id="f2t">A disc of glass on a cooled plate, with a magnified view of the 40 pairs of layers on its surface.</title>
+    <defs><clipPath id="gl"><rect x="30" y="92" width="300" height="54"/></clipPath></defs>
+    <rect class="glass" x="30" y="92" width="300" height="54"/>
+    <ellipse class="hot" cx="180" cy="92" rx="95" ry="46" opacity="0.22" clip-path="url(#gl)"/>
+    <ellipse class="hot" cx="180" cy="92" rx="62" ry="30" opacity="0.3" clip-path="url(#gl)"/>
+    <ellipse class="hot" cx="180" cy="92" rx="34" ry="16" opacity="0.45" clip-path="url(#gl)"/>
+    <rect class="cool" x="30" y="147" width="300" height="9"/>
+    <line class="beam" x1="132" y1="14" x2="178" y2="90" stroke-width="7"/><line class="beam" x1="182" y1="90" x2="228" y2="14" stroke-width="5.2" opacity=".85"/>
+    <text x="122" y="26" text-anchor="end">light, 100%</text>
+    <text x="238" y="26">74% comes back</text>
+    <text x="326" y="140" text-anchor="end">26% stays as heat</text>
+    <text class="dim" x="34" y="140">glass, 50 mm</text>
+    <text class="dim" x="180" y="172" text-anchor="middle">cooled plate · the disc is 300 mm across</text>
+    <rect class="zoom" x="174" y="86" width="12" height="9"/><line class="zl" x1="174" y1="95" x2="40" y2="206"/><line class="zl" x1="186" y1="95" x2="190" y2="206"/>
+    <rect class="panel" x="40" y="206" width="150" height="264"/>
+    <text class="dim" x="115" y="226" text-anchor="middle">vacuum</text>
+    <rect class="mo" x="40" y="236" width="150" height="11"/><rect class="si" x="40" y="247" width="150" height="17"/>
+    <rect class="mo" x="40" y="264" width="150" height="11"/><rect class="si" x="40" y="275" width="150" height="17"/>
+    <rect class="mo" x="40" y="292" width="150" height="11"/><rect class="si" x="40" y="303" width="150" height="17"/>
+    <rect class="mo" x="40" y="320" width="150" height="11"/><rect class="si" x="40" y="331" width="150" height="17"/>
+    <rect class="mo" x="40" y="348" width="150" height="11"/><rect class="si" x="40" y="359" width="150" height="17"/>
+    <rect class="mo" x="40" y="376" width="150" height="11"/><rect class="si" x="40" y="387" width="150" height="17"/>
+    <text class="dim" x="115" y="420" text-anchor="middle">⋮</text>
+    <rect class="glass" x="40" y="430" width="150" height="40"/>
+    <text class="dim" x="115" y="450" text-anchor="middle">glass</text>
+    <text x="200" y="245" class="tmo">molybdenum 2.78 nm</text><text x="200" y="262" class="tsi">silicon 4.17 nm</text>
+    <path class="brace" d="M196 292 h8 v28 h-8"/><text x="210" y="303">one pair:</text><text x="210" y="318">6.95 nm</text>
+    <text x="200" y="366">40 pairs in all:</text><text x="200" y="381">278 nm</text>
+    <text class="dim" x="200" y="420">180,000 times</text><text class="dim" x="200" y="435">thinner than</text><text class="dim" x="200" y="450">the glass</text>
+    </svg>
+    <figcaption>Above: the mirror cut through, with the spot of light and the heat it leaves. Below: the surface magnified. The layers are drawn far thicker than they are: the real stack would be invisible at the scale of the glass.</figcaption>
+  </figure>
+  <h2 id="map">The structure of the project</h2>
+  <p>The modules form one chain: each starts from the number the one before it produced, shown here under its title. They can be read in order or opened where you need them.</p>
+  <div class="part">Part 1 · The optics: how much light comes back</div>
   <ul class="list">
-    <li><a class="mod" href="module-1.html"><span class="n">1</span><b>How much EUV light does a single surface reflect?</b><span>Refractive index, absorption, Fresnel reflection. Twelve steps, nine experiments.</span></a></li>
-    <li><a class="mod" href="module-2.html"><span class="n">2</span><b>What do two surfaces close together do?</b><span>Interference, the phase a layer adds, the Airy formula. Seven steps, five experiments.</span></a></li>
-    <li><a class="mod" href="module-3.html"><span class="n">3</span><b>How do 80 weak surfaces make a 74% mirror?</b><span>The Bragg condition, saturation, the transfer-matrix method. Seven steps, four experiments.</span></a></li>
-    <li><a class="mod" href="module-4.html"><span class="n">4</span><b>How narrow is the peak, and what moves it?</b><span>Bandwidth, period, angle, the share of molybdenum. Six steps, four experiments.</span></a></li>
-    <li><a class="mod" href="module-5.html"><span class="n">5</span><b>Where does the light that does not come back go?</b><span>The standing wave, the field inside the stack, absorption and heat. Six steps, four experiments.</span></a></li>
+    <li><a class="mod" href="module-1.html"><span class="n">1</span><b>How much EUV light does a single surface reflect?</b><span class="what">Refractive index, absorption, the Fresnel formula.</span><span class="key"><strong>0.16%</strong> <em>one surface reflects</em></span></a></li>
+    <li><a class="mod" href="module-2.html"><span class="n">2</span><b>What do two surfaces close together do?</b><span class="what">Interference, the phase a layer adds, the Airy formula.</span><span class="key"><strong>0.61%</strong> <em>one film reflects</em></span></a></li>
+    <li><a class="mod" href="module-3.html"><span class="n">3</span><b>How do 80 weak surfaces make a 74% mirror?</b><span class="what">The Bragg condition, saturation, the transfer-matrix method.</span><span class="key"><strong>74.2%</strong> <em>forty pairs reflect</em></span></a></li>
+    <li><a class="mod" href="module-4.html"><span class="n">4</span><b>How narrow is the peak, and what moves it?</b><span class="what">Bandwidth, period, angle, the share of molybdenum.</span><span class="key"><strong>0.64 nm</strong> <em>width of the peak</em></span></a></li>
   </ul>
-  <p class="foot">Optical constants from the CXRO database (Henke, Gullikson, Davis; Lawrence Berkeley National Laboratory).</p>
+  <div class="part">Part 2 · The energy: where the rest goes</div>
+  <ul class="list">
+    <li><a class="mod" href="module-5.html"><span class="n">5</span><b>Where does the light that does not come back go?</b><span class="what">The standing wave, the field inside the stack, absorption.</span><span class="key"><strong>25.8%</strong> <em>ends as heat</em></span></a></li>
+    <li><a class="mod" href="module-6.html"><span class="n">6</span><b>How hot does the mirror get?</b><span class="what">Heat flux, conduction, the temperature of a cooled disc.</span><span class="key"><strong>154 K</strong> <em>above the cooled back</em></span></a></li>
+  </ul>
+  <div class="part">Part 3 · The mechanics: what the heat does</div>
+  <ul class="list">
+    <li><div class="mod soon"><span class="n">7</span><b>How much does the hot surface move?</b><span class="what">Thermal expansion, the bump under the spot, the error it puts on the reflected wave.</span><span class="key"><em>In preparation.</em></span></div></li>
+    <li><div class="mod soon"><span class="n">8</span><b>How should the mirror be cooled?</b><span class="what">Cooling from the back, from the edge, through channels in the glass.</span><span class="key"><em>In preparation.</em></span></div></li>
+  </ul>
+  <h2>How each module is made</h2>
+  <ul class="how">
+    <li><strong>An index of ideas.</strong> Every module opens on the list of its ideas, each with a line on what it explains and which experiment it holds. Any of them can be opened directly.</li>
+    <li><strong>Why here.</strong> Each idea begins by saying why it comes at that point: what it builds on and what will use it later.</li>
+    <li><strong>An experiment.</strong> Sliders and graphs to move, with a few presets marked Try that set a telling case and say what to look at.</li>
+    <li><strong>The explanation and the formula card.</strong> What the experiment shows and why, then each formula with where it comes from, what it assumes, what its terms mean and a check you can do yourself.</li>
+    <li><strong>No tests.</strong> Nothing has to be answered or completed. The last idea of each module ends with a short list of questions for retracing the reasoning on your own.</li>
+  </ul>
+  <p class="foot">All numbers are computed in the page for an ideal mirror: 40 pairs with perfectly sharp, smooth boundaries, at 13.5 nm and 6° from perpendicular. Real mirrors reflect somewhat less. Optical constants from the CXRO database (Henke, Gullikson, Davis; Lawrence Berkeley National Laboratory).</p>
 </main>
 <script>
 // Italian strings keyed by their English source; the choice is shared with the lesson pages.
 const IT = {
-  "How an EUV mirror works, one experiment at a time": "Come funziona uno specchio EUV, un esperimento alla volta",
-  "Short interactive lessons on the Mo/Si multilayer mirrors used in EUV lithography. Each module answers one question, with sliders to move and a goal to reach.": "Brevi lezioni interattive sugli specchi multistrato Mo/Si usati nella litografia EUV. Ogni modulo risponde a una domanda, con cursori da muovere e un obiettivo da raggiungere.",
+  "Light bouncing along ten mirrors, weaker after each one, with the heat left in each mirror.": "Luce che rimbalza lungo dieci specchi, più debole dopo ciascuno, con il calore lasciato in ogni specchio.",
+  "source: 100%": "sorgente: 100%",
+  "wafer": "wafer",
+  "A disc of glass on a cooled plate, with a magnified view of the 40 pairs of layers on its surface.": "Un disco di vetro su una piastra raffreddata, con una vista ingrandita delle 40 coppie di strati sulla sua superficie.",
+  "light, 100%": "luce, 100%",
+  "74% comes back": "torna il 74%",
+  "26% stays as heat": "il 26% resta: calore",
+  "glass, 50 mm": "vetro, 50 mm",
+  "cooled plate · the disc is 300 mm across": "piastra raffreddata · il disco è largo 300 mm",
+  "vacuum": "vuoto",
+  "glass": "vetro",
+  "molybdenum 2.78 nm": "molibdeno 2,78 nm",
+  "silicon 4.17 nm": "silicio 4,17 nm",
+  "one pair:": "una coppia:",
+  "6.95 nm": "6,95 nm",
+  "40 pairs in all:": "40 coppie in tutto:",
+  "278 nm": "278 nm",
+  "180,000 times": "180.000 volte",
+  "thinner than": "più sottile",
+  "the glass": "del vetro",
   "How much EUV light does a single surface reflect?": "Quanta luce EUV riflette una singola superficie?",
-  "Refractive index, absorption, Fresnel reflection. Twelve steps, nine experiments.": "Indice di rifrazione, assorbimento, riflessione di Fresnel. Dodici passi, nove esperimenti.",
+  "Refractive index, absorption, the Fresnel formula.": "Indice di rifrazione, assorbimento, formula di Fresnel.",
+  "one surface reflects": "riflette una superficie",
   "What do two surfaces close together do?": "Cosa fanno due superfici vicine?",
-  "Interference, the phase a layer adds, the Airy formula. Seven steps, five experiments.": "Interferenza, fase aggiunta da uno strato, formula di Airy. Sette passi, cinque esperimenti.",
+  "Interference, the phase a layer adds, the Airy formula.": "Interferenza, fase aggiunta da uno strato, formula di Airy.",
+  "one film reflects": "riflette un film",
   "How do 80 weak surfaces make a 74% mirror?": "Come fanno 80 superfici deboli a dare uno specchio al 74%?",
-  "The Bragg condition, saturation, the transfer-matrix method. Seven steps, four experiments.": "Condizione di Bragg, saturazione, metodo delle matrici di trasferimento. Sette passi, quattro esperimenti.",
+  "The Bragg condition, saturation, the transfer-matrix method.": "Condizione di Bragg, saturazione, metodo delle matrici di trasferimento.",
+  "forty pairs reflect": "riflettono quaranta coppie",
   "How narrow is the peak, and what moves it?": "Quanto è stretto il picco, e cosa lo sposta?",
-  "Bandwidth, period, angle, the share of molybdenum. Six steps, four experiments.": "Larghezza di banda, periodo, angolo, quota di molibdeno. Sei passi, quattro esperimenti.",
+  "Bandwidth, period, angle, the share of molybdenum.": "Larghezza di banda, periodo, angolo, quota di molibdeno.",
+  "width of the peak": "larghezza del picco",
   "Where does the light that does not come back go?": "Dove finisce la luce che non torna indietro?",
-  "The standing wave, the field inside the stack, absorption and heat. Six steps, four experiments.": "Onda stazionaria, campo dentro lo stack, assorbimento e calore. Sei passi, quattro esperimenti.",
+  "The standing wave, the field inside the stack, absorption.": "Onda stazionaria, campo dentro lo stack, assorbimento.",
+  "ends as heat": "finisce in calore",
+  "How hot does the mirror get?": "Quanto si scalda lo specchio?",
+  "Heat flux, conduction, the temperature of a cooled disc.": "Flusso di calore, conduzione, temperatura di un disco raffreddato.",
+  "above the cooled back": "sopra il retro raffreddato",
+  "0.16%": "0,16%",
+  "0.61%": "0,61%",
+  "74.2%": "74,2%",
+  "0.64 nm": "0,64 nm",
+  "25.8%": "25,8%",
   "In preparation.": "In preparazione.",
-  "Optical constants from the CXRO database (Henke, Gullikson, Davis; Lawrence Berkeley National Laboratory).": "Costanti ottiche dal database CXRO (Henke, Gullikson, Davis; Lawrence Berkeley National Laboratory).",
-  "Lithography Lessons": "Lezioni di litografia"
+  "Lithography Lessons": "Lezioni di litografia",
+  "An EUV mirror, from its first surface to its temperature": "Uno specchio EUV, dalla prima superficie alla sua temperatura",
+  "The most advanced chips are printed with light of 13.5 nm. No material is transparent to it, so the machine that prints them steers the light with mirrors only. Each mirror returns about three quarters of the light and keeps the rest as heat.": "I chip più avanzati sono stampati con luce a 13,5 nm. Nessun materiale è trasparente a questa luce, quindi la macchina che li stampa la guida solo con specchi. Ogni specchio restituisce circa tre quarti della luce e trattiene il resto come calore.",
+  "This project follows one such mirror all the way: why a single surface reflects almost nothing, how 40 pairs of thin layers bring that to 74%, where the remaining light ends up, and how hot it makes the glass. Each idea comes with the reason it is there, an experiment to move with your hands, a full explanation and the formulas with their origin.": "Questo progetto segue uno di questi specchi fino in fondo: perché una singola superficie non riflette quasi nulla, come 40 coppie di strati sottili portano quel valore al 74%, dove finisce la luce restante, e quanto scalda il vetro. Ogni idea arriva con il motivo per cui è lì, un esperimento da muovere con le mani, una spiegazione completa e le formule con la loro origine.",
+  "See the modules": "Vedi i moduli",
+  "Start from module 1": "Inizia dal modulo 1",
+  "The problem in one picture": "Il problema in un'immagine",
+  "Between the source and the wafer the light meets a chain of mirrors. With the ideal mirror of these lessons, which reflects 74.2%, ten reflections leave 5% of the light. Everything else has become heat in the mirrors, most of it in the first ones.": "Tra la sorgente e il wafer la luce incontra una catena di specchi. Con lo specchio ideale di queste lezioni, che riflette il 74,2%, dieci riflessioni lasciano il 5% della luce. Tutto il resto è diventato calore negli specchi, la maggior parte nei primi.",
+  "A schematic chain of ten mirrors, not the layout of a real machine. Line thickness: the light still travelling. Numbers: the light left after each mirror. Red discs: the heat left in each mirror.": "Una catena schematica di dieci specchi, non la disposizione di una macchina vera. Spessore della linea: la luce ancora in viaggio. Numeri: la luce rimasta dopo ogni specchio. Dischi rossi: il calore lasciato in ogni specchio.",
+  "Two questions follow, and they organise the whole project. How can a mirror reflect as much as 74% of a light that every material absorbs? And what does the quarter it keeps do to it?": "Ne seguono due domande, e organizzano tutto il progetto. Come può uno specchio riflettere ben il 74% di una luce che ogni materiale assorbe? E cosa gli fa il quarto che trattiene?",
+  "What the mirror is": "Com'è fatto lo specchio",
+  "A thick disc of glass carries, on its surface, 40 pairs of layers: molybdenum, which reflects, and silicon, which keeps the molybdenum layers at the right distance. Each layer is a few nanometres thick, a few tens of atoms. The light is reflected a little at every boundary, and the thicknesses are chosen so that all those small reflections add up.": "Un disco spesso di vetro porta, sulla superficie, 40 coppie di strati: molibdeno, che riflette, e silicio, che tiene gli strati di molibdeno alla distanza giusta. Ogni strato è spesso pochi nanometri, poche decine di atomi. La luce si riflette un poco a ogni confine, e gli spessori sono scelti in modo che tutte quelle piccole riflessioni si sommino.",
+  "Above: the mirror cut through, with the spot of light and the heat it leaves. Below: the surface magnified. The layers are drawn far thicker than they are: the real stack would be invisible at the scale of the glass.": "Sopra: lo specchio in sezione, con la macchia di luce e il calore che lascia. Sotto: la superficie ingrandita. Gli strati sono disegnati molto più spessi di quanto sono: lo stack vero sarebbe invisibile alla scala del vetro.",
+  "The structure of the project": "La struttura del progetto",
+  "The modules form one chain: each starts from the number the one before it produced, shown here under its title. They can be read in order or opened where you need them.": "I moduli formano un'unica catena: ciascuno parte dal numero prodotto da quello precedente, mostrato qui sotto il suo titolo. Si possono leggere in ordine o aprire dove serve.",
+  "Part 1 · The optics: how much light comes back": "Parte 1 · L'ottica: quanta luce torna indietro",
+  "Part 2 · The energy: where the rest goes": "Parte 2 · L'energia: dove va il resto",
+  "Part 3 · The mechanics: what the heat does": "Parte 3 · La meccanica: cosa fa il calore",
+  "How much does the hot surface move?": "Di quanto si muove la superficie calda?",
+  "Thermal expansion, the bump under the spot, the error it puts on the reflected wave.": "Dilatazione termica, il rigonfiamento sotto la macchia, l'errore che introduce nell'onda riflessa.",
+  "How should the mirror be cooled?": "Come va raffreddato lo specchio?",
+  "Cooling from the back, from the edge, through channels in the glass.": "Raffreddamento dal retro, dal bordo, con canali nel vetro.",
+  "How each module is made": "Com'è fatto ogni modulo",
+  "<strong>An index of ideas.</strong> Every module opens on the list of its ideas, each with a line on what it explains and which experiment it holds. Any of them can be opened directly.": "<strong>Un indice di idee.</strong> Ogni modulo si apre sull'elenco delle sue idee, ciascuna con una riga su cosa spiega e quale esperimento contiene. Si può aprire direttamente una qualsiasi.",
+  "<strong>Why here.</strong> Each idea begins by saying why it comes at that point: what it builds on and what will use it later.": "<strong>Perché qui.</strong> Ogni idea comincia dicendo perché arriva in quel punto: su cosa si appoggia e cosa la userà più avanti.",
+  "<strong>An experiment.</strong> Sliders and graphs to move, with a few presets marked Try that set a telling case and say what to look at.": "<strong>Un esperimento.</strong> Cursori e grafici da muovere, con alcune impostazioni pronte marcate Prova che mostrano un caso significativo e dicono cosa guardare.",
+  "<strong>The explanation and the formula card.</strong> What the experiment shows and why, then each formula with where it comes from, what it assumes, what its terms mean and a check you can do yourself.": "<strong>La spiegazione e la scheda della formula.</strong> Cosa mostra l'esperimento e perché, poi ogni formula con la sua origine, le sue ipotesi, il significato dei termini e un controllo che puoi fare da te.",
+  "<strong>No tests.</strong> Nothing has to be answered or completed. The last idea of each module ends with a short list of questions for retracing the reasoning on your own.": "<strong>Nessuna prova.</strong> Non c'è nulla da rispondere o da completare. L'ultima idea di ogni modulo si chiude con un breve elenco di domande per ripercorrere il ragionamento da soli.",
+  "All numbers are computed in the page for an ideal mirror: 40 pairs with perfectly sharp, smooth boundaries, at 13.5 nm and 6° from perpendicular. Real mirrors reflect somewhat less. Optical constants from the CXRO database (Henke, Gullikson, Davis; Lawrence Berkeley National Laboratory).": "Tutti i numeri sono calcolati nella pagina per uno specchio ideale: 40 coppie con confini perfettamente netti e lisci, a 13,5 nm e 6° dalla perpendicolare. Gli specchi veri riflettono un po' meno. Costanti ottiche dal database CXRO (Henke, Gullikson, Davis; Lawrence Berkeley National Laboratory)."
 };
 const LANG_KEY = "litho-lang";
 let lang = "en";
 try { lang = localStorage.getItem(LANG_KEY) || ((navigator.language || "").toLowerCase().startsWith("it") ? "it" : "en"); } catch (e) {}
-const tEls = [...document.querySelectorAll("h1, p, .mod b, .mod span:not(.n), .eyebrow")].map(e => [e, e.innerHTML]);
+const tEls = [...document.querySelectorAll("h1, h2, p, figcaption, title, svg text, .how li, .part, .jump a, .mod b, .mod .what, .mod strong, .mod em, .eyebrow")].map(e => [e, e.innerHTML]);
 function translateDom() {
   document.documentElement.lang = lang;
   tEls.forEach(([e, en]) => e.innerHTML = (lang === "it" && IT[en]) || en);
