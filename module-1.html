@@ -28,40 +28,17 @@
 <section class="step" id="home">
   <a class="linkbtn" href="./" style="text-decoration:none;align-self:flex-start">← All lessons</a>
   <h1>How much EUV light does a single surface reflect?</h1>
-  <p class="lead">Twelve steps, nine interactive experiments on refractive index, absorption and Fresnel reflection for molybdenum and silicon at 13.5 nm. Choose how to take them.</p>
-  <div class="modes">
-    <div class="mode">
-      <h2>Guided path</h2>
-      <p>One opening prediction, then one step at a time. You move on by answering a question or reaching a goal.</p>
-      <div class="cap" id="home-prog"></div>
-      <button class="btn go" id="go-guided">Start</button>
-    </div>
-    <div class="mode">
-      <h2>Explore</h2>
-      <p>Every experiment, in any order, with no required answers. Explanations open on request.</p>
-      <div class="cap">Exploring does not complete steps of the guided path.</div>
-      <ol class="toc" id="toc"></ol>
-    </div>
+  <p class="lead">Lithography scanners use light with a wavelength of 13.5 nm. Steering it takes mirrors, and the material that does the reflecting is molybdenum. A window reflects 4% of visible light. A smooth molybdenum surface reflects 0.16% of EUV light. Eleven ideas explain that number, nine of them with an experiment. Open any of them, in any order.</p>
+  <div class="mode">
+    <ol class="toc" id="toc"></ol>
+    <button class="btn go" id="go">Start</button>
   </div>
+  <p class="why">This is the starting point of the whole project. Everything that follows, the film of module 2, the 40-pair mirror of module 3, its heat in modules 5 and 6, is built from two numbers per material, n and k, and from one formula for one surface. This module introduces them from the ground up, together with the mathematics they need.</p>
 </section>
 
-<section class="step" data-id="predict">
-  <h1>A window reflects 4% of light. What about an EUV mirror?</h1>
-  <p class="lead">Lithography scanners use light with a wavelength of 13.5 nm. Steering it takes mirrors, and the material that does the reflecting is molybdenum.</p>
-  <p class="guided-only">Before computing anything, make a prediction. You will meet it again later.</p>
-  <p class="explore-only">The steps that follow build the answer one piece at a time.</p>
-  <div class="q">
-    <p>How much 13.5 nm light does a smooth molybdenum surface reflect?</p>
-    <div class="opts" id="pred">
-      <button data-v="about 40%">About 40%, like a polished metal</button>
-      <button data-v="about 4%">About 4%, like glass</button>
-      <button data-v="less than 1%">Less than 1%</button>
-    </div>
-  </div>
-</section>
-
-<section class="step" data-id="wave">
+<section class="step" data-id="wave" data-sum="Amplitude, wavelength, intensity. Experiment: amplitude against intensity, and a flipped wave.">
   <h1>First, what a light wave is</h1>
+  <p class="why">Every result in these lessons is a statement about waves that add or cancel. Before any material appears, this step fixes the two ideas they all rest on: intensity is the square of amplitude, and a wave can be flipped.</p>
   <p>Light is a wave: an electric field that swings up and down as it travels. Two numbers describe its shape. The amplitude <span class="mono">A</span> is the height of the swing. The wavelength <span class="mono">λ</span> is the distance from one crest to the next: 13.5 nm for EUV, about 500 nm for green light.</p>
   <p>A detector does not measure the field. It measures the energy delivered, the intensity <span class="mono">I</span>, and intensity grows as the square of the amplitude.</p>
   <div class="formula"><span>I ∝ A²</span></div>
@@ -70,9 +47,14 @@
     <div class="toggle" id="t-flip"><button data-f="1" aria-pressed="true">Upright</button><button data-f="-1" aria-pressed="false">Flipped</button></div>
     <div class="ctrl"><label for="s-A">Amplitude</label><input type="range" id="s-A" min="0" max="1" step="0.01" value="1"><output id="o-A"></output></div>
     <div class="reads"><span><b>intensity</b><span class="big" id="r-I"></span></span></div>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="t-flip:0 s-A:0.5" data-note="Half the amplitude leaves a quarter of the intensity: 25%.">A = 0.5</button>
+      <button class="chip" data-set="t-flip:0 s-A:0.2" data-note="Amplitude 0.2 gives an intensity of 4%: the size of the reflection of a window.">A = 0.2</button>
+      <button class="chip" data-set="t-flip:1 s-A:1" data-note="Crests have become troughs, and the intensity is still 100%.">Flipped</button>
+      <div class="note" hidden></div>
+    </div>
     <div class="cap">The dashed curve is the full wave, amplitude 1.</div>
   </div>
-  <div class="goal" id="g-A">Set the amplitude so that the intensity is one quarter of the full wave (between 24% and 26%).</div>
   <div class="after" hidden>
     <p><strong>Half the amplitude, a quarter of the intensity.</strong> This square is the reason a surface that sends back 4% of the amplitude sends back only 0.16% of the intensity.</p>
     <p>Now press Flipped. The wave turns upside down: crests become troughs. The intensity does not change, because <span class="mono">(−A)² = A²</span>. A flipped wave is written with a negative amplitude. You will need this when two reflections meet.</p>
@@ -88,8 +70,9 @@
   </div>
 </section>
 
-<section class="step" data-id="n">
+<section class="step" data-id="n" data-sum="The refractive index, and why light reflects at a boundary. Experiment: one boundary, with n from 0.7 to 1.6.">
   <h1>The real part: how different the material is from vacuum</h1>
+  <p class="why">A mirror reflects at boundaries between materials. To say how much, a material must first be turned into a number. This step introduces the first half of that number, the half that, as long as absorption is left out, decides whether a boundary reflects at all.</p>
   <p>To light, every material is a number: the refractive index <span class="mono">n</span>. Vacuum has <span class="mono">n = 1</span>. Glass, in visible light, has <span class="mono">n = 1.5</span>.</p>
   <p>What the number means: inside the material the wave keeps its rhythm, but its crests travel at speed <span class="mono">c/n</span> instead of <span class="mono">c</span>, so they sit closer together or further apart. The wavelength inside is <span class="mono">λ/n</span>.</p>
   <p>Move <span class="mono">n</span> and watch the reflected ray and the ray that enters.</p>
@@ -97,9 +80,14 @@
     <canvas id="c-n" style="height:230px"></canvas>
     <div class="ctrl"><label for="s-n">n</label><input type="range" id="s-n" min="0.7" max="1.6" step="0.01" value="1.5"><output id="o-n"></output></div>
     <div class="reads"><span><b>reflected light</b><span id="r-n"></span></span></div>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="s-n:1" data-note="As far as the light can tell there is no boundary: nothing is reflected and the ray goes straight on.">n = 1</button>
+      <button class="chip" data-set="s-n:1.5" data-note="Glass in visible light. The ray that enters bends toward the vertical.">n = 1.5</button>
+      <button class="chip" data-set="s-n:0.92" data-note="Close to molybdenum in EUV light. The ray that enters bends away from the vertical, and very little is reflected.">n = 0.92</button>
+      <div class="note" hidden></div>
+    </div>
     <div class="cap">The reflected ray is drawn brighter than it really is, so you can see it.</div>
   </div>
-  <div class="goal" id="g-n">Make the material invisible: no reflected ray.</div>
   <div class="after" hidden>
     <p><strong>Light reflects only where the two indices differ.</strong> With <span class="mono">n = 1</span> the light does not notice the boundary: it goes straight through and nothing comes back.</p>
     <p>Notice which way the ray bends too: with <span class="mono">n</span> above 1 it moves toward the vertical, with <span class="mono">n</span> below 1 it moves away. At 13.5 nm molybdenum and silicon are both below 1.</p>
@@ -116,8 +104,9 @@
   </div>
 </section>
 
-<section class="step" data-id="complex">
+<section class="step" data-id="complex" data-sum="Modulus and phase of a complex number. Experiment: an arrow to stretch and turn.">
   <h1>A tool you need now: complex numbers</h1>
+  <p class="why">The index of a real material has a second half, and a reflection has a size and a shift. Both need a number made of two parts. This is the only new mathematics of the module, and it returns in every module after it.</p>
   <p>The next step needs one piece of mathematics. A complex number is a pair of ordinary numbers written <span class="mono">a + i·b</span>, where <span class="mono">i</span> is a symbol with a single rule: <span class="mono">i² = −1</span>. Picture it as a point on a plane: <span class="mono">a</span> steps to the right, <span class="mono">b</span> steps up.</p>
   <p>The same point can be given as an arrow from the origin: its length, called the modulus <span class="mono">|z|</span>, and its angle, called the phase <span class="mono">φ</span>. Physics uses complex numbers because one of them carries the two things a wave has: a size and a shift.</p>
   <div class="formula"><span>z = a + i·b</span><span>|z|² = a² + b²</span></div>
@@ -127,12 +116,11 @@
     <div class="ctrl"><label for="s-mod">Modulus</label><input type="range" id="s-mod" min="0" max="1.5" step="0.01" value="1.2"><output id="o-mod"></output></div>
     <div class="ctrl"><label for="s-ph">Phase</label><input type="range" id="s-ph" min="0" max="360" step="1" value="40"><output id="o-ph"></output></div>
     <div class="reads"><span><b>z</b><span id="r-z"></span></span></div>
-  </div>
-  <div class="goal" id="g-cx">Turn the arrow until the number is −1: modulus 1, phase 180°.</div>
-  <div class="q">
-    <p>What is the modulus of 3 + 4i?</p>
-    <div class="numq" data-ans="5" data-tol="0.01" data-hint="Use |z|² = a² + b²: 9 + 16 = 25. The modulus is the square root."><input type="text" inputmode="decimal" id="in-mod" aria-label="modulus"><button class="btn">Check</button></div>
-    <div class="fb"></div>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="s-mod:1 s-ph:180" data-note="Modulus 1, phase 180°: the number −1, a half turn.">−1</button>
+      <button class="chip" data-set="s-mod:1 s-ph:90" data-note="Modulus 1, phase 90°: the number i, a quarter turn. Two quarter turns make a half turn, which is the rule i² = −1.">i</button>
+      <div class="note" hidden></div>
+    </div>
   </div>
   <div class="after" hidden>
     <p><strong>Multiplying by −1 is a half turn.</strong> In the shorthand above, <span class="mono">e<sup>iπ</sup> = −1</span>. A wave whose amplitude is multiplied by −1 has its phase shifted by 180°: it is the flipped wave of two steps ago. A complex amplitude generalizes this. Its modulus scales the wave, its phase shifts it by any amount.</p>
@@ -148,8 +136,9 @@
   </div>
 </section>
 
-<section class="step" data-id="k">
+<section class="step" data-id="k" data-sum="The imaginary part of the index and the absorption length. Experiment: k against how far light gets.">
   <h1>The imaginary part: how much the material absorbs</h1>
+  <p class="why">Molybdenum and silicon both absorb EUV light. That absorption decides how thin the layers must be, how many pairs are useful and, in module 5, how much heat the mirror keeps. This step introduces the number that measures it.</p>
   <p>The full index is a complex number, <span class="mono">ñ = n + i·k</span>. Here is what the second piece does. A wave that travels a distance <span class="mono">z</span> through a material gets multiplied by <span class="mono">e<sup>i·2π·ñ·z/λ</sup></span>. Read the exponent piece by piece: <span class="mono">z/λ</span> counts how many wavelengths fit in the distance, each one is a full turn of 2π, and the index stretches or shrinks the count. Now split the index into its two parts:</p>
   <div class="formula"><span>e<sup>i·2π·ñ·z/λ</sup> = e<sup>i·2π·n·z/λ</sup> · e<sup>−2π·k·z/λ</sup></span></div>
   <p>The first factor is an arrow of length 1 that only rotates: the wave oscillating, with wavelength <span class="mono">λ/n</span>. In the second factor the <span class="mono">i</span> is gone, because <span class="mono">i · i = −1</span>. What is left is an ordinary number that shrinks as <span class="mono">z</span> grows. The imaginary part of the index turns oscillation into decay.</p>
@@ -160,23 +149,15 @@
     <canvas id="c-k" style="height:210px"></canvas>
     <div class="ctrl"><label for="s-k">k</label><input type="range" id="s-k" min="0" max="1" step="0.005" value="0.56"><output id="o-k"></output></div>
     <div class="reads"><span><b>L</b><span id="r-kL"></span></span><span><b>light left at 500 nm</b><span id="r-k500"></span></span></div>
-  </div>
-  <div class="q">
-    <p>You double k. What happens to L?</p>
-    <div class="opts mc">
-      <button data-hint="Look at the formula: k sits below the fraction bar.">It doubles</button>
-      <button data-ok>It halves</button>
-      <button data-hint="k appears to the first power, not squared. Try it with the slider: from 0.002 to 0.004.">It drops to a quarter</button>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="s-k:0.48" data-note="Close to molybdenum at 13.5 nm. The light is mostly gone within a few hundred nanometres.">k like molybdenum</button>
+      <button class="chip" data-set="s-k:0.245" data-note="Close to silicon at 13.5 nm. The light gets about three and a half times further than in molybdenum.">k like silicon</button>
+      <div class="note" hidden></div>
     </div>
-    <div class="fb"></div>
-  </div>
-  <div class="q">
-    <p>Molybdenum at 13.5 nm has k = 0.00644. Compute L in nm.</p>
-    <div class="numq" data-ans="167" data-tol="2" data-hint="L = 13.5 / (4 × 3.1416 × 0.00644)."><input type="text" inputmode="decimal" id="in-L" aria-label="L in nm"><span class="mono">nm</span><button class="btn">Check</button></div>
-    <div class="fb"></div>
   </div>
   <div class="after" hidden>
     <p><strong>The larger k is, the shorter the distance light travels.</strong> It is an inverse proportion: twice the k, half the L.</p>
+    <p>For molybdenum at 13.5 nm, <span class="mono">k = 0.00644</span>, so <span class="mono">L = 13.5 / (4π × 0.00644) = 167 nm</span>.</p>
     <p>What an exponential means in practice: every stretch of length L multiplies the light by the same factor, 0.37. After 2L there is 0.37 × 0.37 = 14% left, after 3L 5%. Equal steps remove equal fractions. That is the signature of absorption.</p>
     <div class="fcard">
       <div class="formula"><span>L = <span class="frac"><span>λ</span><span>4π·k</span></span></span></div>
@@ -190,8 +171,9 @@
   </div>
 </section>
 
-<section class="step" data-id="materials">
+<section class="step" data-id="materials" data-sum="n and k of molybdenum and silicon from the CXRO tables. Experiment: both against wavelength.">
   <h1>The two real materials: molybdenum and silicon</h1>
+  <p class="why">With n and k defined, this step reads their real values for the two materials of the mirror. These tabulated numbers are the only measured input of the optical modules: every later reflectance is computed from them.</p>
   <p>These are tabulated optical constants from the CXRO database, interpolated here at the wavelength you choose. Move the wavelength and read <span class="mono">n</span> and <span class="mono">k</span> for <span class="mo">Mo</span> and <span class="si">Si</span>.</p>
   <div class="lab">
     <div class="pair">
@@ -200,15 +182,11 @@
     </div>
     <div class="ctrl"><label for="s-lam">λ</label><input type="range" id="s-lam" min="12.4" max="20" step="0.01" value="13.5"><output id="o-lam"></output></div>
     <div class="reads"><span class="mo">Mo <span id="r-mo"></span></span><span class="si">Si <span id="r-si"></span></span></div>
-  </div>
-  <div class="q">
-    <p>At 13.5 nm, which of the two is almost indistinguishable from vacuum?</p>
-    <div class="opts mc">
-      <button data-hint="Molybdenum has n ≈ 0.924: almost eighty times further from 1 than silicon.">Molybdenum</button>
-      <button data-ok>Silicon</button>
-      <button data-hint="Look at the left chart: the two curves are well apart.">They are the same</button>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="s-lam:13.5" data-note="The working wavelength. Silicon is almost vacuum, with n close to 0.999, and molybdenum stands apart at 0.924.">13.5 nm</button>
+      <button class="chip" data-set="s-lam:12.4" data-note="Past the silicon edge: its k has jumped, and silicon is no longer a nearly transparent spacer.">12.4 nm</button>
+      <div class="note" hidden></div>
     </div>
-    <div class="fb"></div>
   </div>
   <div class="after" hidden>
     <p><strong>Each one has a job.</strong> <span class="mo">Molybdenum</span> differs from vacuum, so it is the layer that reflects. <span class="si">Silicon</span> has <span class="mono">n ≈ 0.999</span> and absorbs little: it acts as a nearly transparent spacer.</p>
@@ -217,8 +195,9 @@
   </div>
 </section>
 
-<section class="step" data-id="thickness">
+<section class="step" data-id="thickness" data-sum="How much material EUV light can cross. Experiment: light through a slab of silicon or molybdenum.">
   <h1>How much material can EUV light cross?</h1>
+  <p class="why">The values of k just read have a direct consequence for the design: they say how much material the light can cross. That rules out lenses, and it sets the thickness below which a layer costs almost nothing.</p>
   <p>Now use the real <span class="mono">k</span> values at 13.5 nm. Pick the material, change the thickness and see how much light comes out the other side.</p>
   <p>Only attenuation inside the material counts here. Reflections at the two surfaces are neglected.</p>
   <div class="lab">
@@ -226,12 +205,12 @@
     <canvas id="c-thick" style="height:64px"></canvas>
     <div class="ctrl"><label for="s-d">Thickness</label><input type="range" id="s-d" min="0" max="1" step="0.002" value="0.163"><output id="o-d"></output></div>
     <div class="reads"><span><b>light coming out</b><span class="big" id="r-T"></span></span><span><b>L of the material</b><span id="r-L"></span></span></div>
-  </div>
-  <div class="goal" id="g-d">Find the silicon thickness that lets half the light through (between 48% and 52%).</div>
-  <div class="q">
-    <p>The halving thickness is 0.693 × L. For molybdenum, L = 167 nm. What thickness halves the light, in nm?</p>
-    <div class="numq" data-ans="116" data-tol="2" data-hint="Multiply: 0.693 × 167. Then check it in the experiment with Molybdenum selected."><input type="text" inputmode="decimal" id="in-half" aria-label="thickness in nm"><span class="mono">nm</span><button class="btn">Check</button></div>
-    <div class="fb"></div>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="t-mat:0 s-d:0.162" data-note="A layer as thin as those of the mirror: more than 99% of the light gets through.">Si, 4 nm</button>
+      <button class="chip" data-set="t-mat:1 s-d:0.162" data-note="Molybdenum absorbs more, and a thin layer still passes 97.6%.">Mo, 4 nm</button>
+      <button class="chip" data-set="t-mat:1 s-d:0.558" data-note="The halving thickness of molybdenum, 0.693 × 167 nm. A lens would be thousands of times thicker.">Mo, 116 nm</button>
+      <div class="note" hidden></div>
+    </div>
   </div>
   <div class="after" hidden>
     <p><strong>About 400 nm of silicon halves the light, and 116 nm of molybdenum.</strong> A lens is millimetres thick, thousands of times more: nothing would come out. That is why there are no EUV lenses and the whole beam path is in vacuum. Only mirrors are left.</p>
@@ -248,8 +227,9 @@
   </div>
 </section>
 
-<section class="step" data-id="fresnel">
+<section class="step" data-id="fresnel" data-sum="The reflection of one boundary, derived from two conditions on the fields.">
   <h1>Where the Fresnel formula comes from</h1>
+  <p class="why">So far reflection has been a fact: it happens where the indices differ. A design needs the amount. This step derives it, and the two conditions it uses come back in module 3 as the basis of the matrix method.</p>
   <p>You have seen the fact: light reflects only where the two indices differ. Now the reason, and the amount. Send a wave of amplitude 1 perpendicular onto a boundary. A reflected wave of amplitude <span class="mono">r</span> goes back, a transmitted wave of amplitude <span class="mono">t</span> goes on. Two things must match at the boundary.</p>
   <p><strong>The electric field.</strong> The part of the electric field parallel to the surface cannot jump across it. On the incoming side the field is the sum of the incoming and reflected waves, on the far side it is the transmitted wave.</p>
   <div class="formula"><span>1 + r = t</span></div>
@@ -259,17 +239,8 @@
   <p>Two equations, two unknowns. Put <span class="mono">t = 1 + r</span> from the first into the second: <span class="mono">n₁ − n₁·r = n₂ + n₂·r</span>. Move the terms with <span class="mono">r</span> to one side: <span class="mono">n₁ − n₂ = r · (n₁ + n₂)</span>. Divide.</p>
   <div class="formula"><span>r = <span class="frac"><span>n₁ − n₂</span><span>n₁ + n₂</span></span></span><span>R = |r|²</span></div>
   <p><span class="mono">r</span> is the reflected fraction of the amplitude, and it can be negative. <span class="mono">R</span> is the reflected fraction of the intensity, the one a detector measures.</p>
-  <div class="q">
-    <p>Air onto glass: n₁ = 1, n₂ = 1.5. What is r?</p>
-    <div class="numq" data-ans="-0.2" data-tol="0.005" data-hint="r = (1 − 1.5) / (1 + 1.5). Mind the sign."><input type="text" inputmode="text" id="in-r" aria-label="r"><button class="btn">Check</button></div>
-    <div class="fb"></div>
-  </div>
-  <div class="q">
-    <p>And R, as a percentage?</p>
-    <div class="numq" data-ans="4" data-tol="0.11" data-hint="Square r, then turn the fraction into a percentage: 0.04 is 4%."><input type="text" inputmode="decimal" id="in-glass" aria-label="R in percent"><span class="mono">%</span><button class="btn">Check</button></div>
-    <div class="fb"></div>
-  </div>
   <div class="after" hidden>
+    <p>Try it on a window. Air onto glass has <span class="mono">n₁ = 1</span> and <span class="mono">n₂ = 1.5</span>, so <span class="mono">r = (1 − 1.5)/(1 + 1.5) = −0.2</span> and <span class="mono">R = r² = 0.04</span>.</p>
     <p><strong>4%: the reflection you see on a window.</strong> The minus sign of <span class="mono">r</span> says the reflected wave is flipped. It disappears in the square, but two steps from now it takes the lead.</p>
     <p>One more check, on energy. The first equation gives <span class="mono">t = 1 + r = 0.8</span>. The wave inside the glass carries <span class="mono">n₂/n₁</span> times its amplitude squared, so the transmitted fraction is <span class="mono">1.5 × 0.8² = 0.96</span>. Reflected plus transmitted: 0.04 + 0.96 = 1. Nothing is lost at a boundary between two transparent materials.</p>
     <div class="fcard">
@@ -284,9 +255,10 @@
   </div>
 </section>
 
-<section class="step" data-id="mo">
+<section class="step" data-id="mo" data-sum="The number this module is about: 0.16%. Experiment: 10,000 photons on molybdenum and on glass.">
   <h1>Molybdenum at 13.5 nm reflects 0.16%</h1>
-  <p><span class="guided-only">You predicted: <strong id="pred-echo">—</strong>. </span>With complex indices the formula stays the same, and the arithmetic is done with complex numbers. For vacuum onto molybdenum, <span class="mono">ñ = 0.9238 + 0.0064i</span>:</p>
+  <p class="why">Formula and data are both in hand. This step puts the index of molybdenum into the Fresnel formula and gets the number that sets the problem for all the modules that follow.</p>
+  <p>With complex indices the formula stays the same, and the arithmetic is done with complex numbers. For vacuum onto molybdenum, <span class="mono">ñ = 0.9238 + 0.0064i</span>:</p>
   <div class="formula lines"><span>r = <span class="frac"><span>1 − ñ</span><span>1 + ñ</span></span></span><span data-t>= <span class="frac"><span>0.0762 − 0.0064i</span><span>1.9238 + 0.0064i</span></span></span><span data-t>≈ 0.0396 − 0.0035i</span></div>
   <p>Then the modulus squared, as in the complex-number step: <span class="mono">R = 0.0396² + 0.0035² = 0.0016</span>, that is 0.16%. Twenty-five times less than a window.</p>
   <p>Each dot is one photon out of 10,000 arriving. The lit ones bounce back.</p>
@@ -295,20 +267,6 @@
     <canvas id="c-ph" style="height:170px"></canvas>
     <div class="reads"><span><b>reflected</b><span class="big" id="r-ph"></span></span><span data-t><b>out of</b>10,000</span></div>
   </div>
-  <div class="q">
-    <p>A quick estimate: ignore k and use n = 0.924. Compute R as a percentage.</p>
-    <div class="numq" data-ans="0.156" data-tol="0.005" data-hint="r = (1 − 0.924) / (1 + 0.924) = 0.0395. Square it and express it as a percentage."><input type="text" inputmode="decimal" id="in-mo" aria-label="R in percent"><span class="mono">%</span><button class="btn">Check</button></div>
-    <div class="fb"></div>
-  </div>
-  <div class="q">
-    <p>Why does molybdenum reflect so little?</p>
-    <div class="opts mc">
-      <button data-hint="The k of molybdenum is 0.006: small. Your estimate without k gave almost the full answer.">Because it absorbs almost all the light at the surface</button>
-      <button data-ok>Because its n is only 0.076 away from vacuum</button>
-      <button data-hint="6° from perpendicular changes R very little. You will see that two steps from now.">Because the light arrives at an angle</button>
-    </div>
-    <div class="fb"></div>
-  </div>
   <div class="after" hidden>
     <p><strong>At 13.5 nm the index of molybdenum is close to 1, and that of silicon is closer still.</strong> The Fresnel numerator, <span class="mono">n₁ − n₂</span>, is small, and squaring makes it tiny.</p>
     <p>Your estimate without <span class="mono">k</span> gave 0.156% against 0.158% for the full calculation. At this wavelength the reflection of molybdenum comes from its <span class="mono">n</span>; absorption adds almost nothing.</p>
@@ -316,8 +274,9 @@
   </div>
 </section>
 
-<section class="step" data-id="sign">
+<section class="step" data-id="sign" data-sum="The same boundary crossed the other way reflects with the opposite sign. Experiment: swap the two materials.">
   <h1>Direction matters: Si to Mo, or Mo to Si</h1>
+  <p class="why">Inside a mirror, boundaries come in two kinds: silicon onto molybdenum, and molybdenum onto silicon. Whether their reflections help or fight each other depends on a sign. Module 2 is built on it.</p>
   <p>Inside the mirror, light does not meet vacuum: it goes from silicon to molybdenum and back, dozens of times. Swap the order of the two layers and watch <span class="mono">r</span>.</p>
   <div class="lab">
     <div class="toggle" id="t-ord"><button data-o="SiMo" aria-pressed="true">Si on top, Mo below</button><button data-o="MoSi" aria-pressed="false">Mo on top, Si below</button></div>
@@ -330,23 +289,15 @@
       </div>
     </div>
   </div>
-  <div class="q">
-    <p>When you swap the two materials, what changes?</p>
-    <div class="opts mc">
-      <button data-hint="Look at the value of R in the two cases: it is identical.">R changes, r stays the same</button>
-      <button data-ok>r changes sign, R stays the same</button>
-      <button data-hint="Something does change: follow the dot on the line.">Nothing changes</button>
-    </div>
-    <div class="fb"></div>
-  </div>
   <div class="after" hidden>
     <p><strong>Same intensity, opposite sign.</strong> It follows from the formula in one line: swapping the materials swaps <span class="mono">n₁</span> and <span class="mono">n₂</span>, which reverses the numerator and leaves the denominator alone.</p>
     <p>An opposite sign means the reflected wave starts out flipped: a phase shift of 180°, the half turn of the complex-number step. In a layered mirror half the surfaces reflect upright and half flipped. Added as they are, they would cancel. The layer thickness is what brings them back into agreement. That is the subject of module 2.</p>
   </div>
 </section>
 
-<section class="step" data-id="angle">
+<section class="step" data-id="angle" data-sum="Reflection at an angle, for the two polarizations. Experiment: molybdenum from 0° to 89°.">
   <h1>What if the light arrives at an angle?</h1>
+  <p class="why">In a scanner the light does not arrive perpendicular to the mirrors, and the mirror of module 3 is computed at 6°. This step shows what an angle changes, and why tilting the mirror is not the way out of the 0.16%.</p>
   <p>In scanners the light hits the mirrors at about 6° from perpendicular. At an angle the same derivation goes through with one change: only the motion of the wave perpendicular to the surface matters, so each index gets multiplied by the cosine of the angle in its own material.</p>
   <p>The result depends on the polarization, the direction in which the electric field swings. Take the plane that contains the incoming ray and the perpendicular to the surface: the plane of incidence. In s polarization the field swings perpendicular to that plane, so it stays parallel to the surface. In p polarization it swings within that plane.</p>
   <div class="formula lines"><span>r<sub>s</sub> = <span class="frac"><span>n₁·cos θ₁ − n₂·cos θ₂</span><span>n₁·cos θ₁ + n₂·cos θ₂</span></span></span><span>r<sub>p</sub> = <span class="frac"><span>n₂·cos θ₁ − n₁·cos θ₂</span><span>n₂·cos θ₁ + n₁·cos θ₂</span></span></span></div>
@@ -355,8 +306,13 @@
     <canvas id="c-ang" style="height:230px"></canvas>
     <div class="ctrl"><label for="s-th">Angle</label><input type="range" id="s-th" min="0" max="89" step="0.5" value="6"><output id="o-th"></output></div>
     <div class="reads"><span><b>R, s polarization</b><span id="r-rs"></span></span><span><b>R, p polarization</b><span id="r-rp"></span></span></div>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="s-th:6" data-note="The angle of a scanner mirror. Both polarizations stay at about 0.16%.">6°</button>
+      <button class="chip" data-set="s-th:43" data-note="p-polarized light is near its minimum. Absorption keeps it from vanishing completely.">43°</button>
+      <button class="chip" data-set="s-th:89" data-note="Almost grazing: here even EUV light reflects well.">89°</button>
+      <div class="note" hidden></div>
+    </div>
   </div>
-  <div class="goal" id="g-th">Find an angle at which molybdenum reflects more than 90%.</div>
   <div class="after" hidden>
     <p><strong>Near grazing, even EUV reflects well.</strong> This is the principle of grazing-incidence mirrors, used in collectors and X-ray telescopes.</p>
     <p>Near 43° the reflection of p-polarized light reaches a very small minimum; absorption prevents it from vanishing completely.</p>
@@ -373,47 +329,24 @@
   </div>
 </section>
 
-<section class="step" data-id="problem">
+<section class="step" data-id="problem" data-sum="Why 80 surfaces cannot simply add, where these formulas stop applying, and a list to check your own reasoning.">
   <h1>The problem to solve, and when these formulas apply</h1>
+  <p class="why">One surface gives 0.16%, and a mirror must give tens of percent. This step states that gap as the problem the next two modules solve, and marks the limits of what has been built so far.</p>
   <p>One surface reflects 0.16% in intensity, that is <span class="mono">|r| ≈ 0.04</span> in amplitude. A real mirror has 40 Mo/Si pairs: 80 surfaces.</p>
   <p>If all 80 reflections added up in agreement, the amplitude would be <span class="mono">80 × 0.04 = 3.2</span> and the reflectance would exceed 1000%.</p>
-  <div class="q">
-    <p>That is impossible. What prevents it?</p>
-    <div class="opts mc">
-      <button data-ok>Deep layers receive less light: part has already been reflected and part absorbed</button>
-      <button data-hint="The formula holds at every surface, buried ones included. The limit comes from how much light gets that far.">The Fresnel formula stops holding below the first surface</button>
-      <button data-hint="Silicon reflects very little in vacuum, but against molybdenum every surface is worth 0.15%.">Silicon surfaces do not reflect</button>
-    </div>
-    <div class="fb"></div>
-  </div>
-  <div class="q">
-    <p>A silicon wafer carries a molybdenum film 3 nm thick. Can the single-surface formula alone give its reflectance?</p>
-    <div class="opts mc">
-      <button data-hint="The film absorbs under 2% of the light, so its lower surface is fully lit and reflects too.">Yes: only the top surface matters</button>
-      <button data-ok>No: the film has two surfaces close together, and their reflections add as waves</button>
-      <button data-hint="The formula still holds at each surface. What is missing is how to add the two reflections.">No: the Fresnel formula fails for thin materials</button>
-    </div>
-    <div class="fb"></div>
-  </div>
-  <div class="q">
-    <p>A surface has bumps 2 nm high. For 13.5 nm light, which assumption of the Fresnel formula fails?</p>
-    <div class="opts mc">
-      <button data-hint="The angle is not the issue. Compare the height of the bumps with the wavelength.">Perpendicular incidence</button>
-      <button data-hint="The material is the same everywhere. The trouble is the shape of its surface.">A uniform material</button>
-      <button data-ok>A flat, sharp boundary</button>
-    </div>
-    <div class="fb"></div>
-  </div>
   <div class="after" hidden>
+    <p>That is impossible, and what prevents it is light itself running out: deep layers receive less, because part has already been reflected and part absorbed. The Fresnel formula keeps holding at every surface, buried ones included.</p>
     <p><strong>The sum saturates.</strong> The nominal model, an ideal stack of 40 pairs with perfectly sharp and smooth interfaces, reaches 74.2%. That number comes from a transfer-matrix calculation, the method the next modules build up to. For the same stack design and illumination conditions, interface imperfections can reduce the specular reflectance, the light in the main reflected beam, relative to this ideal model. Roughness scatters some light away from that beam, while mixing between Mo and Si makes the change in refractive index less abrupt. Absorption is already included in the nominal model.</p>
     <p>The single-surface formula is the building block. What it cannot do alone is add reflections from several surfaces: for that you need the phase each wave picks up while crossing a layer.</p>
+    <p>Take a molybdenum film 3 nm thick on a silicon wafer. The film absorbs under 2% of the light, so its lower surface is fully lit and reflects too. The formula holds at each surface, and what is missing is how to add the two reflections.</p>
+    <p>The formula also assumes a flat, sharp boundary. Bumps 2 nm high are not small against a wavelength of 13.5 nm, and a surface that has them does not meet that assumption.</p>
     <h2>What to carry forward</h2>
     <ul class="carry">
       <li><strong>I(z) = I₀ · e<sup>−z/L</sup>, with L = λ/(4πk).</strong> Use it for light crossing a uniform material. It is not enough for a layer so thin that reflections between its two faces matter.</li>
       <li><strong>r = (n₁ − n₂)/(n₁ + n₂), R = |r|².</strong> Use it for one flat, sharp boundary hit perpendicularly; at an angle, add the cosines. It is not enough for a rough surface or for several boundaries at once.</li>
       <li><strong>Swapping the materials flips the sign of r.</strong> True at every single boundary, and the key to stacking layers.</li>
     </ul>
-    <h2>The module is closed if you can rebuild the reasoning without looking</h2>
+    <h2>To retrace the reasoning</h2>
     <div>
       <details><summary>What do n and k represent?</summary><p>n sets the speed of the crests in the material, and so how much the material bends and reflects light. k sets how fast the wave decays: how much the material absorbs.</p></details>
       <details><summary>Where does the 4π in L = λ/(4πk) come from?</summary><p>2π from the phase of the wave, and a factor 2 because intensity is amplitude squared.</p></details>
@@ -443,38 +376,24 @@ Object.assign(IT, {
   "≈ 0.0396 − 0.0035i": "≈ 0,0396 − 0,0035i",
   "d<sub>½</sub> = L · ln 2 ≈ 0.693 · L": "d<sub>½</sub> = L · ln 2 ≈ 0,693 · L",
   "How much EUV light does a single surface reflect?": "Quanta luce EUV riflette una singola superficie?",
-  "Twelve steps, nine interactive experiments on refractive index, absorption and Fresnel reflection for molybdenum and silicon at 13.5 nm. Choose how to take them.": "Dodici passi, nove esperimenti interattivi su indice di rifrazione, assorbimento e riflessione di Fresnel per molibdeno e silicio a 13,5 nm. Scegli come affrontarli.",
-  "A window reflects 4% of light. What about an EUV mirror?": "Una finestra riflette il 4% della luce. E uno specchio EUV?",
   "Lithography scanners use light with a wavelength of 13.5 nm. Steering it takes mirrors, and the material that does the reflecting is molybdenum.": "Gli scanner per litografia usano luce con lunghezza d'onda 13,5 nm. Per guidarla servono specchi, e il materiale che riflette è il molibdeno.",
-  "Before computing anything, make a prediction. You will meet it again later.": "Prima di calcolare qualsiasi cosa, fai una previsione. La ritroverai più avanti.",
-  "How much 13.5 nm light does a smooth molybdenum surface reflect?": "Quanta luce a 13,5 nm riflette una superficie liscia di molibdeno?",
-  "About 40%, like a polished metal": "Circa il 40%, come un metallo lucido",
-  "About 4%, like glass": "Circa il 4%, come il vetro",
-  "Less than 1%": "Meno dell'1%",
   "The real part: how different the material is from vacuum": "La parte reale: quanto il materiale è diverso dal vuoto",
   "To light, every material is a number: the refractive index <span class=\"mono\">n</span>. Vacuum has <span class=\"mono\">n = 1</span>. Glass, in visible light, has <span class=\"mono\">n = 1.5</span>.": "Per la luce ogni materiale è un numero: l'indice di rifrazione <span class=\"mono\">n</span>. Il vuoto ha <span class=\"mono\">n = 1</span>. Il vetro, nel visibile, ha <span class=\"mono\">n = 1,5</span>.",
   "Move <span class=\"mono\">n</span> and watch the reflected ray and the ray that enters.": "Muovi <span class=\"mono\">n</span> e guarda il raggio riflesso e quello che entra.",
   "n": "n",
   "reflected light": "luce riflessa",
   "The reflected ray is drawn brighter than it really is, so you can see it.": "Il raggio riflesso è disegnato più luminoso del vero, per renderlo visibile.",
-  "Make the material invisible: no reflected ray.": "Rendi il materiale invisibile: nessun raggio riflesso.",
   "<strong>Light reflects only where the two indices differ.</strong> With <span class=\"mono\">n = 1</span> the light does not notice the boundary: it goes straight through and nothing comes back.": "<strong>La luce si riflette solo dove i due indici sono diversi.</strong> Con <span class=\"mono\">n = 1</span> la luce non si accorge del confine: va dritta e non torna indietro niente.",
   "Notice which way the ray bends too: with <span class=\"mono\">n</span> above 1 it moves toward the vertical, with <span class=\"mono\">n</span> below 1 it moves away. At 13.5 nm molybdenum and silicon are both below 1.": "Nota anche da che parte piega il raggio: con <span class=\"mono\">n</span> sopra 1 si avvicina alla verticale, con <span class=\"mono\">n</span> sotto 1 se ne allontana. A 13,5 nm molibdeno e silicio stanno entrambi sotto 1.",
   "The imaginary part: how much the material absorbs": "La parte immaginaria: quanto il materiale assorbe",
   "k": "k",
   "L": "L",
   "light left at 500 nm": "luce rimasta a 500 nm",
-  "You double k. What happens to L?": "Raddoppi k. Cosa succede a L?",
-  "It doubles": "Raddoppia",
-  "It halves": "Si dimezza",
-  "It drops to a quarter": "Diventa un quarto",
   "<strong>The larger k is, the shorter the distance light travels.</strong> It is an inverse proportion: twice the k, half the L.": "<strong>Più k è grande, meno strada fa la luce.</strong> È una proporzionalità inversa: doppio k, metà L.",
   "The two real materials: molybdenum and silicon": "I due materiali veri: molibdeno e silicio",
   "n, real part. The dashed line is vacuum.": "n, parte reale. La linea tratteggiata è il vuoto.",
   "k, absorption (logarithmic scale).": "k, assorbimento (scala logaritmica).",
   "λ": "λ",
-  "At 13.5 nm, which of the two is almost indistinguishable from vacuum?": "A 13,5 nm, quale dei due è quasi indistinguibile dal vuoto?",
-  "They are the same": "Sono uguali",
   "<strong>Each one has a job.</strong> <span class=\"mo\">Molybdenum</span> differs from vacuum, so it is the layer that reflects. <span class=\"si\">Silicon</span> has <span class=\"mono\">n ≈ 0.999</span> and absorbs little: it acts as a nearly transparent spacer.": "<strong>Ognuno ha il suo ruolo.</strong> Il <span class=\"mo\">molibdeno</span> è diverso dal vuoto, quindi è lo strato che riflette. Il <span class=\"si\">silicio</span> ha <span class=\"mono\">n ≈ 0,999</span> e assorbe poco: fa da distanziatore quasi trasparente.",
   "How much material can EUV light cross?": "Quanto materiale può attraversare la luce EUV?",
   "Now use the real <span class=\"mono\">k</span> values at 13.5 nm. Pick the material, change the thickness and see how much light comes out the other side.": "Ora usa i <span class=\"mono\">k</span> veri a 13,5 nm. Scegli il materiale, cambia lo spessore e guarda quanta luce esce dall'altra parte.",
@@ -482,17 +401,12 @@ Object.assign(IT, {
   "Thickness": "Spessore",
   "light coming out": "luce che esce",
   "L of the material": "L del materiale",
-  "Find the silicon thickness that lets half the light through (between 48% and 52%).": "Trova lo spessore di silicio che lascia passare metà della luce (tra 48% e 52%).",
   "Molybdenum at 13.5 nm reflects 0.16%": "Il molibdeno a 13,5 nm riflette lo 0,16%",
   "Each dot is one photon out of 10,000 arriving. The lit ones bounce back.": "Ogni puntino è un fotone su 10.000 che arrivano. Quelli accesi tornano indietro.",
   "Molybdenum in EUV": "Molibdeno in EUV",
   "Glass in visible light": "Vetro nel visibile",
   "reflected": "riflessi",
   "<b>out of</b>10,000": "<b>su</b>10.000",
-  "Why does molybdenum reflect so little?": "Perché il molibdeno riflette così poco?",
-  "Because it absorbs almost all the light at the surface": "Perché assorbe quasi tutta la luce in superficie",
-  "Because its n is only 0.076 away from vacuum": "Perché il suo n dista dal vuoto solo di 0,076",
-  "Because the light arrives at an angle": "Perché la luce arriva inclinata",
   "<strong>At 13.5 nm the index of molybdenum is close to 1, and that of silicon is closer still.</strong> The Fresnel numerator, <span class=\"mono\">n₁ − n₂</span>, is small, and squaring makes it tiny.": "<strong>A 13,5 nm l'indice del molibdeno è vicino a 1, e quello del silicio lo è ancora di più.</strong> Il numeratore di Fresnel, <span class=\"mono\">n₁ − n₂</span>, è piccolo, e il quadrato lo rende minuscolo.",
   "A note on the data, at 6° and s polarization. This lesson interpolates the CXRO tables at exactly 13.500 nm and gives 0.1618%. Taking the nearest tabulated point instead, at 13.4948 nm, gives 0.1615%. Both are legitimate readings of the same tables; the choice moves the result in the fourth digit.": "Una nota sui dati, a 6° e polarizzazione s. Questa lezione interpola le tabelle CXRO esattamente a 13,500 nm e dà 0,1618%. Prendendo invece il punto di tabella più vicino, a 13,4948 nm, si ottiene 0,1615%. Sono due letture legittime delle stesse tabelle; la scelta sposta il risultato sulla quarta cifra.",
   "Direction matters: Si to Mo, or Mo to Si": "Il verso conta: da Si a Mo, o da Mo a Si",
@@ -505,24 +419,15 @@ Object.assign(IT, {
   "+0.05": "+0,05",
   "r": "r",
   "R": "R",
-  "When you swap the two materials, what changes?": "Scambiando i due materiali, cosa cambia?",
-  "R changes, r stays the same": "R cambia, r resta uguale",
-  "r changes sign, R stays the same": "r cambia segno, R resta uguale",
-  "Nothing changes": "Non cambia niente",
   "What if the light arrives at an angle?": "E se la luce arriva inclinata?",
   "Angle": "Angolo",
   "R, s polarization": "R, polarizzazione s",
   "R, p polarization": "R, polarizzazione p",
-  "Find an angle at which molybdenum reflects more than 90%.": "Trova un angolo a cui il molibdeno riflette più del 90%.",
   "<strong>Near grazing, even EUV reflects well.</strong> This is the principle of grazing-incidence mirrors, used in collectors and X-ray telescopes.": "<strong>Quasi radente, anche l'EUV si riflette bene.</strong> È il principio degli specchi a incidenza radente, usati nei collettori e nei telescopi a raggi X.",
   "Near 43° the reflection of p-polarized light reaches a very small minimum; absorption prevents it from vanishing completely.": "Intorno a 43° la riflessione della polarizzazione p raggiunge un minimo molto piccolo; l'assorbimento impedisce che si annulli completamente.",
   "Forming a sharp image over a wide field, however, takes mirrors hit almost head-on. There, between 0° and 6°, R stays pinned around 0.16%.": "Per formare un'immagine nitida su un campo largo servono però specchi colpiti quasi in perpendicolare. Lì, tra 0° e 6°, R resta inchiodato intorno allo 0,16%.",
   "One surface reflects 0.16% in intensity, that is <span class=\"mono\">|r| ≈ 0.04</span> in amplitude. A real mirror has 40 Mo/Si pairs: 80 surfaces.": "Una superficie riflette lo 0,16% in intensità, cioè <span class=\"mono\">|r| ≈ 0,04</span> in ampiezza. Uno specchio vero ha 40 coppie Mo/Si: 80 superfici.",
   "If all 80 reflections added up in agreement, the amplitude would be <span class=\"mono\">80 × 0.04 = 3.2</span> and the reflectance would exceed 1000%.": "Se le 80 riflessioni si sommassero tutte d'accordo, l'ampiezza sarebbe <span class=\"mono\">80 × 0,04 = 3,2</span> e la riflettanza supererebbe il 1000%.",
-  "That is impossible. What prevents it?": "È impossibile. Cosa lo impedisce?",
-  "Deep layers receive less light: part has already been reflected and part absorbed": "Gli strati profondi ricevono meno luce: una parte è già stata riflessa e una parte assorbita",
-  "The Fresnel formula stops holding below the first surface": "La formula di Fresnel smette di valere sotto la prima superficie",
-  "Silicon surfaces do not reflect": "Le superfici del silicio non riflettono",
   "<strong>The sum saturates.</strong> The nominal model, an ideal stack of 40 pairs with perfectly sharp and smooth interfaces, reaches 74.2%. That number comes from a transfer-matrix calculation, the method the next modules build up to. For the same stack design and illumination conditions, interface imperfections can reduce the specular reflectance, the light in the main reflected beam, relative to this ideal model. Roughness scatters some light away from that beam, while mixing between Mo and Si makes the change in refractive index less abrupt. Absorption is already included in the nominal model.": "<strong>La somma satura.</strong> Il modello nominale, uno stack ideale di 40 coppie con interfacce perfettamente nette e lisce, arriva al 74,2%. Il numero viene da un calcolo con le matrici di trasferimento, il metodo a cui portano i prossimi moduli. A parità di progetto dello stack e di condizioni di illuminazione, le imperfezioni delle interfacce possono ridurre la riflettanza speculare, cioè la luce nel fascio riflesso principale, rispetto al modello ideale. La rugosità disperde parte della luce fuori da quel fascio, mentre il mescolamento tra Mo e Si rende meno netto il cambiamento dell'indice di rifrazione. L'assorbimento è già incluso nel modello nominale.",
   "What do n and k represent?": "Cosa rappresentano n e k?",
   "Why does EUV work at 13.5 nm and not at 12 nm?": "Perché l'EUV lavora a 13,5 nm e non a 12 nm?",
@@ -532,21 +437,8 @@ Object.assign(IT, {
   "0.16%. Its n is only 0.076 away from 1, and Fresnel squares that difference.": "Lo 0,16%. Il suo n dista da 1 solo di 0,076, e Fresnel eleva quella differenza al quadrato.",
   "What is the difference between Si→Mo and Mo→Si?": "Che differenza c'è tra Si→Mo e Mo→Si?",
   "Same R, but r has the opposite sign: the reflected wave starts out flipped.": "Stessa R, ma r ha segno opposto: l'onda riflessa parte capovolta.",
-  "Look at the formula: k sits below the fraction bar.": "Guarda la formula: k sta sotto la linea di frazione.",
-  "k appears to the first power, not squared. Try it with the slider: from 0.002 to 0.004.": "k compare alla prima potenza, non al quadrato. Prova con il cursore: da 0,002 a 0,004.",
-  "Molybdenum has n ≈ 0.924: almost eighty times further from 1 than silicon.": "Il molibdeno ha n ≈ 0,924: è lontano da 1 quasi ottanta volte più del silicio.",
-  "Look at the left chart: the two curves are well apart.": "Guarda il grafico di sinistra: le due curve sono ben separate.",
-  "6° from perpendicular changes R very little. You will see that two steps from now.": "6° dalla perpendicolare cambiano R di pochissimo. Lo vedrai tra due passi.",
-  "Look at the value of R in the two cases: it is identical.": "Guarda il valore di R nei due casi: è identico.",
-  "Something does change: follow the dot on the line.": "Qualcosa cambia: segui il pallino sulla linea.",
-  "The formula holds at every surface, buried ones included. The limit comes from how much light gets that far.": "La formula vale a ogni superficie, comprese quelle sepolte. Il limite viene da quanta luce arriva fin lì.",
-  "Silicon reflects very little in vacuum, but against molybdenum every surface is worth 0.15%.": "Il silicio riflette pochissimo nel vuoto, ma contro il molibdeno ogni superficie vale lo 0,15%.",
-  "about 40%": "circa il 40%",
-  "about 4%": "circa il 4%",
-  "less than 1%": "meno dell'1%",
   "Next: module 2, a single layer.": "Prossimo: modulo 2, un singolo strato.",
   "depth z (nm)": "profondità z (nm)",
-  "The steps that follow build the answer one piece at a time.": "I passi che seguono costruiscono la risposta un pezzo alla volta.",
   "First, what a light wave is": "Prima di tutto, cos'è un'onda di luce",
   "Light is a wave: an electric field that swings up and down as it travels. Two numbers describe its shape. The amplitude <span class=\"mono\">A</span> is the height of the swing. The wavelength <span class=\"mono\">λ</span> is the distance from one crest to the next: 13.5 nm for EUV, about 500 nm for green light.": "La luce è un'onda: un campo elettrico che oscilla su e giù mentre viaggia. Due numeri ne descrivono la forma. L'ampiezza <span class=\"mono\">A</span> è l'altezza dell'oscillazione. La lunghezza d'onda <span class=\"mono\">λ</span> è la distanza tra una cresta e la successiva: 13,5 nm per l'EUV, circa 500 nm per la luce verde.",
   "A detector does not measure the field. It measures the energy delivered, the intensity <span class=\"mono\">I</span>, and intensity grows as the square of the amplitude.": "Un rivelatore non misura il campo. Misura l'energia che arriva, l'intensità <span class=\"mono\">I</span>, e l'intensità cresce come il quadrato dell'ampiezza.",
@@ -555,7 +447,6 @@ Object.assign(IT, {
   "Amplitude": "Ampiezza",
   "intensity": "intensità",
   "The dashed curve is the full wave, amplitude 1.": "La curva tratteggiata è l'onda intera, di ampiezza 1.",
-  "Set the amplitude so that the intensity is one quarter of the full wave (between 24% and 26%).": "Regola l'ampiezza in modo che l'intensità sia un quarto di quella dell'onda intera (tra 24% e 26%).",
   "<strong>Half the amplitude, a quarter of the intensity.</strong> This square is the reason a surface that sends back 4% of the amplitude sends back only 0.16% of the intensity.": "<strong>Metà ampiezza, un quarto dell'intensità.</strong> Questo quadrato è il motivo per cui una superficie che rimanda indietro il 4% dell'ampiezza rimanda solo lo 0,16% dell'intensità.",
   "Now press Flipped. The wave turns upside down: crests become troughs. The intensity does not change, because <span class=\"mono\">(−A)² = A²</span>. A flipped wave is written with a negative amplitude. You will need this when two reflections meet.": "Ora premi Capovolta. L'onda si ribalta: le creste diventano valli. L'intensità non cambia, perché <span class=\"mono\">(−A)² = A²</span>. Un'onda capovolta si scrive con ampiezza negativa. Ti servirà quando due riflessioni si incontrano.",
   "The energy stored in an electric field is proportional to the field squared, just as the energy of a stretched spring is proportional to the stretch squared. Averaged over one oscillation, that leaves A².": "L'energia immagazzinata in un campo elettrico è proporzionale al quadrato del campo, come l'energia di una molla tesa è proporzionale al quadrato dell'allungamento. Mediata su un'oscillazione, resta A².",
@@ -572,22 +463,18 @@ Object.assign(IT, {
   "Modulus": "Modulo",
   "Phase": "Fase",
   "z": "z",
-  "Turn the arrow until the number is −1: modulus 1, phase 180°.": "Ruota la freccia finché il numero è −1: modulo 1, fase 180°.",
-  "What is the modulus of 3 + 4i?": "Quanto vale il modulo di 3 + 4i?",
   "Pythagoras. The steps a and b are the two legs of a right triangle and the arrow is its hypotenuse.": "Pitagora. I passi a e b sono i due cateti di un triangolo rettangolo e la freccia è l'ipotenusa.",
   "None. It holds for every complex number.": "Nessuna. Vale per ogni numero complesso.",
   "a is the real part, b the imaginary part, |z| the modulus.": "a è la parte reale, b la parte immaginaria, |z| il modulo.",
   "3 + 4i has modulus 5, because 9 + 16 = 25. In the experiment, modulus 1 at phase 90° reads 0 + 1i: one step up, none to the right.": "3 + 4i ha modulo 5, perché 9 + 16 = 25. Nell'esperimento, modulo 1 e fase 90° danno 0 + 1i: un passo in alto, nessuno a destra.",
   "The first factor is an arrow of length 1 that only rotates: the wave oscillating, with wavelength <span class=\"mono\">λ/n</span>. In the second factor the <span class=\"mono\">i</span> is gone, because <span class=\"mono\">i · i = −1</span>. What is left is an ordinary number that shrinks as <span class=\"mono\">z</span> grows. The imaginary part of the index turns oscillation into decay.": "Il primo fattore è una freccia di lunghezza 1 che ruota soltanto: l'onda che oscilla, con lunghezza d'onda <span class=\"mono\">λ/n</span>. Nel secondo fattore la <span class=\"mono\">i</span> è sparita, perché <span class=\"mono\">i · i = −1</span>. Resta un numero ordinario che si riduce al crescere di <span class=\"mono\">z</span>. La parte immaginaria dell'indice trasforma l'oscillazione in smorzamento.",
   "That second factor multiplies the amplitude. Intensity is amplitude squared, so the exponent doubles. The distance after which 37% of the intensity is left is called the attenuation length <span class=\"mono\">L</span>.": "Quel secondo fattore moltiplica l'ampiezza. L'intensità è il quadrato dell'ampiezza, quindi l'esponente raddoppia. La distanza dopo cui resta il 37% dell'intensità si chiama lunghezza di attenuazione <span class=\"mono\">L</span>.",
-  "Molybdenum at 13.5 nm has k = 0.00644. Compute L in nm.": "Il molibdeno a 13,5 nm ha k = 0,00644. Calcola L in nm.",
   "What an exponential means in practice: every stretch of length L multiplies the light by the same factor, 0.37. After 2L there is 0.37 × 0.37 = 14% left, after 3L 5%. Equal steps remove equal fractions. That is the signature of absorption.": "Cosa significa in pratica un esponenziale: ogni tratto di lunghezza L moltiplica la luce per lo stesso fattore, 0,37. Dopo 2L resta 0,37 × 0,37 = 14%, dopo 3L il 5%. Passi uguali tolgono frazioni uguali. È la firma dell'assorbimento.",
   "The amplitude decays as e<sup>−2πkz/λ</sup>. Squaring it for the intensity gives e<sup>−4πkz/λ</sup>. Giving the distance λ/(4πk) the name L turns that into e<sup>−z/L</sup>. So the 4π is 2π from the wave's phase, times 2 from the square.": "L'ampiezza decade come e<sup>−2πkz/λ</sup>. Elevandola al quadrato per avere l'intensità si ottiene e<sup>−4πkz/λ</sup>. Chiamando L la distanza λ/(4πk), questo diventa e<sup>−z/L</sup>. Il 4π è quindi 2π dalla fase dell'onda, per 2 dal quadrato.",
   "A uniform material, light of a single wavelength, and a beam weak enough that the material treats every photon the same way.": "Un materiale uniforme, luce di una sola lunghezza d'onda, e un fascio abbastanza debole da far reagire il materiale allo stesso modo a ogni fotone.",
   "λ is the wavelength in vacuum. k is the imaginary part of the index. z is the depth inside the material. I₀ is the intensity just inside the surface.": "λ è la lunghezza d'onda nel vuoto. k è la parte immaginaria dell'indice. z è la profondità nel materiale. I₀ è l'intensità appena sotto la superficie.",
   "Units: λ is a length and k is a pure number, so L is a length. Limit: k = 0 gives an infinite L, no absorption, as in vacuum. Numbers: silicon has k = 0.001826, so L = 13.5 / (4π × 0.001826) = 588 nm, the value the next steps display.": "Unità: λ è una lunghezza e k è un numero puro, quindi L è una lunghezza. Limite: k = 0 dà L infinita, nessun assorbimento, come nel vuoto. Numeri: il silicio ha k = 0,001826, quindi L = 13,5 / (4π × 0,001826) = 588 nm, il valore che mostrano i passi successivi.",
   "Drag the slider all the way left. Below 12.45 nm the <span class=\"mono\">k</span> of silicon quadruples: there the photons have enough energy to pull out a deeper group of silicon electrons, and absorption jumps. EUV works at 13.5 nm to stay on the good side of that edge.": "Porta il cursore tutto a sinistra. Sotto 12,45 nm il <span class=\"mono\">k</span> del silicio quadruplica: lì i fotoni hanno abbastanza energia per strappare un gruppo di elettroni più profondi del silicio, e l'assorbimento fa un salto. L'EUV lavora a 13,5 nm per stare dal lato buono di quel bordo.",
-  "The halving thickness is 0.693 × L. For molybdenum, L = 167 nm. What thickness halves the light, in nm?": "Lo spessore di dimezzamento è 0,693 × L. Per il molibdeno, L = 167 nm. Quale spessore dimezza la luce, in nm?",
   "<strong>About 400 nm of silicon halves the light, and 116 nm of molybdenum.</strong> A lens is millimetres thick, thousands of times more: nothing would come out. That is why there are no EUV lenses and the whole beam path is in vacuum. Only mirrors are left.": "<strong>Circa 400 nm di silicio dimezzano la luce, e 116 nm di molibdeno.</strong> Una lente è spessa millimetri, migliaia di volte tanto: non ne uscirebbe nulla. Per questo non esistono lenti EUV e tutto il percorso del fascio è nel vuoto. Restano solo gli specchi.",
   "Ask for half the light: e<sup>−d/L</sup> = 1/2. The natural logarithm, ln, undoes the exponential: it answers the question \"e to which power gives this number?\". Applying it to both sides gives d/L = ln 2 = 0.693.": "Chiedi metà della luce: e<sup>−d/L</sup> = 1/2. Il logaritmo naturale, ln, annulla l'esponenziale: risponde alla domanda «e elevato a quale potenza dà questo numero?». Applicandolo ai due membri si ottiene d/L = ln 2 = 0,693.",
   "The same as for L, plus one: reflections at the two faces are ignored. At 13.5 nm each face reflects 0.16% or less, so the error is small.": "Le stesse di L, più una: le riflessioni alle due facce sono ignorate. A 13,5 nm ogni faccia riflette lo 0,16% o meno, quindi l'errore è piccolo.",
@@ -597,16 +484,12 @@ Object.assign(IT, {
   "You have seen the fact: light reflects only where the two indices differ. Now the reason, and the amount. Send a wave of amplitude 1 perpendicular onto a boundary. A reflected wave of amplitude <span class=\"mono\">r</span> goes back, a transmitted wave of amplitude <span class=\"mono\">t</span> goes on. Two things must match at the boundary.": "Il fatto lo hai visto: la luce si riflette solo dove i due indici sono diversi. Ora il motivo, e la quantità. Manda un'onda di ampiezza 1 perpendicolare a un confine. Un'onda riflessa di ampiezza <span class=\"mono\">r</span> torna indietro, un'onda trasmessa di ampiezza <span class=\"mono\">t</span> prosegue. Al confine due cose devono combaciare.",
   "Two equations, two unknowns. Put <span class=\"mono\">t = 1 + r</span> from the first into the second: <span class=\"mono\">n₁ − n₁·r = n₂ + n₂·r</span>. Move the terms with <span class=\"mono\">r</span> to one side: <span class=\"mono\">n₁ − n₂ = r · (n₁ + n₂)</span>. Divide.": "Due equazioni, due incognite. Metti <span class=\"mono\">t = 1 + r</span> dalla prima nella seconda: <span class=\"mono\">n₁ − n₁·r = n₂ + n₂·r</span>. Porta i termini con <span class=\"mono\">r</span> da una parte: <span class=\"mono\">n₁ − n₂ = r · (n₁ + n₂)</span>. Dividi.",
   "<span class=\"mono\">r</span> is the reflected fraction of the amplitude, and it can be negative. <span class=\"mono\">R</span> is the reflected fraction of the intensity, the one a detector measures.": "<span class=\"mono\">r</span> è la frazione riflessa dell'ampiezza, e può essere negativa. <span class=\"mono\">R</span> è la frazione riflessa dell'intensità, quella che misura un rivelatore.",
-  "Air onto glass: n₁ = 1, n₂ = 1.5. What is r?": "Aria su vetro: n₁ = 1, n₂ = 1,5. Quanto vale r?",
-  "And R, as a percentage?": "E R, in percentuale?",
   "<strong>4%: the reflection you see on a window.</strong> The minus sign of <span class=\"mono\">r</span> says the reflected wave is flipped. It disappears in the square, but two steps from now it takes the lead.": "<strong>4%: il riflesso che vedi su una finestra.</strong> Il segno meno di <span class=\"mono\">r</span> dice che l'onda riflessa è capovolta. Sparisce nel quadrato, ma tra due passi diventa il protagonista.",
   "One more check, on energy. The first equation gives <span class=\"mono\">t = 1 + r = 0.8</span>. The wave inside the glass carries <span class=\"mono\">n₂/n₁</span> times its amplitude squared, so the transmitted fraction is <span class=\"mono\">1.5 × 0.8² = 0.96</span>. Reflected plus transmitted: 0.04 + 0.96 = 1. Nothing is lost at a boundary between two transparent materials.": "Un altro controllo, sull'energia. La prima equazione dà <span class=\"mono\">t = 1 + r = 0,8</span>. L'onda dentro il vetro trasporta <span class=\"mono\">n₂/n₁</span> volte il quadrato della sua ampiezza, quindi la frazione trasmessa è <span class=\"mono\">1,5 × 0,8² = 0,96</span>. Riflessa più trasmessa: 0,04 + 0,96 = 1. A un confine tra due materiali trasparenti non si perde nulla.",
   "Light arriving perpendicular to the surface. A flat, perfectly sharp boundary. Two uniform, non-magnetic materials. A single boundary: nothing behind it sends light back.": "Luce che arriva perpendicolare alla superficie. Un confine piano e perfettamente netto. Due materiali uniformi e non magnetici. Un solo confine: dietro non c'è nulla che rimandi indietro luce.",
   "n₁ is the index on the side the light comes from, n₂ the index on the far side. r is the reflected amplitude relative to the incoming one; its sign, or its phase when the indices are complex, says how the reflected wave is shifted. R is the reflected fraction of intensity.": "n₁ è l'indice dal lato da cui arriva la luce, n₂ quello dal lato opposto. r è l'ampiezza riflessa rispetto a quella in arrivo; il suo segno, o la sua fase quando gli indici sono complessi, dice come è spostata l'onda riflessa. R è la frazione riflessa dell'intensità.",
   "Equal indices give r = 0: nothing reflects, as in the experiment with n = 1. A very large n₂ gives r close to −1: a perfect mirror that flips the wave. Swapping the two materials changes the sign of r and leaves R the same.": "Indici uguali danno r = 0: non si riflette niente, come nell'esperimento con n = 1. Un n₂ molto grande dà r vicino a −1: uno specchio perfetto che capovolge l'onda. Scambiare i due materiali cambia il segno di r e lascia R uguale.",
-  "<span class=\"guided-only\">You predicted: <strong id=\"pred-echo\">—</strong>. </span>With complex indices the formula stays the same, and the arithmetic is done with complex numbers. For vacuum onto molybdenum, <span class=\"mono\">ñ = 0.9238 + 0.0064i</span>:": "<span class=\"guided-only\">Avevi previsto: <strong id=\"pred-echo\">—</strong>. </span>Con indici complessi la formula resta la stessa, e i conti si fanno con i numeri complessi. Per vuoto su molibdeno, <span class=\"mono\">ñ = 0,9238 + 0,0064i</span>:",
   "Then the modulus squared, as in the complex-number step: <span class=\"mono\">R = 0.0396² + 0.0035² = 0.0016</span>, that is 0.16%. Twenty-five times less than a window.": "Poi il modulo al quadrato, come nel passo sui numeri complessi: <span class=\"mono\">R = 0,0396² + 0,0035² = 0,0016</span>, cioè 0,16%. Venticinque volte meno di una finestra.",
-  "A quick estimate: ignore k and use n = 0.924. Compute R as a percentage.": "Una stima rapida: ignora k e usa n = 0,924. Calcola R in percentuale.",
   "Your estimate without <span class=\"mono\">k</span> gave 0.156% against 0.158% for the full calculation. At this wavelength the reflection of molybdenum comes from its <span class=\"mono\">n</span>; absorption adds almost nothing.": "La tua stima senza <span class=\"mono\">k</span> ha dato 0,156% contro 0,158% del calcolo completo. A questa lunghezza d'onda la riflessione del molibdeno viene dal suo <span class=\"mono\">n</span>; l'assorbimento non aggiunge quasi nulla.",
   "<strong>Same intensity, opposite sign.</strong> It follows from the formula in one line: swapping the materials swaps <span class=\"mono\">n₁</span> and <span class=\"mono\">n₂</span>, which reverses the numerator and leaves the denominator alone.": "<strong>Stessa intensità, segno opposto.</strong> Segue dalla formula in una riga: scambiare i materiali scambia <span class=\"mono\">n₁</span> e <span class=\"mono\">n₂</span>, il che inverte il numeratore e lascia intatto il denominatore.",
   "An opposite sign means the reflected wave starts out flipped: a phase shift of 180°, the half turn of the complex-number step. In a layered mirror half the surfaces reflect upright and half flipped. Added as they are, they would cancel. The layer thickness is what brings them back into agreement. That is the subject of module 2.": "Un segno opposto vuol dire che l'onda riflessa parte capovolta: uno sfasamento di 180°, il mezzo giro del passo sui numeri complessi. In uno specchio a strati metà delle superfici riflette dritto e metà capovolto. Sommate così come sono, si cancellerebbero. Lo spessore degli strati serve a rimetterle d'accordo. È il tema del modulo 2.",
@@ -615,12 +498,6 @@ Object.assign(IT, {
   "The same two matching conditions as before, written for a wave that crosses the boundary obliquely. Snell's law supplies the angle θ₂ inside the material.": "Le stesse due condizioni di raccordo di prima, scritte per un'onda che attraversa il confine in obliquo. La legge di Snell fornisce l'angolo θ₂ dentro il materiale.",
   "θ₁ is the angle of the incoming ray from the perpendicular. θ₂ is the angle of the ray inside, which becomes a complex number when the material absorbs.": "θ₁ è l'angolo del raggio in arrivo dalla perpendicolare. θ₂ è l'angolo del raggio all'interno, che diventa un numero complesso quando il materiale assorbe.",
   "The problem to solve, and when these formulas apply": "Il problema da risolvere, e quando valgono queste formule",
-  "A silicon wafer carries a molybdenum film 3 nm thick. Can the single-surface formula alone give its reflectance?": "Un wafer di silicio porta un film di molibdeno spesso 3 nm. La formula per una sola superficie basta a darne la riflettanza?",
-  "Yes: only the top surface matters": "Sì: conta solo la superficie superiore",
-  "No: the film has two surfaces close together, and their reflections add as waves": "No: il film ha due superfici vicine, e le loro riflessioni si sommano come onde",
-  "No: the Fresnel formula fails for thin materials": "No: la formula di Fresnel non vale per materiali sottili",
-  "A surface has bumps 2 nm high. For 13.5 nm light, which assumption of the Fresnel formula fails?": "Una superficie ha rilievi alti 2 nm. Per luce a 13,5 nm, quale ipotesi della formula di Fresnel viene meno?",
-  "Perpendicular incidence": "Incidenza perpendicolare",
   "A uniform material": "Un materiale uniforme",
   "A flat, sharp boundary": "Un confine piano e netto",
   "The single-surface formula is the building block. What it cannot do alone is add reflections from several surfaces: for that you need the phase each wave picks up while crossing a layer.": "La formula per una sola superficie è il mattone di base. Quello che da sola non sa fare è sommare le riflessioni di più superfici: per questo serve la fase che ogni onda accumula attraversando uno strato.",
@@ -628,23 +505,12 @@ Object.assign(IT, {
   "<strong>I(z) = I₀ · e<sup>−z/L</sup>, with L = λ/(4πk).</strong> Use it for light crossing a uniform material. It is not enough for a layer so thin that reflections between its two faces matter.": "<strong>I(z) = I₀ · e<sup>−z/L</sup>, con L = λ/(4πk).</strong> Usala per la luce che attraversa un materiale uniforme. Non basta per uno strato così sottile che contano le riflessioni tra le sue due facce.",
   "<strong>r = (n₁ − n₂)/(n₁ + n₂), R = |r|².</strong> Use it for one flat, sharp boundary hit perpendicularly; at an angle, add the cosines. It is not enough for a rough surface or for several boundaries at once.": "<strong>r = (n₁ − n₂)/(n₁ + n₂), R = |r|².</strong> Usala per un solo confine piano e netto colpito in perpendicolare; con un angolo, aggiungi i coseni. Non basta per una superficie rugosa o per più confini insieme.",
   "<strong>Swapping the materials flips the sign of r.</strong> True at every single boundary, and the key to stacking layers.": "<strong>Scambiare i materiali cambia il segno di r.</strong> Vale a ogni singolo confine, ed è la chiave per impilare gli strati.",
-  "The module is closed if you can rebuild the reasoning without looking": "Il modulo è chiuso se sai ricostruire il ragionamento senza guardare",
   "n sets the speed of the crests in the material, and so how much the material bends and reflects light. k sets how fast the wave decays: how much the material absorbs.": "n fissa la velocità delle creste nel materiale, e quindi quanto il materiale piega e riflette la luce. k fissa quanto in fretta l'onda si smorza: quanto il materiale assorbe.",
   "Where does the 4π in L = λ/(4πk) come from?": "Da dove viene il 4π in L = λ/(4πk)?",
   "2π from the phase of the wave, and a factor 2 because intensity is amplitude squared.": "2π dalla fase dell'onda, e un fattore 2 perché l'intensità è il quadrato dell'ampiezza.",
   "Which two conditions give the Fresnel formula?": "Quali due condizioni danno la formula di Fresnel?",
   "Light is halved in about 400 nm of silicon and in 116 nm of molybdenum. A lens is thousands of times thicker.": "La luce si dimezza in circa 400 nm di silicio e in 116 nm di molibdeno. Una lente è migliaia di volte più spessa.",
-  "Use |z|² = a² + b²: 9 + 16 = 25. The modulus is the square root.": "Usa |z|² = a² + b²: 9 + 16 = 25. Il modulo è la radice quadrata.",
-  "L = 13.5 / (4 × 3.1416 × 0.00644).": "L = 13,5 / (4 × 3,1416 × 0,00644).",
-  "Multiply: 0.693 × 167. Then check it in the experiment with Molybdenum selected.": "Moltiplica: 0,693 × 167. Poi verificalo nell'esperimento selezionando Molibdeno.",
-  "r = (1 − 1.5) / (1 + 1.5). Mind the sign.": "r = (1 − 1,5) / (1 + 1,5). Attento al segno.",
-  "Square r, then turn the fraction into a percentage: 0.04 is 4%.": "Eleva r al quadrato, poi trasforma la frazione in percentuale: 0,04 è il 4%.",
-  "r = (1 − 0.924) / (1 + 0.924) = 0.0395. Square it and express it as a percentage.": "r = (1 − 0,924) / (1 + 0,924) = 0,0395. Elevalo al quadrato ed esprimilo in percentuale.",
-  "The k of molybdenum is 0.006: small. Your estimate without k gave almost the full answer.": "Il k del molibdeno è 0,006: piccolo. La tua stima senza k ha dato quasi tutta la risposta.",
   "The film absorbs under 2% of the light, so its lower surface is fully lit and reflects too.": "Il film assorbe meno del 2% della luce, quindi la sua superficie inferiore è pienamente illuminata e riflette anche lei.",
-  "The formula still holds at each surface. What is missing is how to add the two reflections.": "La formula vale ancora a ogni superficie. Quello che manca è come sommare le due riflessioni.",
-  "The angle is not the issue. Compare the height of the bumps with the wavelength.": "Il problema non è l'angolo. Confronta l'altezza dei rilievi con la lunghezza d'onda.",
-  "The material is the same everywhere. The trouble is the shape of its surface.": "Il materiale è lo stesso ovunque. Il guaio è la forma della sua superficie.",
   "real part": "parte reale",
   "imaginary part": "parte immaginaria",
   "These are tabulated optical constants from the CXRO database, interpolated here at the wavelength you choose. Move the wavelength and read <span class=\"mono\">n</span> and <span class=\"mono\">k</span> for <span class=\"mo\">Mo</span> and <span class=\"si\">Si</span>.": "Queste sono costanti ottiche tabulate, dal database CXRO, qui interpolate alla lunghezza d'onda che scegli. Muovi la lunghezza d'onda e leggi <span class=\"mono\">n</span> e <span class=\"mono\">k</span> per <span class=\"mo\">Mo</span> e <span class=\"si\">Si</span>.",
@@ -662,11 +528,71 @@ Object.assign(IT, {
   "The full index is a complex number, <span class=\"mono\">ñ = n + i·k</span>. Here is what the second piece does. A wave that travels a distance <span class=\"mono\">z</span> through a material gets multiplied by <span class=\"mono\">e<sup>i·2π·ñ·z/λ</sup></span>. Read the exponent piece by piece: <span class=\"mono\">z/λ</span> counts how many wavelengths fit in the distance, each one is a full turn of 2π, and the index stretches or shrinks the count. Now split the index into its two parts:": "L'indice completo è un numero complesso, <span class=\"mono\">ñ = n + i·k</span>. Ecco cosa fa il secondo pezzo. Un'onda che percorre una distanza <span class=\"mono\">z</span> in un materiale viene moltiplicata per <span class=\"mono\">e<sup>i·2π·ñ·z/λ</sup></span>. Leggi l'esponente un pezzo alla volta: <span class=\"mono\">z/λ</span> conta quante lunghezze d'onda entrano nella distanza, ciascuna vale un giro completo di 2π, e l'indice allunga o accorcia il conteggio. Ora separa l'indice nelle sue due parti:",
   "A steady beam of a single wavelength. The constant of proportionality is left out because it cancels in ratios between waves in the same material, which is all this step needs. Between two different materials the constant differs, and the Fresnel step accounts for it.": "Un fascio stazionario di una sola lunghezza d'onda. La costante di proporzionalità è omessa perché si cancella nei rapporti tra onde nello stesso materiale, che è tutto ciò che serve in questo passo. Tra due materiali diversi la costante cambia, e il passo su Fresnel ne tiene conto.",
   "An index below 1 means the crests move faster than <span class=\"mono\">c</span>. The speed <span class=\"mono\">c/n</span> is the speed of the crests, called the phase velocity. This does not allow information to travel faster than <span class=\"mono\">c</span>.": "Un indice sotto 1 significa che le creste vanno più veloci di <span class=\"mono\">c</span>. La velocità <span class=\"mono\">c/n</span> è quella delle creste, detta velocità di fase. Questo non permette all'informazione di viaggiare più veloce di <span class=\"mono\">c</span>.",
-  "At θ₁ = 0 both cosines are 1 and the s formula becomes the perpendicular one. At normal incidence both polarizations give the same reflectance; with the p formula written above, the amplitude has the opposite sign. Two landmarks of the chart can be predicted by hand from the simpler case of a real index, with no absorption. The bend: with n = 0.924, Snell's law has no real solution once sin θ₁ exceeds n, that is beyond 67.5°, and without absorption all the light would be reflected from there on. Absorption smooths that transition: at 67.5° molybdenum reflects about 46% for s and 40% for p, rising toward 100% nearer grazing incidence. The dip of p: without absorption it would fall where tan θ₁ = n, at 42.7°.": "Con θ₁ = 0 i due coseni valgono 1 e la formula s diventa quella perpendicolare. A incidenza normale le due polarizzazioni danno la stessa riflettanza; con la formula p scritta sopra, l'ampiezza ha segno opposto. Due punti notevoli del grafico si possono prevedere a mano dal caso più semplice di un indice reale, senza assorbimento. Il gomito: con n = 0,924 la legge di Snell non ha soluzione reale quando sin θ₁ supera n, cioè oltre 67,5°, e senza assorbimento da lì in poi tutta la luce sarebbe riflessa. L'assorbimento addolcisce la transizione: a 67,5° il molibdeno riflette circa il 46% per s e il 40% per p, e sale verso il 100% avvicinandosi all'incidenza radente. Il minimo di p: senza assorbimento cadrebbe dove tan θ₁ = n, a 42,7°."
+  "At θ₁ = 0 both cosines are 1 and the s formula becomes the perpendicular one. At normal incidence both polarizations give the same reflectance; with the p formula written above, the amplitude has the opposite sign. Two landmarks of the chart can be predicted by hand from the simpler case of a real index, with no absorption. The bend: with n = 0.924, Snell's law has no real solution once sin θ₁ exceeds n, that is beyond 67.5°, and without absorption all the light would be reflected from there on. Absorption smooths that transition: at 67.5° molybdenum reflects about 46% for s and 40% for p, rising toward 100% nearer grazing incidence. The dip of p: without absorption it would fall where tan θ₁ = n, at 42.7°.": "Con θ₁ = 0 i due coseni valgono 1 e la formula s diventa quella perpendicolare. A incidenza normale le due polarizzazioni danno la stessa riflettanza; con la formula p scritta sopra, l'ampiezza ha segno opposto. Due punti notevoli del grafico si possono prevedere a mano dal caso più semplice di un indice reale, senza assorbimento. Il gomito: con n = 0,924 la legge di Snell non ha soluzione reale quando sin θ₁ supera n, cioè oltre 67,5°, e senza assorbimento da lì in poi tutta la luce sarebbe riflessa. L'assorbimento addolcisce la transizione: a 67,5° il molibdeno riflette circa il 46% per s e il 40% per p, e sale verso il 100% avvicinandosi all'incidenza radente. Il minimo di p: senza assorbimento cadrebbe dove tan θ₁ = n, a 42,7°.",
+  "Lithography scanners use light with a wavelength of 13.5 nm. Steering it takes mirrors, and the material that does the reflecting is molybdenum. A window reflects 4% of visible light. A smooth molybdenum surface reflects 0.16% of EUV light. Eleven ideas explain that number, nine of them with an experiment. Open any of them, in any order.": "Gli scanner per litografia usano luce con lunghezza d'onda di 13,5 nm. Per guidarla servono specchi, e il materiale che riflette è il molibdeno. Una finestra riflette il 4% della luce visibile. Una superficie liscia di molibdeno riflette lo 0,16% della luce EUV. Undici idee spiegano quel numero, nove delle quali con un esperimento. Aprine una qualsiasi, in qualsiasi ordine.",
+  "This is the starting point of the whole project. Everything that follows, the film of module 2, the 40-pair mirror of module 3, its heat in modules 5 and 6, is built from two numbers per material, n and k, and from one formula for one surface. This module introduces them from the ground up, together with the mathematics they need.": "Questo è il punto di partenza di tutto il progetto. Tutto ciò che segue, il film del modulo 2, lo specchio a 40 coppie del modulo 3, il suo calore nei moduli 5 e 6, è costruito con due numeri per materiale, n e k, e con una formula per una superficie. Questo modulo li introduce da zero, insieme alla matematica che richiedono.",
+  "With complex indices the formula stays the same, and the arithmetic is done with complex numbers. For vacuum onto molybdenum, <span class=\"mono\">ñ = 0.9238 + 0.0064i</span>:": "Con indici complessi la formula resta la stessa, e i conti si fanno con i numeri complessi. Per vuoto su molibdeno, <span class=\"mono\">ñ = 0,9238 + 0,0064i</span>:",
+  "Amplitude, wavelength, intensity. Experiment: amplitude against intensity, and a flipped wave.": "Ampiezza, lunghezza d'onda, intensità. Esperimento: ampiezza e intensità, e un'onda capovolta.",
+  "The refractive index, and why light reflects at a boundary. Experiment: one boundary, with n from 0.7 to 1.6.": "L'indice di rifrazione, e perché la luce si riflette a un confine. Esperimento: un confine, con n da 0,7 a 1,6.",
+  "Modulus and phase of a complex number. Experiment: an arrow to stretch and turn.": "Modulo e fase di un numero complesso. Esperimento: una freccia da allungare e ruotare.",
+  "The imaginary part of the index and the absorption length. Experiment: k against how far light gets.": "La parte immaginaria dell'indice e la lunghezza di assorbimento. Esperimento: k e la distanza che la luce percorre.",
+  "n and k of molybdenum and silicon from the CXRO tables. Experiment: both against wavelength.": "n e k di molibdeno e silicio dalle tabelle CXRO. Esperimento: entrambi in funzione della lunghezza d'onda.",
+  "How much material EUV light can cross. Experiment: light through a slab of silicon or molybdenum.": "Quanto materiale può attraversare la luce EUV. Esperimento: luce attraverso una lastra di silicio o di molibdeno.",
+  "The reflection of one boundary, derived from two conditions on the fields.": "La riflessione di un confine, ricavata da due condizioni sui campi.",
+  "The number this module is about: 0.16%. Experiment: 10,000 photons on molybdenum and on glass.": "Il numero di cui parla questo modulo: 0,16%. Esperimento: 10.000 fotoni sul molibdeno e sul vetro.",
+  "The same boundary crossed the other way reflects with the opposite sign. Experiment: swap the two materials.": "Lo stesso confine attraversato nell'altro verso riflette con segno opposto. Esperimento: scambia i due materiali.",
+  "Reflection at an angle, for the two polarizations. Experiment: molybdenum from 0° to 89°.": "Riflessione con un angolo, per le due polarizzazioni. Esperimento: molibdeno da 0° a 89°.",
+  "Why 80 surfaces cannot simply add, where these formulas stop applying, and a list to check your own reasoning.": "Perché 80 superfici non possono semplicemente sommarsi, dove queste formule smettono di valere, e un elenco per controllare il proprio ragionamento.",
+  "Half the amplitude leaves a quarter of the intensity: 25%.": "Metà dell'ampiezza lascia un quarto dell'intensità: 25%.",
+  "Amplitude 0.2 gives an intensity of 4%: the size of the reflection of a window.": "Un'ampiezza di 0,2 dà un'intensità del 4%: quanto la riflessione di una finestra.",
+  "Crests have become troughs, and the intensity is still 100%.": "Le creste sono diventate valli, e l'intensità è ancora 100%.",
+  "As far as the light can tell there is no boundary: nothing is reflected and the ray goes straight on.": "Per la luce il confine non esiste: nulla viene riflesso e il raggio prosegue dritto.",
+  "Glass in visible light. The ray that enters bends toward the vertical.": "Vetro in luce visibile. Il raggio che entra si piega verso la verticale.",
+  "Close to molybdenum in EUV light. The ray that enters bends away from the vertical, and very little is reflected.": "Vicino al molibdeno in luce EUV. Il raggio che entra si piega allontanandosi dalla verticale, e si riflette pochissimo.",
+  "Modulus 1, phase 180°: the number −1, a half turn.": "Modulo 1, fase 180°: il numero −1, mezzo giro.",
+  "Modulus 1, phase 90°: the number i, a quarter turn. Two quarter turns make a half turn, which is the rule i² = −1.": "Modulo 1, fase 90°: il numero i, un quarto di giro. Due quarti di giro fanno mezzo giro, che è la regola i² = −1.",
+  "Close to molybdenum at 13.5 nm. The light is mostly gone within a few hundred nanometres.": "Vicino al molibdeno a 13,5 nm. La luce è quasi tutta sparita entro poche centinaia di nanometri.",
+  "Close to silicon at 13.5 nm. The light gets about three and a half times further than in molybdenum.": "Vicino al silicio a 13,5 nm. La luce arriva circa tre volte e mezza più lontano che nel molibdeno.",
+  "The working wavelength. Silicon is almost vacuum, with n close to 0.999, and molybdenum stands apart at 0.924.": "La lunghezza d'onda di lavoro. Il silicio è quasi vuoto, con n vicino a 0,999, e il molibdeno se ne distacca a 0,924.",
+  "Past the silicon edge: its k has jumped, and silicon is no longer a nearly transparent spacer.": "Oltre la soglia del silicio: il suo k è saltato in alto, e il silicio non è più uno spaziatore quasi trasparente.",
+  "A layer as thin as those of the mirror: more than 99% of the light gets through.": "Uno strato sottile come quelli dello specchio: passa più del 99% della luce.",
+  "Molybdenum absorbs more, and a thin layer still passes 97.6%.": "Il molibdeno assorbe di più, e uno strato sottile lascia comunque passare il 97,6%.",
+  "The halving thickness of molybdenum, 0.693 × 167 nm. A lens would be thousands of times thicker.": "Lo spessore che dimezza la luce nel molibdeno, 0,693 × 167 nm. Una lente sarebbe migliaia di volte più spessa.",
+  "The angle of a scanner mirror. Both polarizations stay at about 0.16%.": "L'angolo di uno specchio di scanner. Entrambe le polarizzazioni restano attorno allo 0,16%.",
+  "p-polarized light is near its minimum. Absorption keeps it from vanishing completely.": "La luce polarizzata p è vicina al suo minimo. L'assorbimento le impedisce di annullarsi del tutto.",
+  "Almost grazing: here even EUV light reflects well.": "Quasi radente: qui anche la luce EUV si riflette bene.",
+  "A = 0.5": "A = 0,5",
+  "A = 0.2": "A = 0,2",
+  "n = 1.5": "n = 1,5",
+  "n = 0.92": "n = 0,92",
+  "k like molybdenum": "k come il molibdeno",
+  "k like silicon": "k come il silicio",
+  "13.5 nm": "13,5 nm",
+  "12.4 nm": "12,4 nm",
+  "To retrace the reasoning": "Per riprendere il ragionamento",
+  "Every result in these lessons is a statement about waves that add or cancel. Before any material appears, this step fixes the two ideas they all rest on: intensity is the square of amplitude, and a wave can be flipped.": "Ogni risultato di queste lezioni è un'affermazione su onde che si sommano o si cancellano. Prima che compaia qualsiasi materiale, questo passo fissa le due idee su cui poggiano tutte: l'intensità è il quadrato dell'ampiezza, e un'onda può essere capovolta.",
+  "The index of a real material has a second half, and a reflection has a size and a shift. Both need a number made of two parts. This is the only new mathematics of the module, and it returns in every module after it.": "L'indice di un materiale reale ha una seconda metà, e una riflessione ha una grandezza e uno spostamento. Per entrambi serve un numero fatto di due parti. È l'unica matematica nuova del modulo, e ritorna in tutti i moduli successivi.",
+  "Molybdenum and silicon both absorb EUV light. That absorption decides how thin the layers must be, how many pairs are useful and, in module 5, how much heat the mirror keeps. This step introduces the number that measures it.": "Molibdeno e silicio assorbono entrambi la luce EUV. Quell'assorbimento decide quanto sottili devono essere gli strati, quante coppie sono utili e, nel modulo 5, quanto calore lo specchio trattiene. Questo passo introduce il numero che lo misura.",
+  "With n and k defined, this step reads their real values for the two materials of the mirror. These tabulated numbers are the only measured input of the optical modules: every later reflectance is computed from them.": "Definiti n e k, questo passo ne legge i valori reali per i due materiali dello specchio. Questi numeri tabulati sono l'unico dato misurato dei moduli di ottica: ogni riflettanza successiva è calcolata a partire da loro.",
+  "The values of k just read have a direct consequence for the design: they say how much material the light can cross. That rules out lenses, and it sets the thickness below which a layer costs almost nothing.": "I valori di k appena letti hanno una conseguenza diretta sul progetto: dicono quanto materiale la luce può attraversare. Questo esclude le lenti, e fissa lo spessore sotto il quale uno strato non costa quasi nulla.",
+  "So far reflection has been a fact: it happens where the indices differ. A design needs the amount. This step derives it, and the two conditions it uses come back in module 3 as the basis of the matrix method.": "Finora la riflessione è stata un fatto: avviene dove gli indici sono diversi. A un progetto serve la quantità. Questo passo la ricava, e le due condizioni che usa tornano nel modulo 3 come base del metodo delle matrici.",
+  "Formula and data are both in hand. This step puts the index of molybdenum into the Fresnel formula and gets the number that sets the problem for all the modules that follow.": "Formula e dati ci sono entrambi. Questo passo mette l'indice del molibdeno nella formula di Fresnel e ottiene il numero che pone il problema a tutti i moduli successivi.",
+  "Inside a mirror, boundaries come in two kinds: silicon onto molybdenum, and molybdenum onto silicon. Whether their reflections help or fight each other depends on a sign. Module 2 is built on it.": "Dentro uno specchio i confini sono di due tipi: silicio su molibdeno, e molibdeno su silicio. Che le loro riflessioni si aiutino o si contrastino dipende da un segno. Il modulo 2 è costruito su questo.",
+  "In a scanner the light does not arrive perpendicular to the mirrors, and the mirror of module 3 is computed at 6°. This step shows what an angle changes, and why tilting the mirror is not the way out of the 0.16%.": "In uno scanner la luce non arriva perpendicolare agli specchi, e lo specchio del modulo 3 è calcolato a 6°. Questo passo mostra cosa cambia con un angolo, e perché inclinare lo specchio non è la via d'uscita dallo 0,16%.",
+  "One surface gives 0.16%, and a mirror must give tens of percent. This step states that gap as the problem the next two modules solve, and marks the limits of what has been built so far.": "Una superficie dà lo 0,16%, e uno specchio deve dare decine di percento. Questo passo formula quel divario come il problema che i due moduli successivi risolvono, e segna i limiti di ciò che è stato costruito finora.",
+  "For molybdenum at 13.5 nm, <span class=\"mono\">k = 0.00644</span>, so <span class=\"mono\">L = 13.5 / (4π × 0.00644) = 167 nm</span>.": "Per il molibdeno a 13,5 nm, <span class=\"mono\">k = 0,00644</span>, quindi <span class=\"mono\">L = 13,5 / (4π × 0,00644) = 167 nm</span>.",
+  "Try it on a window. Air onto glass has <span class=\"mono\">n₁ = 1</span> and <span class=\"mono\">n₂ = 1.5</span>, so <span class=\"mono\">r = (1 − 1.5)/(1 + 1.5) = −0.2</span> and <span class=\"mono\">R = r² = 0.04</span>.": "Provala su una finestra. Dall'aria al vetro <span class=\"mono\">n₁ = 1</span> e <span class=\"mono\">n₂ = 1,5</span>, quindi <span class=\"mono\">r = (1 − 1,5)/(1 + 1,5) = −0,2</span> e <span class=\"mono\">R = r² = 0,04</span>.",
+  "That is impossible, and what prevents it is light itself running out: deep layers receive less, because part has already been reflected and part absorbed. The Fresnel formula keeps holding at every surface, buried ones included.": "È impossibile, e a impedirlo è la luce stessa che si esaurisce: gli strati profondi ne ricevono meno, perché una parte è già stata riflessa e una parte assorbita. La formula di Fresnel continua a valere a ogni superficie, comprese quelle sepolte.",
+  "Take a molybdenum film 3 nm thick on a silicon wafer. The film absorbs under 2% of the light, so its lower surface is fully lit and reflects too. The formula holds at each surface, and what is missing is how to add the two reflections.": "Prendi un film di molibdeno spesso 3 nm su un wafer di silicio. Il film assorbe meno del 2% della luce, quindi la sua superficie inferiore è pienamente illuminata e riflette anch'essa. La formula vale a ciascuna superficie, e ciò che manca è come sommare le due riflessioni.",
+  "The formula also assumes a flat, sharp boundary. Bumps 2 nm high are not small against a wavelength of 13.5 nm, and a surface that has them does not meet that assumption.": "La formula presuppone anche un confine piano e netto. Rilievi alti 2 nm non sono piccoli rispetto a una lunghezza d'onda di 13,5 nm, e una superficie che li ha non soddisfa quell'ipotesi.",
+  "A mirror reflects at boundaries between materials. To say how much, a material must first be turned into a number. This step introduces the first half of that number, the half that, as long as absorption is left out, decides whether a boundary reflects at all.": "Uno specchio riflette ai confini tra materiali. Per dire quanto, un materiale va prima trasformato in un numero. Questo passo introduce la prima metà di quel numero, quella che, finché si trascura l'assorbimento, decide se un confine riflette oppure no."
 });
 
 startLesson({
   n: 1,
+  nextHref: "module-2.html",
+  open: true,   // one view, nothing to complete: see lesson.js
+  was: ["predict", "wave", "n", "complex", "k", "materials", "thickness", "fresnel", "mo", "sign", "angle", "problem"],
   key: "euv-module-1-v2",
   next: "Next: module 2, a single layer.",
   setup() {
@@ -678,7 +604,6 @@ startLesson({
       ctx.strokeStyle = css("--line"); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
       const wave = (a, color, width, dash) => { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.setLineDash(dash); ctx.beginPath(); for (let x = 0; x <= w; x += 2) { const y = cy - a * amp * Math.cos(2 * Math.PI * x / per); x ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); ctx.setLineDash([]); };
       wave(1, css("--muted"), 1.2, [4, 5]); wave(flip * A, css("--accent"), 3, []);
-      goal("g-A", A * A >= .24 && A * A <= .26);
     };
     $("s-A").oninput = draws.wave;
     toggle("t-flip", d => { flip = +d.f; draws.wave(); });
@@ -696,7 +621,6 @@ startLesson({
       ray(-th, true, 1); ray(th, true, Math.min(1, Math.sqrt(R) * 4)); ray(Math.asin(Math.sin(th) / n), false, 1 - R);
       ctx.fillStyle = css("--muted"); ctx.font = "12px " + css("--mono"); ctx.textBaseline = "top"; ctx.textAlign = "left";
       ctx.fillText(t("vacuum") + "  n = 1", 8, 8); ctx.fillText(t("material") + "  n = " + fmt(n, 2), 8, cy + 8);
-      goal("g-n", R < 1e-7);
     };
     $("s-n").oninput = draws.n;
 
@@ -717,7 +641,6 @@ startLesson({
       ctx.fillStyle = css("--muted"); ctx.font = "12px " + css("--mono"); ctx.textBaseline = "top";
       ctx.textAlign = "right"; ctx.textBaseline = "bottom"; ctx.fillText(t("real part"), w - 6, cy - 6); ctx.textBaseline = "top"; ctx.textAlign = "left"; ctx.fillText(t("imaginary part"), cx + 8, 6);
       ctx.textAlign = "center"; ctx.fillText("1", cx + u, cy + 6); ctx.fillText("−1", cx - u, cy + 6);
-      goal("g-cx", Math.abs(m - 1) <= .03 && Math.abs(ph - 180) <= 3);
     };
     $("s-mod").oninput = $("s-ph").oninput = draws.complex;
 
@@ -756,7 +679,6 @@ startLesson({
       const d = dOf(+$("s-d").value), L = attLen(index(mat, LAM0)[1], LAM0), T = Math.exp(-d / L);
       $("o-d").textContent = (d < 10 ? fmt(d, 1) : fmt(d, 0)) + " nm"; $("r-T").textContent = pct(T, 1); $("r-L").textContent = fmt(L, 0) + " nm";
       strip($("c-thick"), f => Math.exp(-f * d / L), css(mat === "Si" ? "--si" : "--mo"), false);
-      goal("g-d", mat === "Si" && T >= .48 && T <= .52);
     };
     $("s-d").oninput = draws.thickness;
     toggle("t-mat", d => { mat = d.m; draws.thickness(); });
@@ -795,7 +717,6 @@ startLesson({
       $("o-th").textContent = fmt(th, 1) + "°"; $("r-rs").textContent = pctAuto(Rs); $("r-rp").textContent = pctAuto(Rp);
       plot($("c-ang"), { x: [0, 90], y: [1e-5, 100], logy: true, xt: [0, 30, 60, 90], xf: v => v + "°", yt: [1e-4, 1e-2, 1, 100], yf: v => loc(v) + "%", vline: th,
         series: [{ pts: curS, color: cm }, { pts: curP, color: cm, dash: [6, 4] }], marks: [{ x: th, y: 100 * Rs, color: cm }, { x: th, y: 100 * Rp, color: cm }] });
-      goal("g-th", Rs > .9);
     };
     $("s-th").oninput = draws.angle;
   }

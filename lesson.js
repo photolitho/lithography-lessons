@@ -86,6 +86,7 @@ const IT = {
   "Explore": "Esplora",
   "Every experiment, in any order, with no required answers. Explanations open on request.": "Tutti gli esperimenti, in qualsiasi ordine, senza risposte obbligatorie. Le spiegazioni si aprono su richiesta.",
   "Exploring does not complete steps of the guided path.": "Esplorare non completa i passi del percorso guidato.",
+  "Try": "Prova",
   "Back": "Indietro",
   "Check": "Verifica",
   "Step": "Passo",
@@ -94,6 +95,7 @@ const IT = {
   "Continue": "Continua",
   "Module complete": "Modulo completato",
   "Last step": "Ultimo passo",
+  "Next module": "Modulo successivo",
   "{n} things left to do": "Restano {n} cose da fare",
   "One thing left to do": "Resta una cosa da fare",
   "no prediction": "nessuna previsione",
@@ -172,15 +174,27 @@ function strip(c, frac, color, inset) {
   for (let x = x0; x < x1; x++) { ctx.globalAlpha = Math.max(0, frac((x - x0) / (x1 - x0))); ctx.fillStyle = color; ctx.fillRect(x, 0, 1.2, h); }
   ctx.globalAlpha = 1; ctx.strokeStyle = css("--line"); ctx.strokeRect(x0 + .5, .5, x1 - x0 - 1, h - 1);
 }
+// Dragging across a plot moves the slider that owns its x axis (x0 to x1). The slider stays the keyboard control.
+function dragX(c, s, x0, x1) {
+  c.style.touchAction = "pan-y"; c.style.cursor = "ew-resize";
+  const set = e => {
+    const r = c.getBoundingClientRect(), f = (e.clientX - r.left - PAD.l) / (r.width - PAD.l - PAD.r), u = +s.step || 1;
+    s.value = Math.round((x0 + Math.min(1, Math.max(0, f)) * (x1 - x0)) / u) * u; s.dispatchEvent(new Event("input", { bubbles: true }));
+  };
+  c.onpointerdown = e => { c.setPointerCapture(e.pointerId); set(e); };
+  c.onpointermove = e => { if (c.hasPointerCapture(e.pointerId)) set(e); };
+}
 
 /* ---------- lesson engine ---------- */
 // Shared by every module. A module page supplies its markup, its Italian strings (Object.assign(IT, {...}))
 // and its experiments (the setup function), then calls startLesson({ n, key, next, setup }).
 // Two modes with separate progress: "guided" uses cur and solved, "explore" uses ecur and never writes to solved.
-let cfg, app, home, steps, st, tEls;
-const draws = {}, opened = {};
+// A module started with open: true has a single view and nothing to complete: its home page is an index of the steps
+// (each with the one-line summary in its data-sum), and every step shows its experiment and its explanation.
+let cfg, app, home, steps, st, tEls, applying = false;
+const draws = {}, opened = {}, offs = [];
 // Static text to translate: outermost matches only, with their English HTML kept as the source.
-const TSEL = "h1, h2, p, summary, dt, dd, .carry li, .cap:not([id]), .goal, .ctrl label, .opts button, .toggle button, .reads b, [data-t], #back, .numq .btn, #menu, a.linkbtn";
+const TSEL = "h1, h2, p, summary, dt, dd, .carry li, .cap:not([id]), .goal, .ctrl label, .opts button, .toggle button, .chip, .reads b, [data-t], #back, .numq .btn, #menu, a.linkbtn";
 const save = () => { try { localStorage.setItem(cfg.key, JSON.stringify(st)); } catch (e) {} };
 const setFb = (fb, en) => { fb.dataset.en = en; fb.textContent = t(en); };
 const guided = () => st.mode === "guided";
@@ -196,6 +210,7 @@ const stepLabel = i => t("Step") + " " + (i + 1) + ": " + title(i);
 // The explanation shows once the step is solved (guided) or on request (explore).
 function syncAfter(i) {
   const a = steps[i].querySelector(".after"); if (!a) return;
+  if (cfg.open) { a.hidden = false; return; }
   a.hidden = guided() ? !isSolved(i) : !opened[i];
   steps[i].querySelector(".expl").textContent = t(opened[i] ? "Hide explanation" : "Show explanation");
 }
@@ -211,13 +226,14 @@ function done(el) {
 function refresh() {
   const g = guided(), cur = pos(), r = reach(), last = cur === steps.length - 1;
   [...$("segs").children].forEach((b, i) => { b.className = "seg" + (g && isSolved(i) ? " done" : "") + (i === cur ? " cur" : "") + (!g || i <= r ? " reach" : ""); });
-  $("where").textContent = t("Module") + " " + cfg.n + " · " + t(g ? "Guided" : "Explore");
+  $("where").textContent = t("Module") + " " + cfg.n + (cfg.open ? "" : " · " + t(g ? "Guided" : "Explore"));
   $("count").textContent = (cur + 1) + " / " + steps.length;
   $("back").disabled = cur === 0;
-  $("next").disabled = last || (g && !isSolved(cur));
-  $("next").textContent = t(!last ? "Continue" : g ? "Module complete" : "Last step");
+  const on = cfg.open && last && cfg.nextHref;   // the last step of an open module leads to the next module
+  $("next").disabled = !on && (last || (g && !isSolved(cur)));
+  $("next").textContent = t(on ? "Next module" : !last ? "Continue" : g ? "Module complete" : "Last step");
   const left = reqs(cur).filter(r => !r.classList.contains("done")).length;
-  $("hint").textContent = !g ? "" : !isSolved(cur) ? t(left > 1 ? "{n} things left to do" : "One thing left to do").replace("{n}", left) : last ? t(cfg.next || "") : "";
+  $("hint").textContent = !g ? (cfg.open && last ? t(cfg.next || "") : "") : !isSolved(cur) ? t(left > 1 ? "{n} things left to do" : "One thing left to do").replace("{n}", left) : last ? t(cfg.next || "") : "";
 }
 function show(i, keep) {
   if (guided()) st.cur = i; else st.ecur = i;
@@ -231,6 +247,7 @@ function show(i, keep) {
 function resetControls() {
   document.querySelectorAll("input[type=range]").forEach(r => r.value = r.defaultValue);
   document.querySelectorAll(".toggle").forEach(tg => tg.firstElementChild.click());
+  offs.forEach(f => f());
 }
 function enter(mode, i) {
   st.mode = mode; app.dataset.mode = mode; resetControls();
@@ -240,8 +257,11 @@ function goHome(keep) {
   st.mode = "home"; app.dataset.mode = "home"; save();
   steps.forEach(s => s.hidden = true); home.hidden = false;
   const n = steps.filter((s, i) => isSolved(i)).length;
-  $("home-prog").textContent = t("{n} of {m} steps completed").replace("{n}", n).replace("{m}", steps.length);
-  $("go-guided").textContent = t(n === 0 && !st.pred ? "Start" : n === steps.length ? "Review" : "Resume");
+  if (cfg.open) $("go").textContent = t(st.ecur ? "Resume" : "Start");
+  else {
+    $("home-prog").textContent = t("{n} of {m} steps completed").replace("{n}", n).replace("{m}", steps.length);
+    $("go-guided").textContent = t(n === 0 && !st.pred ? "Start" : n === steps.length ? "Review" : "Resume");
+  }
   $("where").textContent = t("EUV Mirror") + " · " + t("Module") + " " + cfg.n;
   if (!keep) window.scrollTo(0, 0);
 }
@@ -249,12 +269,18 @@ function goHome(keep) {
 function goal(id, ok) { const g = $(id); if (ok && guided() && !g.classList.contains("done")) done(g); }
 function toggle(id, cb) { const bs = [...$(id).children]; bs.forEach(b => b.onclick = () => { bs.forEach(x => x.setAttribute("aria-pressed", x === b)); cb(b.dataset); }); }
 const redraw = () => { const d = st.mode !== "home" && draws[idOf(pos())]; if (d) d(); };
+// Index entry of a step: its title and, when the step has one, its summary.
+function fillToc(i) {
+  const b = $("toc").children[i].firstChild, s = steps[i].dataset.sum;
+  if (!s) { b.textContent = title(i); return; }
+  const w = document.createElement("span"), e = document.createElement("small"); w.textContent = title(i); e.textContent = t(s); w.append(e); b.replaceChildren(w);
+}
 // Rewrites every static text in the current language; dynamic text follows on the next render.
 function translateDom() {
   document.documentElement.lang = lang; document.title = t("EUV Module") + " " + cfg.n;
   tEls.forEach(([e, en]) => e.innerHTML = t(en));
-  document.querySelectorAll(".fb").forEach(f => { if (f.dataset.en) f.textContent = t(f.dataset.en); });
-  steps.forEach((s, i) => { $("toc").children[i].firstChild.textContent = title(i); $("segs").children[i].setAttribute("aria-label", stepLabel(i)); });
+  document.querySelectorAll(".fb, .note").forEach(f => { if (f.dataset.en) f.textContent = t(f.dataset.en); });
+  steps.forEach((s, i) => { fillToc(i); $("segs").children[i].setAttribute("aria-label", stepLabel(i)); });
   [...$("t-lang").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
 }
 
@@ -268,14 +294,22 @@ function startLesson(config) {
   steps.forEach((s, i) => {
     const b = document.createElement("button"); b.className = "seg"; b.setAttribute("aria-label", stepLabel(i));
     b.onclick = () => { if (!guided() || i <= reach()) show(i); }; $("segs").append(b);
-    const li = document.createElement("li"), tb = document.createElement("button"); tb.textContent = title(i); tb.onclick = () => enter("explore", i); li.append(tb); $("toc").append(li);
+    const li = document.createElement("li"), tb = document.createElement("button"); tb.onclick = () => enter("explore", i); li.append(tb); $("toc").append(li); fillToc(i);
     const a = s.querySelector(".after");
-    if (a) { const e = document.createElement("button"); e.className = "btn expl explore-only"; e.onclick = () => { opened[i] = !opened[i]; syncAfter(i); }; a.before(e); }
+    if (a && !cfg.open) { const e = document.createElement("button"); e.className = "btn expl explore-only"; e.onclick = () => { opened[i] = !opened[i]; syncAfter(i); }; a.before(e); }
   });
-  $("go-guided").onclick = () => enter("guided");
+  if (cfg.open) {
+    app.dataset.open = ""; $("go").onclick = () => enter("explore");
+    // A save made before the module became open counted steps of the old sequence (cfg.was): carry its position over once, by step id.
+    if (!st.v) {
+      const i = steps.findIndex(s => s.dataset.id === (cfg.was || [])[st.mode === "guided" ? st.cur : st.ecur || st.cur]);
+      st.mode = st.mode === "home" || i < 0 ? "home" : "explore"; st.ecur = Math.max(0, i); st.v = 2;
+    }
+  }
+  else $("go-guided").onclick = () => enter("guided");
   $("menu").onclick = () => goHome();
   $("back").onclick = () => show(pos() - 1);
-  $("next").onclick = () => show(pos() + 1);
+  $("next").onclick = () => { if (cfg.nextHref && pos() === steps.length - 1) location.href = cfg.nextHref; else show(pos() + 1); };
 
   // Multiple-choice questions
   document.querySelectorAll(".mc").forEach(mc => {
@@ -305,6 +339,21 @@ function startLesson(config) {
     const q = $("pred").closest(".q");
     if (st.pred === b.dataset.v) { b.classList.add("picked"); if (isSolved(stepOf(q))) q.classList.add("done"); }
     b.onclick = () => { [...$("pred").children].forEach(x => x.classList.remove("picked")); b.classList.add("picked"); st.pred = b.dataset.v; done(q); };
+  });
+
+  // Chips: each sets its experiment to a given state (data-set: "slider:value" or "toggle:button number", space separated)
+  // and shows what to look at (data-note). Touching the controls afterwards clears the note.
+  document.querySelectorAll(".tries").forEach(tr => {
+    const note = tr.querySelector(".note"), chips = [...tr.querySelectorAll(".chip")], lab = tr.closest(".lab");
+    const off = () => { chips.forEach(c => c.setAttribute("aria-pressed", false)); note.hidden = true; note.dataset.en = ""; };
+    chips.forEach(c => c.onclick = () => {
+      applying = true;
+      c.dataset.set.split(" ").forEach(p => { const [id, v] = p.split(":"), e = $(id); if (e.matches(".toggle")) e.children[+v].click(); else { e.value = v; e.dispatchEvent(new Event("input", { bubbles: true })); } });
+      applying = false; off(); c.setAttribute("aria-pressed", true); note.hidden = false; setFb(note, c.dataset.note);
+    });
+    lab.addEventListener("input", () => { if (!applying) off(); });
+    lab.addEventListener("click", e => { if (!applying && e.target.closest(".toggle")) off(); });
+    offs.push(off);
   });
 
   if (cfg.setup) cfg.setup();

@@ -126,6 +126,15 @@ input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; }
 .toc button::before { content: counter(t); font-family: var(--mono); color: var(--muted); min-width: 2ch; }
 .toc button:hover { color: var(--accent); }
 .expl { align-self: flex-start; }
+.why { border-left: 3px solid var(--accent); padding: 2px 0 2px 14px; font-size: 16px; }
+.why::before { content: "Why here"; display: block; font: 500 12px/1.8 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+:root[lang="it"] .why::before { content: "Perché qui"; }
+.toc small { display: block; font-size: 13px; line-height: 1.4; color: var(--muted); margin-top: 2px; }
+.app[data-open] .after { border-left-color: var(--line); }
+.tries { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { font: 500 14px var(--mono); color: var(--accent); background: var(--accent-soft); border: 1.5px solid transparent; border-radius: 999px; padding: 7px 13px; cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--accent); }
+.note { flex-basis: 100%; font-size: 15.5px; border-left: 3px solid var(--accent); padding-left: 12px; }
 
 .fcard { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); }
 .fcard .formula { border-radius: 0; }

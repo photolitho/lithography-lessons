@@ -28,40 +28,17 @@
 <section class="step" id="home">
   <a class="linkbtn" href="./" style="text-decoration:none;align-self:flex-start">← All lessons</a>
   <h1>Where does the light that does not come back go?</h1>
-  <p class="lead">Six steps, four interactive experiments on the standing wave, the field inside the stack, absorption layer by layer and the heat left in a chain of mirrors. Choose how to take them.</p>
-  <div class="modes">
-    <div class="mode">
-      <h2>Guided path</h2>
-      <p>One opening prediction, then one step at a time. You move on by answering a question or reaching a goal.</p>
-      <div class="cap" id="home-prog"></div>
-      <button class="btn go" id="go-guided">Start</button>
-    </div>
-    <div class="mode">
-      <h2>Explore</h2>
-      <p>Every experiment, in any order, with no required answers. Explanations open on request.</p>
-      <div class="cap">Exploring does not complete steps of the guided path.</div>
-      <ol class="toc" id="toc"></ol>
-    </div>
+  <p class="lead">The mirror of module 3 reflects 74.2% of the light at 13.5 nm. The other 25.8% stays in the mirror. Five ideas follow it, four of them with an experiment. Open any of them, in any order.</p>
+  <div class="mode">
+    <ol class="toc" id="toc"></ol>
+    <button class="btn go" id="go">Start</button>
   </div>
+  <p class="why">Up to here the mirror has been judged by what it sends back. From here on the project is about what it keeps: a quarter of the power, turned into heat a few hundred nanometres below the surface. This module finds how much is absorbed and where. Module 6 takes those two answers and turns them into a temperature.</p>
 </section>
 
-<section class="step" data-id="predict">
-  <h1>A quarter of the light does not come back. Where does it go?</h1>
-  <p class="lead">The mirror of module 3 reflects 74.2% of the light at 13.5 nm. The other 25.8% stays in the mirror. This module follows it.</p>
-  <p class="guided-only">Before computing anything, make a prediction. You will meet it again later.</p>
-  <p class="explore-only">The steps that follow build the answer one piece at a time.</p>
-  <div class="q">
-    <p>Where does most of the light that is not reflected end up?</p>
-    <div class="opts" id="pred">
-      <button data-v="in the molybdenum layers">In the molybdenum layers</button>
-      <button data-v="in the silicon layers">In the silicon layers, which are thicker</button>
-      <button data-v="in the substrate">In the substrate under the stack</button>
-    </div>
-  </div>
-</section>
-
-<section class="step" data-id="standing">
+<section class="step" data-id="standing" data-sum="The pattern made by the incoming and the reflected wave. Experiment: reflectance against the depth of the pattern.">
   <h1>In front of the mirror: a standing wave</h1>
+  <p class="why">Absorption happens where the field is strong, so finding where the light is absorbed starts with finding the field. The simplest place to look is just outside the mirror, where only two waves meet. The pattern found here continues inside.</p>
   <p>Above the mirror two waves overlap: the incoming one, of amplitude 1, and the reflected one, of amplitude <span class="mono">√R</span>, travelling the opposite way. Module 2 gave the rule for adding two waves: the result depends on their phase difference.</p>
   <p>Here that difference depends on where you look. Moving a height <span class="mono">z</span> away from the mirror shortens the path of one wave and lengthens the path of the other. So the two reinforce at some heights and oppose at others, in a fixed pattern that does not travel: a standing wave. The quantity plotted is <span class="mono">|E|²</span>, the squared size of the total field, compared with the incoming wave alone.</p>
   <div class="formula"><span>|E|² = 1 + R + 2·√R·cos(4π·z·cos θ/λ + φ)</span></div>
@@ -69,13 +46,13 @@
     <canvas id="c-sw" style="height:220px"></canvas>
     <div class="ctrl"><label for="s-Rs">Reflectance R</label><input type="range" id="s-Rs" min="0" max="100" step="1" value="20"><output id="o-Rs"></output></div>
     <div class="reads"><span><b>highest |E|²</b><span class="big" id="r-max"></span></span><span><b>lowest |E|²</b><span class="big" id="r-min"></span></span></div>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="s-Rs:0" data-note="No reflected wave: |E|² is 1 everywhere, and there is no pattern.">R = 0%</button>
+      <button class="chip" data-set="s-Rs:74" data-note="The real mirror: |E|² swings between 3.5 times the incoming value and 0.02 times.">R = 74%</button>
+      <button class="chip" data-set="s-Rs:100" data-note="A perfect mirror: two waves of amplitude 1 give |E|² = 4 at the bright planes and 0 at the dark ones.">R = 100%</button>
+      <div class="note" hidden></div>
+    </div>
     <div class="cap">Light of 13.5 nm at 6°. The mirror surface is at height 0.</div>
-  </div>
-  <div class="goal" id="g-sw">Set the reflectance of the real mirror, 74%.</div>
-  <div class="q">
-    <p>For a perfect mirror, R = 100%. What is |E|² at the brightest heights?</p>
-    <div class="numq" data-ans="4" data-tol="0.01" data-hint="Two waves of amplitude 1 in step: amplitudes add, then square."><input type="text" inputmode="decimal" id="in-sw" aria-label="field squared"><button class="btn">Check</button></div>
-    <div class="fb"></div>
   </div>
   <div class="after" hidden>
     <p><strong>A good mirror makes a deep pattern.</strong> At 74% the field swings between 3.5 times the incoming value and 0.02 times. The bright and dark planes repeat every <span class="mono">λ/(2·cos θ) = 6.8 nm</span>, almost exactly the period of the stack. That is the Bragg condition seen from the side of the field.</p>
@@ -92,24 +69,21 @@
   </div>
 </section>
 
-<section class="step" data-id="field">
+<section class="step" data-id="field" data-sum="The field through the top ten pairs. Experiment: wavelength against where the field sits in the layers.">
   <h1>Inside the mirror</h1>
+  <p class="why">The pattern in front of the mirror goes on below the surface, where the absorbing layers are. This step looks at where its bright and dark planes fall in the molybdenum and in the silicon, because that decides how much each of them absorbs.</p>
   <p>The standing wave does not stop at the surface. The matrix method of module 3 gives the pair <span class="mono">(E, H)</span> at every boundary, and from it the field at any depth. Here is <span class="mono">|E|²</span> through the top ten pairs, with the molybdenum layers shaded.</p>
   <div class="lab">
     <canvas id="c-in" style="height:240px"></canvas>
     <div class="ctrl"><label for="s-lf">Wavelength</label><input type="range" id="s-lf" min="13" max="14.2" step="0.005" value="13"><output id="o-lf"></output></div>
     <div class="reads"><span><b>R</b><span class="big" id="r-Rin"></span></span><span><b>|E|² in Mo compared with Si</b><span id="r-rat"></span></span></div>
-    <div class="cap">Molybdenum 2.78 nm on silicon 4.18 nm, 40 pairs, 6°, s polarization. Shaded bands: molybdenum.</div>
-  </div>
-  <div class="goal" id="g-in">Tune the wavelength to the peak of the mirror (R above 74.2%).</div>
-  <div class="q">
-    <p>At the peak, in the top pairs shown, where do the dark planes of the standing wave fall?</p>
-    <div class="opts mc">
-      <button data-hint="Look at where the curve touches the bottom, compared with the shaded bands.">In the middle of the silicon layers</button>
-      <button data-ok>Near the lower face of the molybdenum layers</button>
-      <button data-hint="At the peak the pattern nearly repeats with the layers: in the pairs shown, each looks much like the one above, only fainter.">Anywhere: the pattern does not follow the layers</button>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="s-lf:13" data-note="Off the peak on the short side: the reflected wave is weak, and |E|² in the molybdenum is twice that in the silicon.">13.0 nm</button>
+      <button class="chip" data-set="s-lf:13.5" data-note="Near the peak the pattern is locked to the layers, with the dark planes near the lower face of the molybdenum layers.">13.5 nm</button>
+      <button class="chip" data-set="s-lf:14" data-note="On the long-wavelength side the field stays out of the molybdenum: |E|² there is about half that in the silicon.">14.0 nm</button>
+      <div class="note" hidden></div>
     </div>
-    <div class="fb"></div>
+    <div class="cap">Molybdenum 2.78 nm on silicon 4.18 nm, 40 pairs, 6°, s polarization. Shaded bands: molybdenum.</div>
   </div>
   <div class="after" hidden>
     <p><strong>Near the peak the standing wave locks onto the layers.</strong> Its period matches the period of the stack, so each pair sees nearly the same pattern, with a dark plane near the lower face of the molybdenum layer in the top pairs shown. Averaged over a layer, <span class="mono">|E|²</span> is lower in molybdenum than in silicon: by 20% at 13.5 nm, by almost 30% at the top of the peak. Molybdenum is the absorber, so this arrangement loses less light than the same material would under a uniform field.</p>
@@ -118,8 +92,9 @@
   </div>
 </section>
 
-<section class="step" data-id="absorb">
+<section class="step" data-id="absorb" data-sum="The power absorbed in each of the 80 layers. Experiment: add up the absorption pair by pair.">
   <h1>Where the energy is left</h1>
+  <p class="why">The field says where absorption is likely. This step counts it: how much power each layer keeps. The result, how much and at what depth, is what a thermal calculation needs as its heat source.</p>
   <p>To find where the light is absorbed, follow the energy. The net power crossing a plane inside the mirror, what goes down minus what comes up, is <span class="mono">S = Re(E·H*)/η₀</span>, as a fraction of the incoming power. The star is the complex conjugate: the same number with the sign of its imaginary part reversed. <span class="mono">Re</span> means: keep the real part.</p>
   <p>Whatever enters a layer through its upper face and does not leave through its lower face has been absorbed in that layer.</p>
   <div class="formula"><span>A<sub>layer</sub> = S<sub>top</sub> − S<sub>bottom</sub></span></div>
@@ -128,15 +103,15 @@
     <div class="cap">Light absorbed in each of the 80 layers, from the surface down. <span class="mo">Molybdenum</span>, <span class="si">silicon</span>.</div>
     <div class="ctrl"><label for="s-Pa">Down to pair</label><input type="range" id="s-Pa" min="1" max="40" step="1" value="1"><output id="o-Pa"></output></div>
     <div class="reads"><span><b>absorbed down to here</b><span class="big" id="r-cum"></span></span><span><b>in molybdenum</b><span id="r-cMo"></span></span><span><b>in silicon</b><span id="r-cSi"></span></span></div>
-  </div>
-  <div class="goal" id="g-abs">Find how many pairs hold half of all the absorbed light (between 12% and 13.5% absorbed).</div>
-  <div class="q">
-    <p>At the top surface the net power going in is S = 1 − R. With R = 74.2%, what is S in percent?</p>
-    <div class="numq" data-ans="25.8" data-tol="0.06" data-hint="100 − 74.2."><input type="text" inputmode="decimal" id="in-S" aria-label="S in percent"><span class="mono">%</span><button class="btn">Check</button></div>
-    <div class="fb"></div>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="s-Pa:5" data-note="Half of all the absorption has already happened, in the top 35 nm.">5 pairs</button>
+      <button class="chip" data-set="s-Pa:20" data-note="By here 94% of the absorption in the stack is done.">20 pairs</button>
+      <button class="chip" data-set="s-Pa:40" data-note="The whole stack: 24.9% absorbed, 15.8% in molybdenum and 9.1% in silicon.">40 pairs</button>
+      <div class="note" hidden></div>
+    </div>
   </div>
   <div class="after" hidden>
-    <p><strong>Half of the absorption happens in the top five pairs, 35 nm.</strong> By pair 20 it is 94% done. <span class="guided-only">You predicted: <strong id="pred-echo">—</strong>. </span>Of every 100 photons, 74.2 are reflected, 15.8 are absorbed in molybdenum, 9.1 in the silicon layers, and 0.9 reach the substrate.</p>
+    <p><strong>Half of the absorption happens in the top five pairs, 35 nm.</strong> By pair 20, 94% of the absorption in the stack is done. Of every 100 photons, 74.2 are reflected, 15.8 are absorbed in molybdenum, 9.1 in the silicon layers, and 0.9 reach the substrate.</p>
     <p>Molybdenum takes 1.7 times more than silicon, although the silicon layers are thicker. A simple count of absorbing strength times thickness, <span class="mono">n·k·d</span>, would say 2.2 times. The difference is the standing wave, which keeps part of the field out of the molybdenum.</p>
     <div class="fcard">
       <div class="formula"><span>A<sub>layer</sub> = S<sub>top</sub> − S<sub>bottom</sub></span><span>S = Re(E·H*) / η₀</span></div>
@@ -150,8 +125,9 @@
   </div>
 </section>
 
-<section class="step" data-id="heat">
+<section class="step" data-id="heat" data-sum="The heat left in one mirror and along a chain of mirrors. Experiment: source power and reflectance.">
   <h1>From absorbed light to heat</h1>
+  <p class="why">Absorbed light becomes heat. This step turns the fractions of the last one into watts, first for one mirror and then for a chain of them, and shows which mirror carries the largest load.</p>
   <p>Everything that is not reflected ends as heat in the mirror: the 24.9% absorbed in the layers, and the 0.9% that reaches the substrate and is absorbed there. The heat is <span class="mono">1 − R</span> of the incoming power, and about 95% of it is left within the first 210 nm below the surface.</p>
   <p>Now consider a chain of such mirrors, as in a scanner. Each one passes on only what it reflects, so each receives less than the one before.</p>
   <div class="formula"><span>P<sub>heat</sub> = (1 − R) · P<sub>in</sub></span><span>P<sub>in</sub> at mirror m = P · R<sup>m−1</sup></span></div>
@@ -161,22 +137,15 @@
     <div class="ctrl"><label for="s-P">Light on mirror 1</label><input type="range" id="s-P" min="50" max="500" step="10" value="250"><output id="o-P"></output></div>
     <div class="ctrl"><label for="s-Rh">Reflectance R</label><input type="range" id="s-Rh" min="60" max="76" step="0.1" value="74.2"><output id="o-Rh"></output></div>
     <div class="reads"><span><b>heat in mirror 1</b><span class="big" id="r-h1"></span></span><span><b>light left after mirror 11</b><span id="r-out"></span></span><span><b>heat in all eleven</b><span id="r-hall"></span></span></div>
-  </div>
-  <div class="q">
-    <p>250 W reach the first mirror, which reflects 74.2%. How many watts does it absorb?</p>
-    <div class="numq" data-ans="64.5" data-tol="0.6" data-hint="(1 − 0.742) × 250."><input type="text" inputmode="decimal" id="in-W" aria-label="watts"><span class="mono">W</span><button class="btn">Check</button></div>
-    <div class="fb"></div>
-  </div>
-  <div class="q">
-    <p>Which mirror of the chain takes the most heat?</p>
-    <div class="opts mc">
-      <button data-ok>The first: it receives the most light</button>
-      <button data-hint="The last mirror receives what ten reflections have left: about 5% of the starting light.">The last: the losses add up along the chain</button>
-      <button data-hint="Each mirror absorbs the same fraction, but of a different amount of light.">All the same: each absorbs 25.8%</button>
+    <div class="tries"><span class="cap">Try</span>
+      <button class="chip" data-set="s-P:250 s-Rh:74.2" data-note="The first mirror keeps 64.5 W, and 3.75% of the light is left after the eleventh.">250 W, 74.2%</button>
+      <button class="chip" data-set="s-P:250 s-Rh:75.2" data-note="One more point of reflectance: 4.35% of the light survives, 16% more than before.">250 W, 75.2%</button>
+      <button class="chip" data-set="s-P:500 s-Rh:74.2" data-note="Twice the source, twice the heat in every mirror: the fractions do not change.">500 W, 74.2%</button>
+      <div class="note" hidden></div>
     </div>
-    <div class="fb"></div>
   </div>
   <div class="after" hidden>
+    <p>Take 250 W on the first mirror and a reflectance of 74.2%: that mirror keeps <span class="mono">(1 − 0.742) × 250 = 64.5 W</span>.</p>
     <p><strong>The first mirror takes a quarter of the power, the last one about a hundredth.</strong> After ten reflections only 5% of the light is left, so the eleventh mirror absorbs 1.3% of what the first one received.</p>
     <p>Small gains in reflectance matter a great deal. Raise R from 74.2% to 75.2%. Each mirror then keeps a smaller fraction of what reaches it, the first mirror takes less heat, and the chain as a whole absorbs less. Mirrors further along can receive slightly more heat than before, because more light reaches them. The light that survives all eleven rises from 3.75% to 4.35% of the start: 16% more light at the end from one point of reflectance.</p>
     <p>One caution. The value 74.2% is for light inside the mirror's band. A real source also emits other wavelengths, and each has its own R. At 14.2 nm this mirror reflects 6% and turns the rest into heat.</p>
@@ -192,45 +161,22 @@
   </div>
 </section>
 
-<section class="step" data-id="apply">
+<section class="step" data-id="apply" data-sum="Three quantities that are easy to confuse, what to carry forward, and a list to check your own reasoning.">
   <h1>Reading these numbers correctly</h1>
+  <p class="why">Field strength, power flow and absorbed fraction are three different things with similar names. Before they are handed to the thermal modules, this step separates them and says what the optical model leaves out.</p>
   <p>Three quantities appeared in this module that are easy to confuse: the field <span class="mono">|E|²</span>, the power flow <span class="mono">S</span>, and the absorbed fractions. Each answers a different question.</p>
-  <div class="q">
-    <p>Just above the mirror |E|² is 3.1. Does that mean three times the incoming power is flowing there?</p>
-    <div class="opts mc">
-      <button data-hint="Power cannot be created in empty space. Two overlapping waves make a strong field without making more power.">Yes: the mirror concentrates the power at its surface</button>
-      <button data-ok>No: |E|² is the strength of the field where two waves overlap. The net power going down is 1 − R</button>
-      <button data-hint="The value 3.1 is correct. The question is what it measures.">No: |E|² cannot be larger than 1</button>
-    </div>
-    <div class="fb"></div>
-  </div>
-  <div class="q">
-    <p>Which number is the heat load of the whole mirror, substrate included?</p>
-    <div class="opts mc">
-      <button data-hint="A counts only the 80 thin layers. The light that reaches the substrate is absorbed there too.">A = 24.9%</button>
-      <button data-ok>1 − R = 25.8%</button>
-      <button data-hint="T is the small part that reaches the substrate. Most of the heat is left in the layers above it.">T = 0.9%</button>
-    </div>
-    <div class="fb"></div>
-  </div>
-  <div class="q">
-    <p>A real mirror has slightly rough boundaries that scatter some light into other directions, out of the mirror. Where does that light appear in R + A + T = 1?</p>
-    <div class="opts mc">
-      <button data-hint="A is the light absorbed inside the layers. Light that is deflected and then absorbed would count there, but this light leaves the mirror.">It is part of A</button>
-      <button data-ok>Nowhere: the ideal calculation has no scattering, and a real balance needs a separate term for scattered light that escapes</button>
-      <button data-hint="R is the light in the main reflected beam. Scattered light is by definition outside it.">It is part of R</button>
-    </div>
-    <div class="fb"></div>
-  </div>
   <div class="after" hidden>
-    <p><strong>A mirror is also a heater.</strong> It returns 74% of the light and keeps 26%, about 95% of that in the top 210 nm. What that heat does to the mirror, how warm it gets and how its surface moves, is a question of heat flow and mechanics. The optics you have built in these five modules supply its starting point: how much power, and where.</p>
+    <p>Just above the mirror <span class="mono">|E|²</span> is 3.1. That is the strength of the field where two waves overlap. It does not mean that three times the incoming power is flowing there: the net power going down is <span class="mono">1 − R</span>.</p>
+    <p>The heat load of the whole mirror, substrate included, is <span class="mono">1 − R = 25.8%</span>. <span class="mono">A = 24.9%</span> counts only the 80 thin layers, and <span class="mono">T = 0.9%</span> is the small part that reaches the substrate and is absorbed there.</p>
+    <p>A real mirror has slightly rough boundaries that scatter some light into other directions, out of the mirror. The ideal calculation has no scattering, so that light appears nowhere in <span class="mono">R + A + T = 1</span>: a real balance needs a separate term for scattered light that escapes.</p>
+    <p><strong>A mirror is also a heater.</strong> It returns 74% of the light and keeps 26%, about 95% of that in the top 210 nm. What that heat does to the mirror, how warm it gets and how its surface moves, is a question of heat flow and mechanics. The optics you have built in these five modules supply its starting point: how much power, and where. Module 6 takes it from there.</p>
     <h2>What to carry forward</h2>
     <ul class="carry">
       <li><strong>|E|² = 1 + R + 2·√R·cos(…).</strong> Use it for the field in front of a mirror. It measures field strength, which sets local absorption. It does not measure power flow.</li>
       <li><strong>A<sub>layer</sub> = S<sub>top</sub> − S<sub>bottom</sub>.</strong> Use it to find where energy is absorbed in any stack. It needs E and H at each boundary, which the matrix method provides.</li>
       <li><strong>P<sub>heat</sub> = (1 − R)·P<sub>in</sub>.</strong> Use it for the heat load of a mirror on a thick substrate, with R taken at the wavelength of the light. Light scattered out of the mirror is not included.</li>
     </ul>
-    <h2>The module is closed if you can rebuild the reasoning without looking</h2>
+    <h2>To retrace the reasoning</h2>
     <div>
       <details><summary>Why is there a standing wave in front of a mirror?</summary><p>The incoming and reflected waves overlap. Their phase difference changes with height, so they reinforce at some heights and oppose at others, in a pattern that stays put.</p></details>
       <details><summary>Why can |E|² be 3.5 when only one unit of power arrives?</summary><p>Amplitudes add before squaring: 1 + 0.86 = 1.86, squared 3.5. It is field strength at a point, and it averages to 1 + R over height.</p></details>
@@ -255,15 +201,6 @@
 <script>
 Object.assign(IT, {
   "Where does the light that does not come back go?": "Dove finisce la luce che non torna indietro?",
-  "Six steps, four interactive experiments on the standing wave, the field inside the stack, absorption layer by layer and the heat left in a chain of mirrors. Choose how to take them.": "Sei passi, quattro esperimenti interattivi su onda stazionaria, campo dentro lo stack, assorbimento strato per strato e calore lasciato in una catena di specchi. Scegli come affrontarli.",
-  "A quarter of the light does not come back. Where does it go?": "Un quarto della luce non torna indietro. Dove va?",
-  "The mirror of module 3 reflects 74.2% of the light at 13.5 nm. The other 25.8% stays in the mirror. This module follows it.": "Lo specchio del modulo 3 riflette il 74,2% della luce a 13,5 nm. Il restante 25,8% resta nello specchio. Questo modulo lo segue.",
-  "Before computing anything, make a prediction. You will meet it again later.": "Prima di calcolare qualsiasi cosa, fai una previsione. La ritroverai più avanti.",
-  "The steps that follow build the answer one piece at a time.": "I passi che seguono costruiscono la risposta un pezzo alla volta.",
-  "Where does most of the light that is not reflected end up?": "Dove finisce la maggior parte della luce che non viene riflessa?",
-  "In the molybdenum layers": "Negli strati di molibdeno",
-  "In the silicon layers, which are thicker": "Negli strati di silicio, che sono più spessi",
-  "In the substrate under the stack": "Nel substrato sotto lo stack",
   "In front of the mirror: a standing wave": "Davanti allo specchio: un'onda stazionaria",
   "Above the mirror two waves overlap: the incoming one, of amplitude 1, and the reflected one, of amplitude <span class=\"mono\">√R</span>, travelling the opposite way. Module 2 gave the rule for adding two waves: the result depends on their phase difference.": "Sopra lo specchio si sovrappongono due onde: quella in arrivo, di ampiezza 1, e quella riflessa, di ampiezza <span class=\"mono\">√R</span>, che viaggia in verso opposto. Il modulo 2 ha dato la regola per sommare due onde: il risultato dipende dalla loro differenza di fase.",
   "Here that difference depends on where you look. Moving a height <span class=\"mono\">z</span> away from the mirror shortens the path of one wave and lengthens the path of the other. So the two reinforce at some heights and oppose at others, in a fixed pattern that does not travel: a standing wave. The quantity plotted is <span class=\"mono\">|E|²</span>, the squared size of the total field, compared with the incoming wave alone.": "Qui quella differenza dipende da dove si guarda. Allontanarsi dallo specchio di un'altezza <span class=\"mono\">z</span> accorcia il percorso di un'onda e allunga quello dell'altra. Quindi le due si rinforzano a certe altezze e si oppongono ad altre, in un disegno fisso che non viaggia: un'onda stazionaria. La grandezza nel grafico è <span class=\"mono\">|E|²</span>, il quadrato del campo totale, rispetto alla sola onda in arrivo.",
@@ -271,8 +208,6 @@ Object.assign(IT, {
   "highest |E|²": "|E|² massimo",
   "lowest |E|²": "|E|² minimo",
   "Light of 13.5 nm at 6°. The mirror surface is at height 0.": "Luce a 13,5 nm e 6°. La superficie dello specchio è ad altezza 0.",
-  "Set the reflectance of the real mirror, 74%.": "Imposta la riflettanza dello specchio vero, 74%.",
-  "For a perfect mirror, R = 100%. What is |E|² at the brightest heights?": "Per uno specchio perfetto, R = 100%. Quanto vale |E|² alle altezze più luminose?",
   "<strong>A good mirror makes a deep pattern.</strong> At 74% the field swings between 3.5 times the incoming value and 0.02 times. The bright and dark planes repeat every <span class=\"mono\">λ/(2·cos θ) = 6.8 nm</span>, almost exactly the period of the stack. That is the Bragg condition seen from the side of the field.": "<strong>Uno specchio buono produce un disegno profondo.</strong> Al 74% il campo oscilla tra 3,5 volte il valore in arrivo e 0,02 volte. I piani chiari e scuri si ripetono ogni <span class=\"mono\">λ/(2·cos θ) = 6,8 nm</span>, quasi esattamente il periodo dello stack. È la condizione di Bragg vista dal lato del campo.",
   "A value of <span class=\"mono\">|E|²</span> above 1 does not mean that more power is there than came in. Power travels down with the incoming wave and back up with the reflected one. <span class=\"mono\">|E|²</span> says how strong the field is at a point, and that is what decides how much a material placed there absorbs.": "Un valore di <span class=\"mono\">|E|²</span> sopra 1 non significa che lì ci sia più potenza di quella arrivata. La potenza scende con l'onda in arrivo e risale con quella riflessa. <span class=\"mono\">|E|²</span> dice quanto è forte il campo in un punto, ed è questo che decide quanto assorbe un materiale messo lì.",
   "It is the two-wave formula of module 2, A² = a₁² + a₂² + 2·a₁·a₂·cos(phase difference), with a₁ = 1 and a₂ = √R. Going up by z changes the phase of each wave by 2π·z·cos θ/λ, in opposite senses, so the difference changes by twice that.": "È la formula delle due onde del modulo 2, A² = a₁² + a₂² + 2·a₁·a₂·cos(differenza di fase), con a₁ = 1 e a₂ = √R. Salire di z cambia la fase di ciascuna onda di 2π·z·cos θ/λ, in versi opposti, quindi la differenza cambia del doppio.",
@@ -284,8 +219,6 @@ Object.assign(IT, {
   "Wavelength": "Lunghezza d'onda",
   "R": "R",
   "Molybdenum 2.78 nm on silicon 4.18 nm, 40 pairs, 6°, s polarization. Shaded bands: molybdenum.": "Molibdeno 2,78 nm su silicio 4,18 nm, 40 coppie, 6°, polarizzazione s. Fasce ombreggiate: molibdeno.",
-  "Tune the wavelength to the peak of the mirror (R above 74.2%).": "Regola la lunghezza d'onda sul picco dello specchio (R sopra 74,2%).",
-  "Anywhere: the pattern does not follow the layers": "Ovunque: il disegno non segue gli strati",
   "The pattern also fades with depth. Its bright planes drop by a factor e about every seven pairs, 50 nm. Below pair 20 the field is less than a tenth of its value at the surface: the lower half of the stack works in near darkness, as module 3 found from the outside.": "Il disegno si attenua anche con la profondità. I suoi piani chiari calano di un fattore e circa ogni sette coppie, 50 nm. Sotto la coppia 20 il campo è meno di un decimo del valore in superficie: la metà inferiore dello stack lavora quasi al buio, come il modulo 3 aveva trovato dall'esterno.",
   "Where the energy is left": "Dove resta l'energia",
   "To find where the light is absorbed, follow the energy. The net power crossing a plane inside the mirror, what goes down minus what comes up, is <span class=\"mono\">S = Re(E·H*)/η₀</span>, as a fraction of the incoming power. The star is the complex conjugate: the same number with the sign of its imaginary part reversed. <span class=\"mono\">Re</span> means: keep the real part.": "Per sapere dove viene assorbita la luce, segui l'energia. La potenza netta che attraversa un piano dentro lo specchio, quella che scende meno quella che sale, è <span class=\"mono\">S = Re(E·H*)/η₀</span>, come frazione della potenza in arrivo. L'asterisco è il complesso coniugato: lo stesso numero con il segno della parte immaginaria invertito. <span class=\"mono\">Re</span> significa: tieni la parte reale.",
@@ -295,9 +228,6 @@ Object.assign(IT, {
   "absorbed down to here": "assorbita fin qui",
   "in molybdenum": "nel molibdeno",
   "in silicon": "nel silicio",
-  "Find how many pairs hold half of all the absorbed light (between 12% and 13.5% absorbed).": "Trova quante coppie contengono metà di tutta la luce assorbita (tra 12% e 13,5% assorbito).",
-  "At the top surface the net power going in is S = 1 − R. With R = 74.2%, what is S in percent?": "Alla superficie superiore la potenza netta che entra è S = 1 − R. Con R = 74,2%, quanto vale S in percento?",
-  "<strong>Half of the absorption happens in the top five pairs, 35 nm.</strong> By pair 20 it is 94% done. <span class=\"guided-only\">You predicted: <strong id=\"pred-echo\">—</strong>. </span>Of every 100 photons, 74.2 are reflected, 15.8 are absorbed in molybdenum, 9.1 in the silicon layers, and 0.9 reach the substrate.": "<strong>Metà dell'assorbimento avviene nelle prime cinque coppie, 35 nm.</strong> Alla coppia 20 è compiuto al 94%. <span class=\"guided-only\">Avevi previsto: <strong id=\"pred-echo\">—</strong>. </span>Su 100 fotoni, 74,2 sono riflessi, 15,8 sono assorbiti nel molibdeno, 9,1 negli strati di silicio, e 0,9 arrivano al substrato.",
   "Molybdenum takes 1.7 times more than silicon, although the silicon layers are thicker. A simple count of absorbing strength times thickness, <span class=\"mono\">n·k·d</span>, would say 2.2 times. The difference is the standing wave, which keeps part of the field out of the molybdenum.": "Il molibdeno ne prende 1,7 volte più del silicio, anche se gli strati di silicio sono più spessi. Un conto semplice di capacità di assorbire per spessore, <span class=\"mono\">n·k·d</span>, direbbe 2,2 volte. La differenza è l'onda stazionaria, che tiene parte del campo fuori dal molibdeno.",
   "S is the net downward power through a plane, as a fraction of the incoming power. η₀ = cos θ is the ratio H/E of the incoming wave in vacuum, for s polarization. A<sub>layer</sub> is the fraction absorbed in one layer.": "S è la potenza netta verso il basso attraverso un piano, come frazione della potenza in arrivo. η₀ = cos θ è il rapporto H/E dell'onda in arrivo nel vuoto, per la polarizzazione s. A<sub>layer</sub> è la frazione assorbita in uno strato.",
   "At the top surface S = 1 − R = 25.8%. Entering the substrate S = T = 0.9%. The 80 differences in between add up to 24.9%, the A of module 3, and each of them is positive: no layer creates energy.": "Alla superficie superiore S = 1 − R = 25,8%. All'ingresso nel substrato S = T = 0,9%. Le 80 differenze in mezzo sommano a 24,9%, la A del modulo 3, e ciascuna è positiva: nessuno strato crea energia.",
@@ -307,85 +237,96 @@ Object.assign(IT, {
   "heat in mirror 1": "calore nello specchio 1",
   "light left after mirror 11": "luce rimasta dopo lo specchio 11",
   "heat in all eleven": "calore in tutti e undici",
-  "250 W reach the first mirror, which reflects 74.2%. How many watts does it absorb?": "250 W arrivano al primo specchio, che riflette il 74,2%. Quanti watt assorbe?",
-  "Which mirror of the chain takes the most heat?": "Quale specchio della catena prende più calore?",
-  "The first: it receives the most light": "Il primo: riceve più luce",
-  "The last: the losses add up along the chain": "L'ultimo: le perdite si accumulano lungo la catena",
-  "All the same: each absorbs 25.8%": "Tutti uguali: ciascuno assorbe il 25,8%",
   "<strong>The first mirror takes a quarter of the power, the last one about a hundredth.</strong> After ten reflections only 5% of the light is left, so the eleventh mirror absorbs 1.3% of what the first one received.": "<strong>Il primo specchio prende un quarto della potenza, l'ultimo circa un centesimo.</strong> Dopo dieci riflessioni resta solo il 5% della luce, quindi l'undicesimo specchio assorbe l'1,3% di ciò che ha ricevuto il primo.",
   "The balance R + A + T = 1 of module 3, plus the fact that the substrate absorbs T. So A + T = 1 − R of the incoming power is turned into heat.": "Il bilancio R + A + T = 1 del modulo 3, più il fatto che il substrato assorbe T. Quindi A + T = 1 − R della potenza in arrivo diventa calore.",
   "P<sub>in</sub> is the power arriving at a mirror and P<sub>heat</sub> the part it keeps. R is its reflectance. m counts the mirrors along the chain, starting from 1.": "P<sub>in</sub> è la potenza che arriva a uno specchio e P<sub>heat</sub> la parte che trattiene. R è la sua riflettanza. m conta gli specchi lungo la catena, a partire da 1.",
   "Add the heat of all eleven mirrors and the light that leaves the last one: the total is the starting power. With R = 74.2% the eleven mirrors keep 96.2% and 3.8% leaves. The three readouts of the experiment show it.": "Somma il calore di tutti e undici gli specchi e la luce che esce dall'ultimo: il totale è la potenza di partenza. Con R = 74,2% gli undici specchi trattengono il 96,2% e il 3,8% esce. Le tre letture dell'esperimento lo mostrano.",
   "Reading these numbers correctly": "Leggere correttamente questi numeri",
   "Three quantities appeared in this module that are easy to confuse: the field <span class=\"mono\">|E|²</span>, the power flow <span class=\"mono\">S</span>, and the absorbed fractions. Each answers a different question.": "In questo modulo sono comparse tre grandezze facili da confondere: il campo <span class=\"mono\">|E|²</span>, il flusso di potenza <span class=\"mono\">S</span>, e le frazioni assorbite. Ciascuna risponde a una domanda diversa.",
-  "Just above the mirror |E|² is 3.1. Does that mean three times the incoming power is flowing there?": "Appena sopra lo specchio |E|² vale 3,1. Significa che lì scorre tre volte la potenza in arrivo?",
-  "Yes: the mirror concentrates the power at its surface": "Sì: lo specchio concentra la potenza alla sua superficie",
-  "No: |E|² is the strength of the field where two waves overlap. The net power going down is 1 − R": "No: |E|² è la forza del campo dove due onde si sovrappongono. La potenza netta che scende è 1 − R",
-  "No: |E|² cannot be larger than 1": "No: |E|² non può superare 1",
-  "Which number is the heat load of the whole mirror, substrate included?": "Quale numero è il carico termico dell'intero specchio, substrato compreso?",
   "A = 24.9%": "A = 24,9%",
   "1 − R = 25.8%": "1 − R = 25,8%",
   "T = 0.9%": "T = 0,9%",
-  "It is part of A": "Fa parte di A",
-  "It is part of R": "Fa parte di R",
   "What to carry forward": "Cosa portarsi dietro",
   "<strong>|E|² = 1 + R + 2·√R·cos(…).</strong> Use it for the field in front of a mirror. It measures field strength, which sets local absorption. It does not measure power flow.": "<strong>|E|² = 1 + R + 2·√R·cos(…).</strong> Usala per il campo davanti a uno specchio. Misura la forza del campo, che fissa l'assorbimento locale. Non misura il flusso di potenza.",
   "<strong>A<sub>layer</sub> = S<sub>top</sub> − S<sub>bottom</sub>.</strong> Use it to find where energy is absorbed in any stack. It needs E and H at each boundary, which the matrix method provides.": "<strong>A<sub>layer</sub> = S<sub>top</sub> − S<sub>bottom</sub>.</strong> Usala per trovare dove viene assorbita l'energia in qualsiasi stack. Richiede E e H a ogni confine, che il metodo delle matrici fornisce.",
-  "The module is closed if you can rebuild the reasoning without looking": "Il modulo è chiuso se sai ricostruire il ragionamento senza guardare",
   "Why is there a standing wave in front of a mirror?": "Perché davanti a uno specchio c'è un'onda stazionaria?",
   "The incoming and reflected waves overlap. Their phase difference changes with height, so they reinforce at some heights and oppose at others, in a pattern that stays put.": "L'onda in arrivo e quella riflessa si sovrappongono. La loro differenza di fase cambia con l'altezza, quindi si rinforzano a certe altezze e si oppongono ad altre, in un disegno che resta fermo.",
   "Why can |E|² be 3.5 when only one unit of power arrives?": "Perché |E|² può valere 3,5 se arriva una sola unità di potenza?",
   "Amplitudes add before squaring: 1 + 0.86 = 1.86, squared 3.5. It is field strength at a point, and it averages to 1 + R over height.": "Le ampiezze si sommano prima di elevare al quadrato: 1 + 0,86 = 1,86, al quadrato 3,5. È la forza del campo in un punto, e mediata sull'altezza vale 1 + R.",
   "How do you find the light absorbed in one layer?": "Come si trova la luce assorbita in uno strato?",
   "Compute the net power S crossing its upper and lower faces. The difference is what the layer absorbed.": "Si calcola la potenza netta S che attraversa la sua faccia superiore e quella inferiore. La differenza è ciò che lo strato ha assorbito.",
-  "in the molybdenum layers": "negli strati di molibdeno",
   "in the silicon layers": "negli strati di silicio",
-  "in the substrate": "nel substrato",
-  "Two waves of amplitude 1 in step: amplitudes add, then square.": "Due onde di ampiezza 1 in fase: le ampiezze si sommano, poi si eleva al quadrato.",
-  "Look at where the curve touches the bottom, compared with the shaded bands.": "Guarda dove la curva tocca il fondo, rispetto alle fasce ombreggiate.",
-  "100 − 74.2.": "100 − 74,2.",
-  "(1 − 0.742) × 250.": "(1 − 0,742) × 250.",
-  "The last mirror receives what ten reflections have left: about 5% of the starting light.": "L'ultimo specchio riceve ciò che dieci riflessioni hanno lasciato: circa il 5% della luce iniziale.",
-  "Each mirror absorbs the same fraction, but of a different amount of light.": "Ogni specchio assorbe la stessa frazione, ma di una quantità diversa di luce.",
-  "Power cannot be created in empty space. Two overlapping waves make a strong field without making more power.": "La potenza non può crearsi nello spazio vuoto. Due onde sovrapposte fanno un campo forte senza fare più potenza.",
-  "The value 3.1 is correct. The question is what it measures.": "Il valore 3,1 è corretto. La domanda è cosa misura.",
-  "A counts only the 80 thin layers. The light that reaches the substrate is absorbed there too.": "A conta solo gli 80 strati sottili. Anche la luce che arriva al substrato viene assorbita lì.",
-  "T is the small part that reaches the substrate. Most of the heat is left in the layers above it.": "T è la piccola parte che arriva al substrato. La maggior parte del calore resta negli strati sopra.",
-  "R is the light in the main reflected beam. Scattered light is by definition outside it.": "R è la luce nel fascio riflesso principale. La luce diffusa per definizione ne sta fuori.",
   "height above the mirror (nm)": "altezza sopra lo specchio (nm)",
   "depth below the surface (nm)": "profondità sotto la superficie (nm)",
   "pair, counted from the surface": "coppia, contata dalla superficie",
   "mirror along the chain": "specchio lungo la catena",
-  "This is the last of the optical modules.": "Questo è l'ultimo dei moduli di ottica.",
   "Why does molybdenum absorb less than n·k·d suggests?": "Perché il molibdeno assorbe meno di quanto suggerisce n·k·d?",
   "Now consider a chain of such mirrors, as in a scanner. Each one passes on only what it reflects, so each receives less than the one before.": "Ora considera una catena di specchi così, come in uno scanner. Ciascuno passa avanti solo ciò che riflette, quindi ognuno riceve meno del precedente.",
   "<strong>Near the peak the standing wave locks onto the layers.</strong> Its period matches the period of the stack, so each pair sees nearly the same pattern, with a dark plane near the lower face of the molybdenum layer in the top pairs shown. Averaged over a layer, <span class=\"mono\">|E|²</span> is lower in molybdenum than in silicon: by 20% at 13.5 nm, by almost 30% at the top of the peak. Molybdenum is the absorber, so this arrangement loses less light than the same material would under a uniform field.": "<strong>Vicino al picco l'onda stazionaria si aggancia agli strati.</strong> Il suo periodo coincide con quello dello stack, quindi ogni coppia vede quasi lo stesso disegno, con un piano scuro vicino alla faccia inferiore dello strato di molibdeno nelle prime coppie mostrate. Mediato su uno strato, <span class=\"mono\">|E|²</span> è più basso nel molibdeno che nel silicio: del 20% a 13,5 nm, di quasi il 30% in cima al picco. Il molibdeno è quello che assorbe, quindi questa disposizione perde meno luce di quanta ne perderebbe lo stesso materiale sotto un campo uniforme.",
   "|E|² in Mo compared with Si": "|E|² nel Mo rispetto al Si",
-  "The two sides of the peak are not alike. Move to 13.0 nm: the reflected wave is weak, most of the light travels on into the stack, and the average <span class=\"mono\">|E|²</span> in the molybdenum is twice that in the silicon. The thin layers then absorb about two thirds of the light, and another 22% enters the substrate and is absorbed there. On the long-wavelength side the field stays out of the molybdenum.": "I due lati del picco non sono uguali. Vai a 13,0 nm: l'onda riflessa è debole, la maggior parte della luce prosegue dentro lo stack, e <span class=\"mono\">|E|²</span> medio nel molibdeno è il doppio di quello nel silicio. Gli strati sottili assorbono allora circa due terzi della luce, e un altro 22% entra nel substrato e viene assorbito lì. Dal lato delle lunghezze d'onda maggiori il campo resta fuori dal molibdeno.",
   "Near the peak the standing wave is locked to the layers, and at 13.5 nm |E|² averaged over molybdenum is 20% lower than over silicon.": "Vicino al picco l'onda stazionaria è agganciata agli strati, e a 13,5 nm |E|² mediato sul molibdeno è il 20% più basso che sul silicio.",
   "Energy is conserved: under steady light, what flows into a layer and does not flow out is absorbed there. The power carried by an electromagnetic field is the product of its electric and magnetic parts. For two quantities that oscillate, the average of their product over time is one half of Re(E·H*). The same one half, and the constant that fixes the scale of H, appear for the incoming wave too, so they cancel when one is divided by the other. What is left is the fraction S.": "L'energia si conserva: con luce stazionaria, ciò che entra in uno strato e non ne esce viene assorbito lì. La potenza portata da un campo elettromagnetico è il prodotto della sua parte elettrica e di quella magnetica. Per due grandezze che oscillano, la media nel tempo del loro prodotto è un mezzo di Re(E·H*). Lo stesso un mezzo, e la costante che fissa la scala di H, compaiono anche per l'onda in arrivo, quindi si semplificano dividendo l'una per l'altra. Ciò che resta è la frazione S.",
   "Steady illumination. E and H are the parts of the fields parallel to the layers, with H on the scale defined in module 3. For s polarization their product gives the power flowing perpendicular to the layers. Nothing is scattered sideways.": "Illuminazione stazionaria. E e H sono le parti dei campi parallele agli strati, con H sulla scala definita nel modulo 3. Per la polarizzazione s il loro prodotto dà la potenza che scorre perpendicolare agli strati. Nulla viene diffuso di lato.",
   "Everything that is not reflected ends as heat in the mirror: the 24.9% absorbed in the layers, and the 0.9% that reaches the substrate and is absorbed there. The heat is <span class=\"mono\">1 − R</span> of the incoming power, and about 95% of it is left within the first 210 nm below the surface.": "Tutto ciò che non viene riflesso finisce in calore nello specchio: il 24,9% assorbito negli strati, e lo 0,9% che arriva al substrato e viene assorbito lì. Il calore è <span class=\"mono\">1 − R</span> della potenza in arrivo, e circa il 95% resta entro i primi 210 nm sotto la superficie.",
-  "<strong>A mirror is also a heater.</strong> It returns 74% of the light and keeps 26%, about 95% of that in the top 210 nm. What that heat does to the mirror, how warm it gets and how its surface moves, is a question of heat flow and mechanics. The optics you have built in these five modules supply its starting point: how much power, and where.": "<strong>Uno specchio è anche un riscaldatore.</strong> Restituisce il 74% della luce e ne trattiene il 26%, circa il 95% del quale nei primi 210 nm. Cosa fa quel calore allo specchio, quanto si scalda e come si muove la sua superficie, è una questione di flusso di calore e di meccanica. L'ottica costruita in questi cinque moduli ne fornisce il punto di partenza: quanta potenza, e dove.",
   "Small gains in reflectance matter a great deal. Raise R from 74.2% to 75.2%. Each mirror then keeps a smaller fraction of what reaches it, the first mirror takes less heat, and the chain as a whole absorbs less. Mirrors further along can receive slightly more heat than before, because more light reaches them. The light that survives all eleven rises from 3.75% to 4.35% of the start: 16% more light at the end from one point of reflectance.": "I piccoli guadagni di riflettanza contano molto. Porta R da 74,2% a 75,2%. Ogni specchio trattiene allora una frazione minore di ciò che lo raggiunge, il primo specchio prende meno calore, e la catena nel suo insieme assorbe meno. Gli specchi più avanti possono ricevere un po' più calore di prima, perché li raggiunge più luce. La luce che sopravvive a tutti e undici sale da 3,75% a 4,35% di quella iniziale: il 16% di luce in più alla fine per un punto di riflettanza.",
   "Which mirror of a chain has the largest heat load, and why?": "Quale specchio di una catena ha il carico termico maggiore, e perché?",
   "The first. Every mirror keeps the same fraction, 1 − R, but the first receives the most light. How warm it gets depends on how it is cooled, which is not computed here.": "Il primo. Ogni specchio trattiene la stessa frazione, 1 − R, ma il primo riceve più luce. Quanto si scalda dipende da come è raffreddato, cosa che qui non viene calcolata.",
   "One caution. The value 74.2% is for light inside the mirror's band. A real source also emits other wavelengths, and each has its own R. At 14.2 nm this mirror reflects 6% and turns the rest into heat.": "Un'avvertenza. Il valore 74,2% vale per la luce dentro la banda dello specchio. Una sorgente vera emette anche altre lunghezze d'onda, e ciascuna ha la sua R. A 14,2 nm questo specchio riflette il 6% e trasforma il resto in calore.",
   "A substrate thick enough to absorb all the light that reaches it, and no light scattered out of the mirror. The equation holds at any wavelength, with R taken at that wavelength, angle and polarization. For a source with several wavelengths, add the heat from each one, each with its own R: 74.2% applies only inside the band.": "Un substrato abbastanza spesso da assorbire tutta la luce che lo raggiunge, e nessuna luce diffusa fuori dallo specchio. L'equazione vale a qualsiasi lunghezza d'onda, con R presa a quella lunghezza d'onda, a quell'angolo e a quella polarizzazione. Per una sorgente con più lunghezze d'onda, somma il calore di ciascuna, ognuna con la sua R: il 74,2% vale solo dentro la banda.",
   "<strong>P<sub>heat</sub> = (1 − R)·P<sub>in</sub>.</strong> Use it for the heat load of a mirror on a thick substrate, with R taken at the wavelength of the light. Light scattered out of the mirror is not included.": "<strong>P<sub>heat</sub> = (1 − R)·P<sub>in</sub>.</strong> Usala per il carico termico di uno specchio su un substrato spesso, con R presa alla lunghezza d'onda della luce. La luce diffusa fuori dallo specchio non è inclusa.",
-  "A real mirror has slightly rough boundaries that scatter some light into other directions, out of the mirror. Where does that light appear in R + A + T = 1?": "Uno specchio vero ha confini leggermente rugosi che diffondono parte della luce in altre direzioni, fuori dallo specchio. Dove compare quella luce in R + A + T = 1?",
-  "Nowhere: the ideal calculation has no scattering, and a real balance needs a separate term for scattered light that escapes": "Da nessuna parte: il calcolo ideale non ha diffusione, e un bilancio reale ha bisogno di un termine a parte per la luce diffusa che esce",
-  "A is the light absorbed inside the layers. Light that is deflected and then absorbed would count there, but this light leaves the mirror.": "A è la luce assorbita dentro gli strati. La luce deviata e poi assorbita conterebbe lì, ma questa luce esce dallo specchio.",
-  "At the peak, in the top pairs shown, where do the dark planes of the standing wave fall?": "Al picco, nelle prime coppie mostrate, dove cadono i piani scuri dell'onda stazionaria?",
-  "Near the lower face of the molybdenum layers": "Vicino alla faccia inferiore degli strati di molibdeno",
-  "In the middle of the silicon layers": "Al centro degli strati di silicio",
-  "At the peak the pattern nearly repeats with the layers: in the pairs shown, each looks much like the one above, only fainter.": "Al picco il disegno si ripete quasi uguale con gli strati: nelle coppie mostrate ciascuna somiglia molto a quella sopra, solo più debole."
+  "The mirror of module 3 reflects 74.2% of the light at 13.5 nm. The other 25.8% stays in the mirror. Five ideas follow it, four of them with an experiment. Open any of them, in any order.": "Lo specchio del modulo 3 riflette il 74,2% della luce a 13,5 nm. Il restante 25,8% resta nello specchio. Cinque idee lo seguono, quattro delle quali con un esperimento. Aprine una qualsiasi, in qualsiasi ordine.",
+  "Up to here the mirror has been judged by what it sends back. From here on the project is about what it keeps: a quarter of the power, turned into heat a few hundred nanometres below the surface. This module finds how much is absorbed and where. Module 6 takes those two answers and turns them into a temperature.": "Fin qui lo specchio è stato giudicato per ciò che rimanda indietro. Da qui in poi il progetto riguarda ciò che trattiene: un quarto della potenza, trasformato in calore poche centinaia di nanometri sotto la superficie. Questo modulo trova quanta ne viene assorbita e dove. Il modulo 6 prende queste due risposte e le trasforma in una temperatura.",
+  "The pattern made by the incoming and the reflected wave. Experiment: reflectance against the depth of the pattern.": "Il disegno formato dall'onda in arrivo e da quella riflessa. Esperimento: riflettanza e profondità del disegno.",
+  "The field through the top ten pairs. Experiment: wavelength against where the field sits in the layers.": "Il campo nelle prime dieci coppie. Esperimento: lunghezza d'onda e posizione del campo negli strati.",
+  "The power absorbed in each of the 80 layers. Experiment: add up the absorption pair by pair.": "La potenza assorbita in ciascuno degli 80 strati. Esperimento: somma l'assorbimento coppia per coppia.",
+  "The heat left in one mirror and along a chain of mirrors. Experiment: source power and reflectance.": "Il calore lasciato in uno specchio e lungo una catena di specchi. Esperimento: potenza della sorgente e riflettanza.",
+  "Three quantities that are easy to confuse, what to carry forward, and a list to check your own reasoning.": "Tre grandezze facili da confondere, cosa portarsi dietro, e un elenco per controllare il proprio ragionamento.",
+  "Near the peak the pattern is locked to the layers, with the dark planes near the lower face of the molybdenum layers.": "Vicino al picco il disegno è agganciato agli strati, con i piani scuri vicino alla faccia inferiore degli strati di molibdeno.",
+  "Half of all the absorption has already happened, in the top 35 nm.": "Metà di tutto l'assorbimento è già avvenuta, nei primi 35 nm.",
+  "The whole stack: 24.9% absorbed, 15.8% in molybdenum and 9.1% in silicon.": "Tutto lo stack: 24,9% assorbito, 15,8% nel molibdeno e 9,1% nel silicio.",
+  "The first mirror keeps 64.5 W, and 3.75% of the light is left after the eleventh.": "Il primo specchio trattiene 64,5 W, e dopo l'undicesimo resta il 3,75% della luce.",
+  "One more point of reflectance: 4.35% of the light survives, 16% more than before.": "Un punto di riflettanza in più: sopravvive il 4,35% della luce, il 16% in più di prima.",
+  "Twice the source, twice the heat in every mirror: the fractions do not change.": "Il doppio della sorgente, il doppio del calore in ogni specchio: le frazioni non cambiano.",
+  "R = 0%": "R = 0%",
+  "13.0 nm": "13,0 nm",
+  "13.5 nm": "13,5 nm",
+  "14.0 nm": "14,0 nm",
+  "5 pairs": "5 coppie",
+  "20 pairs": "20 coppie",
+  "40 pairs": "40 coppie",
+  "250 W, 74.2%": "250 W, 74,2%",
+  "250 W, 75.2%": "250 W, 75,2%",
+  "500 W, 74.2%": "500 W, 74,2%",
+  "To retrace the reasoning": "Per riprendere il ragionamento",
+  "Absorption happens where the field is strong, so finding where the light is absorbed starts with finding the field. The simplest place to look is just outside the mirror, where only two waves meet. The pattern found here continues inside.": "L'assorbimento avviene dove il campo è forte, quindi per trovare dove la luce viene assorbita si comincia trovando il campo. Il posto più semplice in cui guardare è appena fuori dallo specchio, dove si incontrano due sole onde. Il disegno che si trova qui prosegue all'interno.",
+  "The pattern in front of the mirror goes on below the surface, where the absorbing layers are. This step looks at where its bright and dark planes fall in the molybdenum and in the silicon, because that decides how much each of them absorbs.": "Il disegno davanti allo specchio prosegue sotto la superficie, dove stanno gli strati che assorbono. Questo passo guarda dove cadono i suoi piani chiari e scuri nel molibdeno e nel silicio, perché da questo dipende quanto assorbe ciascuno dei due.",
+  "The field says where absorption is likely. This step counts it: how much power each layer keeps. The result, how much and at what depth, is what a thermal calculation needs as its heat source.": "Il campo dice dove l'assorbimento è probabile. Questo passo lo conta: quanta potenza trattiene ogni strato. Il risultato, quanta e a quale profondità, è ciò che serve a un calcolo termico come sorgente di calore.",
+  "Absorbed light becomes heat. This step turns the fractions of the last one into watts, first for one mirror and then for a chain of them, and shows which mirror carries the largest load.": "La luce assorbita diventa calore. Questo passo trasforma in watt le frazioni del passo precedente, prima per uno specchio e poi per una catena, e mostra quale specchio porta il carico maggiore.",
+  "Field strength, power flow and absorbed fraction are three different things with similar names. Before they are handed to the thermal modules, this step separates them and says what the optical model leaves out.": "Intensità del campo, flusso di potenza e frazione assorbita sono tre cose diverse con nomi simili. Prima di passarle ai moduli termici, questo passo le separa e dice cosa il modello ottico lascia fuori.",
+  "Take 250 W on the first mirror and a reflectance of 74.2%: that mirror keeps <span class=\"mono\">(1 − 0.742) × 250 = 64.5 W</span>.": "Prendi 250 W sul primo specchio e una riflettanza del 74,2%: quello specchio trattiene <span class=\"mono\">(1 − 0,742) × 250 = 64,5 W</span>.",
+  "Just above the mirror <span class=\"mono\">|E|²</span> is 3.1. That is the strength of the field where two waves overlap. It does not mean that three times the incoming power is flowing there: the net power going down is <span class=\"mono\">1 − R</span>.": "Appena sopra lo specchio <span class=\"mono\">|E|²</span> vale 3,1. È la forza del campo dove due onde si sovrappongono. Non significa che lì scorra tre volte la potenza in arrivo: la potenza netta che scende è <span class=\"mono\">1 − R</span>.",
+  "The heat load of the whole mirror, substrate included, is <span class=\"mono\">1 − R = 25.8%</span>. <span class=\"mono\">A = 24.9%</span> counts only the 80 thin layers, and <span class=\"mono\">T = 0.9%</span> is the small part that reaches the substrate and is absorbed there.": "Il carico termico dell'intero specchio, substrato compreso, è <span class=\"mono\">1 − R = 25,8%</span>. <span class=\"mono\">A = 24,9%</span> conta solo gli 80 strati sottili, e <span class=\"mono\">T = 0,9%</span> è la piccola parte che arriva al substrato e viene assorbita lì.",
+  "A real mirror has slightly rough boundaries that scatter some light into other directions, out of the mirror. The ideal calculation has no scattering, so that light appears nowhere in <span class=\"mono\">R + A + T = 1</span>: a real balance needs a separate term for scattered light that escapes.": "Uno specchio vero ha confini leggermente rugosi che diffondono parte della luce in altre direzioni, fuori dallo specchio. Il calcolo ideale non ha diffusione, quindi quella luce non compare da nessuna parte in <span class=\"mono\">R + A + T = 1</span>: un bilancio reale richiede un termine a parte per la luce diffusa che esce.",
+  "<strong>A mirror is also a heater.</strong> It returns 74% of the light and keeps 26%, about 95% of that in the top 210 nm. What that heat does to the mirror, how warm it gets and how its surface moves, is a question of heat flow and mechanics. The optics you have built in these five modules supply its starting point: how much power, and where. Module 6 takes it from there.": "<strong>Uno specchio è anche un riscaldatore.</strong> Restituisce il 74% della luce e ne trattiene il 26%, circa il 95% del quale nei primi 210 nm. Cosa fa quel calore allo specchio, quanto si scalda e come si muove la sua superficie, è una questione di flusso di calore e di meccanica. L'ottica costruita in questi cinque moduli ne fornisce il punto di partenza: quanta potenza, e dove. Il modulo 6 riparte da lì.",
+  "Next: module 6, from absorbed power to temperature.": "Prossimo: modulo 6, dalla potenza assorbita alla temperatura.",
+  "No reflected wave: |E|² is 1 everywhere, and there is no pattern.": "Nessuna onda riflessa: |E|² vale 1 ovunque, e non c'è alcun disegno.",
+  "The real mirror: |E|² swings between 3.5 times the incoming value and 0.02 times.": "Lo specchio vero: |E|² oscilla tra 3,5 volte il valore in arrivo e 0,02 volte.",
+  "A perfect mirror: two waves of amplitude 1 give |E|² = 4 at the bright planes and 0 at the dark ones.": "Uno specchio perfetto: due onde di ampiezza 1 danno |E|² = 4 nei piani chiari e 0 in quelli scuri.",
+  "Off the peak on the short side: the reflected wave is weak, and |E|² in the molybdenum is twice that in the silicon.": "Fuori dal picco sul lato corto: l'onda riflessa è debole, e |E|² nel molibdeno è il doppio di quello nel silicio.",
+  "On the long-wavelength side the field stays out of the molybdenum: |E|² there is about half that in the silicon.": "Sul lato delle lunghezze d'onda lunghe il campo resta fuori dal molibdeno: lì |E|² è circa la metà di quello nel silicio.",
+  "By here 94% of the absorption in the stack is done.": "Fin qui è compiuto il 94% dell'assorbimento nello stack.",
+  "<strong>Half of the absorption happens in the top five pairs, 35 nm.</strong> By pair 20, 94% of the absorption in the stack is done. Of every 100 photons, 74.2 are reflected, 15.8 are absorbed in molybdenum, 9.1 in the silicon layers, and 0.9 reach the substrate.": "<strong>Metà dell'assorbimento avviene nelle prime cinque coppie, 35 nm.</strong> Alla coppia 20 è compiuto il 94% dell'assorbimento nello stack. Su 100 fotoni, 74,2 sono riflessi, 15,8 sono assorbiti nel molibdeno, 9,1 negli strati di silicio, e 0,9 arrivano al substrato.",
+  "The two sides of the peak are not alike. Move to 13.0 nm: the reflected wave is weak, most of the light travels on into the stack, and the average <span class=\"mono\">|E|²</span> in the molybdenum is twice that in the silicon. The thin layers then absorb about two thirds of the light, and another 22% enters the substrate and is absorbed there. On the long-wavelength side the field stays out of the molybdenum.": "I due lati del picco non sono uguali. Vai a 13,0 nm: l'onda riflessa è debole, la maggior parte della luce prosegue dentro lo stack, e <span class=\"mono\">|E|²</span> medio nel molibdeno è il doppio di quello nel silicio. Gli strati sottili assorbono allora circa due terzi della luce, e un altro 22% entra nel substrato e viene assorbito lì. Dal lato delle lunghezze d'onda maggiori il campo resta fuori dal molibdeno.",
+  "<strong>A mirror is also a heater.</strong> It returns 74% of the light and keeps 26%, about 95% of that in the top 210 nm. What that heat does to the mirror, how warm it gets and how its surface moves, is a question of heat flow and mechanics. The optics you have built in these five modules supply its starting point: how much power, and where.": "<strong>Uno specchio è anche un riscaldatore.</strong> Restituisce il 74% della luce e ne trattiene il 26%, circa il 95% del quale nei primi 210 nm. Cosa fa quel calore allo specchio, quanto si scalda e come si muove la sua superficie, è una questione di flusso di calore e di meccanica. L'ottica costruita in questi cinque moduli ne fornisce il punto di partenza: quanta potenza, e dove."
 });
 
 startLesson({
   n: 5,
+  nextHref: "module-6.html",
+  open: true,   // one view, nothing to complete: see lesson.js
+  was: ["predict", "standing", "field", "absorb", "heat", "apply"],
   key: "euv-module-5",
-  next: "This is the last of the optical modules.",
+  next: "Next: module 6, from absorbed power to temperature.",
   setup() {
     const TH6 = 6 * Math.PI / 180, COS6 = Math.cos(TH6);
     const stackAt = lam => { const a = index("Mo", lam), b = index("Si", lam); return stackFields(pairs(40, { n: a, d: 2.78 }, { n: b, d: 4.18 }), 1, b, lam, TH6, "s"); };
@@ -398,7 +339,6 @@ startLesson({
       $("o-Rs").textContent = Math.round(100 * R) + "%"; $("r-max").textContent = fmt((1 + a) * (1 + a), 2); $("r-min").textContent = fmt((1 - a) * (1 - a), 2);
       plot($("c-sw"), { x: [0, 20], y: [0, 4], xt: [0, 5, 10, 15, 20], yt: [0, 1, 2, 3, 4], xlabel: t("height above the mirror (nm)"),
         series: [{ pts: [[0, 1], [20, 1]], color: css("--muted"), dash: [5, 4], width: 1.2 }, { pts, color: c }] });
-      goal("g-sw", R >= 0.73 && R <= 0.75);
     };
     $("s-Rs").oninput = draws.standing;
 
@@ -410,7 +350,6 @@ startLesson({
       let mo = 0, si = 0; for (let j = 0; j < 80; j++) { let s = 0; for (let i = 0; i < 8; i++) s += f.E2(j, (i + .5) * f.info[j].d / 8); if (j % 2) si += s; else mo += s; }
       $("o-lf").textContent = fmt(lam, 3) + " nm"; $("r-Rin").textContent = pct(f.R, 1); $("r-rat").textContent = pct(mo / si, 0);
       plot($("c-in"), { x: [0, 69.6], y: [0, 4], xt: [0, 20, 40, 60], yt: [0, 1, 2, 3, 4], xlabel: t("depth below the surface (nm)"), bands: BANDS.map(b => Object.assign({ color: css("--mo") }, b)), series: [{ pts, color: c }] });
-      goal("g-in", f.R > 0.742);
     };
     $("s-lf").oninput = draws.field;
 
@@ -426,7 +365,6 @@ startLesson({
       ctx.textBaseline = "bottom"; ctx.fillText(t("pair, counted from the surface"), (x0 + x1) / 2, h - 2);
       A.forEach((v, j) => { ctx.globalAlpha = j < 2 * n ? 1 : .28; ctx.fillStyle = css(j % 2 ? "--si" : "--mo"); ctx.fillRect(x0 + j * bw + .5, Y(v), Math.max(1, bw - 1), y0 - Y(v)); });
       ctx.globalAlpha = 1;
-      goal("g-abs", mo + si >= 0.12 && mo + si <= 0.135);
     };
     $("s-Pa").oninput = draws.absorb;
 
