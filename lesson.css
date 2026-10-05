@@ -67,6 +67,16 @@ input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; }
 .toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 3px; align-self: flex-start; flex-wrap: wrap; }
 .toggle button { border: 0; background: transparent; color: var(--ink); font: 500 15px var(--body); padding: 7px 14px; border-radius: 999px; cursor: pointer; }
 .toggle button[aria-pressed=true] { background: var(--accent); color: var(--accent-ink); }
+/* A figure with its own selector and a full-screen switch. */
+.figbar { display: flex; align-items: center; justify-content: space-between; gap: 8px 14px; flex-wrap: wrap; }
+.picks { display: flex; align-items: center; gap: 10px; }
+.pickset { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }
+.pickset button { border: 0; background: transparent; color: var(--ink); font: 500 15px var(--mono); min-width: 34px; padding: 7px 0; border-radius: 999px; cursor: pointer; }
+.pickset button[aria-pressed=true] { background: var(--accent); color: var(--accent-ink); }
+.lab.full { position: fixed; inset: 0; z-index: 1000; border: 0; border-radius: 0; overflow: auto; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(12px + env(safe-area-inset-bottom, 0px)); }
+.lab.full > .cap { display: none; }
+.lab.full #c-RD { height: 120px !important; }
+body.has-full { overflow: hidden; }
 
 .formula { font-family: var(--mono); font-size: 19px; background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 6px 28px; align-items: center; }
 .frac { display: inline-flex; flex-direction: column; text-align: center; vertical-align: middle; margin: 0 .25em; }
