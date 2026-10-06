@@ -15,7 +15,7 @@ Live site: https://photolitho.github.io/lithography-lessons/
 | 7 | How much does the hot surface move? | Planned |
 | 8 | How should the mirror be cooled? | Planned |
 
-The home page explains the project, shows the mirror and the chain of mirrors in two drawings, and lists the modules as one chain, each with the number it produces.
+The home page opens on a cover; after a touch the mirror builds itself in five seconds and becomes the map of the modules: each band of the drawing opens its module and shows the number it produces. Below the map, the page explains the project and shows the chain of mirrors and the mirror in two drawings. The opening sequence uses GSAP 3.12.5 from cdnjs; without it the page shows the map directly. `manifest.webmanifest` declares the project folder as one home-screen web app.
 
 ## How it is built
 
