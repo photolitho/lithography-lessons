@@ -1,0 +1,10 @@
+{
+  "name": "Lithography Lessons",
+  "short_name": "Litho Lessons",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07060E",
+  "theme_color": "#07060E",
+  "icons": [{ "src": "icon-180.png", "sizes": "180x180", "type": "image/png" }]
+}
