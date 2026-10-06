@@ -5,45 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lithography Lessons</title>
 <meta name="description" content="Interactive lessons on an EUV multilayer mirror: from the reflection of one surface to the heat it absorbs and its temperature.">
-<meta name="theme-color" content="#F2F4F9" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0E1220" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#07060E">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Litho Lessons">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-180.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>try { if (!sessionStorage.getItem("litho-intro-seen") && !location.hash) document.documentElement.classList.add("intro"); } catch (e) {}</script>
 <style>
 :root {
-  color-scheme: light;
-  --bg: #F2F4F9; --surface: #FFFFFF; 
-  --ink: #151B2E; --muted: #5A6379; --line: #D5DBE7;
-  --accent: #6A3DE8; --accent-ink: #FFFFFF; --accent-soft: #ECE6FD;
-  --mo: #2C6CB4; --si: #D07A1F;
-  --good: #1B8656; --good-soft: #E0F3EA; --bad: #C23B36; --bad-soft: #FBE7E5;
+  color-scheme: dark;
+  --bg: #07060E; --surface: #0D0C18;
+  --ink: #F4F2FF; --muted: #A09BBB; --line: #272438;
+  --accent: #A78BFF; --accent-ink: #07060E; --accent-soft: #221B40;
+  --mo: #72AAE9; --si: #F0A558;
+  --good: #4FC78D; --good-soft: #153527; --bad: #FF5A3C; --bad-soft: #3D1B1A;
   --display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
   --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0E1220; --surface: #171C2D; 
-  --ink: #E8EBF5; --muted: #9AA3B9; --line: #2B3248;
-  --accent: #A186FF; --accent-ink: #120B2E; --accent-soft: #261F47;
-  --mo: #72AAE9; --si: #F0A558;
-  --good: #4FC78D; --good-soft: #153527; --bad: #F27C74; --bad-soft: #3D1B1A;
-  color-scheme: dark } }
-:root[data-theme="dark"] {
-  --bg: #0E1220; --surface: #171C2D; 
-  --ink: #E8EBF5; --muted: #9AA3B9; --line: #2B3248;
-  --accent: #A186FF; --accent-ink: #120B2E; --accent-soft: #261F47;
-  --mo: #72AAE9; --si: #F0A558;
-  --good: #4FC78D; --good-soft: #153527; --bad: #F27C74; --bad-soft: #3D1B1A;
-  color-scheme: dark }
 
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; }
-main { max-width: 720px; margin: 0 auto; padding: calc(28px + env(safe-area-inset-top, 0px)) 16px calc(48px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 22px; }
+main { max-width: 720px; margin: 0 auto; padding: 36px 16px calc(48px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 22px; }
 main > * { min-width: 0; }
 .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
@@ -54,8 +40,6 @@ h1 { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 6vw, 
 h2 { font-family: var(--display); font-weight: 700; font-size: clamp(22px, 4.4vw, 28px); line-height: 1.15; margin: 18px 0 0; text-wrap: balance; }
 p { margin: 0; max-width: 62ch; }
 .lead { font-size: 19px; }
-.jump { display: flex; flex-wrap: wrap; gap: 8px; }
-.jump a { font: 500 14px var(--mono); color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 7px 13px; text-decoration: none; }
 figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 figure svg { display: block; width: 100%; max-width: 440px; height: auto; margin: 0 auto; }
 figcaption { font-size: 13px; color: var(--muted); font-family: var(--mono); }
@@ -63,11 +47,13 @@ svg text { font: 500 12px var(--mono); fill: var(--ink); }
 svg text.dim { fill: var(--muted); font-weight: 400; }
 svg text.num { font-size: 11.5px; }
 svg text.tmo { fill: var(--mo); } svg text.tsi { fill: var(--si); }
-svg .beam { stroke: var(--accent); stroke-linecap: round; }
-svg .src { fill: var(--accent); }
+svg .beam { stroke: var(--accent); stroke-linecap: round; filter: drop-shadow(0 0 4px #7C4DFF); }
+svg .src { fill: #FFFFFF; filter: drop-shadow(0 0 7px #A78BFF); }
 svg .mir { stroke: var(--ink); stroke-width: 5; stroke-linecap: round; }
 svg .heat, svg .hot { fill: var(--bad); }
-svg .heat { opacity: .8; }
+svg .heat { opacity: .9; filter: drop-shadow(0 0 5px #E0352B); }
+figure .mo { fill: #3E7FD0; opacity: .6; } figure .si { fill: #E08A2A; opacity: .42; }
+figure .glass { fill: #10111E; }
 svg .wafer { fill: var(--muted); }
 svg .glass { fill: var(--bg); stroke: var(--line); }
 svg .cool { fill: var(--mo); opacity: .6; }
@@ -75,78 +61,88 @@ svg .mo { fill: var(--mo); opacity: .75; } svg .si { fill: var(--si); opacity: .
 svg .zoom, svg .panel { fill: none; stroke: var(--muted); stroke-width: 1; }
 svg .zl { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 4; }
 svg .brace { fill: none; stroke: var(--ink); stroke-width: 1.2; }
-.part { font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-top: 6px; }
-.list { list-style: none; margin: 0; padding: 0 0 0 14px; display: flex; flex-direction: column; gap: 10px; border-left: 2px solid var(--line); }
-.mod { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; padding: 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; }
-a.mod:hover { border-color: var(--accent); }
-.mod .n { grid-row: span 3; font: 500 15px var(--mono); color: var(--accent); padding-top: 3px; }
-.mod b { font-family: var(--display); font-weight: 500; font-size: 20px; line-height: 1.2; }
-.mod .what { color: var(--muted); font-size: 15px; }
-.mod .key { font-size: 14px; font-family: var(--mono); color: var(--muted); }
-.mod .key strong { font: 700 20px var(--display); color: var(--ink); margin-right: 4px; }
-.mod .key em { font-style: normal; }
-.mod.soon { background: transparent; border-style: dashed; }
-.mod.soon .n, .mod.soon b { color: var(--muted); }
 .how { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; max-width: 62ch; }
 .foot { font-size: 13px; color: var(--muted); }
-.hero { height: calc(100svh - 76px - env(safe-area-inset-top, 0px)); min-height: 620px; display: flex; flex-direction: column; gap: 14px; }
-.hero .tag { color: var(--muted); }
-.map { display: block; width: 100%; max-width: 520px; height: 0; margin: 0 auto; flex: 1 1 0; min-height: 0; }
-.hero .jump { justify-content: center; }
-.map .lead-l { stroke: var(--muted); stroke-width: 1; }
-.map .dot { fill: var(--ink); }
-.map .through { stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; opacity: .45; stroke-dasharray: 2 5; }
-.map .grow { stroke: var(--muted); stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.map .badge { fill: var(--surface); stroke: var(--accent); stroke-width: 1.6; }
-.map .hit { fill: transparent; }
-.map text.bn { font: 600 13px var(--mono); fill: var(--accent); }
-.map text.mt { font: 700 14px var(--display); }
-.map text.mk { font: 400 11.5px var(--mono); fill: var(--muted); }
-.map a { cursor: pointer; }
-.map a:hover .badge, .map a:focus-visible .badge { fill: var(--accent); }
-.map a:hover .bn, .map a:focus-visible .bn { fill: var(--accent-ink); }
-.map a:hover .mt, .map a:focus-visible .mt { fill: var(--accent); }
-.map a:focus-visible { outline: none; }
-.map .soon .badge { stroke: var(--muted); stroke-dasharray: 3 3; }
-.map .soon .bn, .map .soon .mt { fill: var(--muted); }
-.map .row { animation: row-in .45s both; animation-delay: calc(var(--i) * 90ms + 450ms); }
-.map .draw { stroke-dasharray: 1; animation: draw .5s both; }
-.map .draw.out { animation-delay: .3s; }
-@keyframes row-in { from { opacity: 0; } }
+/* The opening stage: cover, the mirror building itself, then the same scene as the map of the modules. Always dark. */
+.stage { position: relative; height: 100svh; min-height: 600px; overflow: hidden; background: #07060E; color: #F4F2FF; user-select: none; -webkit-user-select: none; }
+.stage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.stage svg text { fill: #F4F2FF; }
+.stage .mo { fill: #3E7FD0; opacity: .5; } .stage .si { fill: #E08A2A; opacity: .34; }
+.stage .edge { stroke: #BFD9FF; stroke-width: 1; opacity: .45; }
+.stage .surf { stroke: #FFFFFF; stroke-width: 1.6; opacity: .9; }
+.stage .glass { fill: #10111E; stroke: none; }
+.stage .plate { fill: #2C6CB4; opacity: .75; }
+.stage .flow { stroke: #CFE4FF; stroke-width: 2; stroke-dasharray: 3 21; stroke-linecap: round; opacity: .7; animation: run 1.6s linear infinite; }
+.stage .b-glow { stroke: #7C4DFF; stroke-linecap: round; filter: url(#blur); }
+.stage .b-core { stroke: #A78BFF; stroke-linecap: round; }
+.b-pulse { stroke: #FFFFFF; stroke-linecap: round; stroke-dasharray: 14 46; opacity: .85; animation: run 1.1s linear infinite; }
+.b-pulse.back { animation-direction: reverse; }
+.stage .b-in { stroke: #A78BFF; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 3 7; opacity: .7; animation: run 1.4s linear infinite; }
+.breath { animation: breath 3.2s ease-in-out infinite; }
+.stage .ring { fill: rgba(7,6,14,.72); stroke: #FFFFFF; stroke-width: 1.6; }
+.stage text.bn { font: 600 14px var(--mono); }
+.stage text.mt { font: 700 17px var(--display); paint-order: stroke; stroke: rgba(7,6,14,.55); stroke-width: 4px; stroke-linejoin: round; }
+.stage text.mk { font: 500 12px var(--mono); fill: #D9D3F5; paint-order: stroke; stroke: rgba(7,6,14,.55); stroke-width: 4px; stroke-linejoin: round; }
+.stage text.dim { fill: #8E8AA8; }
+.stage .zone { fill: #FFFFFF; opacity: 0; transition: opacity .2s; }
+.stage a { cursor: pointer; } .stage a:focus-visible { outline: none; }
+.stage a:hover .zone, .stage a:focus-visible .zone { opacity: .07; }
+.stage a:hover .ring, .stage a:focus-visible .ring, .stage a:active .ring { fill: #7C4DFF; }
+.stage .soon .ring { stroke: #8E8AA8; stroke-dasharray: 3 3; } .stage .soon text { fill: #8E8AA8; }
+.stage .eyebrow { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); left: 0; right: 0; text-align: center; color: #B9B3D6; pointer-events: none; }
+.stage .tip { position: absolute; top: calc(33px + env(safe-area-inset-top, 0px)); left: 0; right: 0; text-align: center; font: 11px var(--mono); color: #8E8AA8; pointer-events: none; }
+#cover { position: absolute; left: 0; right: 0; top: 41%; padding: 0 22px; text-align: center; opacity: 0; visibility: hidden; pointer-events: none; }
+#cover h1 { font-size: clamp(44px, 13vw, 76px); line-height: .98; letter-spacing: -.02em; }
+#cover p { max-width: none; margin-top: 14px; font: 500 clamp(17px, 4.6vw, 22px) var(--display); color: #C9C2EA; text-wrap: balance; }
+#cover .go { margin-top: 34px; font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #A78BFF; animation: breath 2s ease-in-out infinite; }
+.sbar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 0 14px calc(8px + env(safe-area-inset-bottom, 0px)); }
+#skip { font: 500 12px var(--mono); color: #C9C2EA; background: rgba(255,255,255,.08); border: 0; border-radius: 999px; padding: 6px 11px; text-decoration: none; cursor: pointer; }
+.sbar .lang { border-color: rgba(255,255,255,.2); } .sbar .lang button { background: none; color: #B9B3D6; padding: 6px 11px; font-size: 12px; }
+.sbar .lang button[aria-pressed="true"] { background: #F4F2FF; color: #07060E; }
+#skip { position: absolute; right: 14px; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); opacity: 0; visibility: hidden; }
+html.intro .stage .late, html.intro .tip { opacity: 0; }
+body.locked { overflow: hidden; }
+.draw { stroke-dasharray: 1; animation: draw .7s both; } .draw.out { animation-delay: .45s; }
 @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-@media (prefers-reduced-motion: reduce) { .map .row, .map .draw { animation: none; } }
+@keyframes run { to { stroke-dashoffset: -60; } }
+@keyframes breath { 50% { opacity: .55; } }
+@media (prefers-reduced-motion: reduce) { .stage *, figure * { animation: none !important; } }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 </style>
 </head>
 <body>
+<section class="stage" id="stage">
+  <svg viewBox="0 0 390 720" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="mapt"><title id="mapt">The mirror cut through, with the eight modules marked where each one looks.</title>
+    <defs><filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+    <radialGradient id="hg"><stop offset="0" stop-color="#FF5A3C" stop-opacity=".95"/><stop offset=".45" stop-color="#E0352B" stop-opacity=".45"/><stop offset="1" stop-color="#E0352B" stop-opacity="0"/></radialGradient>
+    <clipPath id="gc"><rect x="-1200" y="474" width="2800" height="178"/></clipPath></defs>
+    <rect class="glass late" id="glass" x="-1200" y="456" width="2800" height="196"/>
+    <g class="late" id="heat" clip-path="url(#gc)"><ellipse class="breath" cx="170" cy="474" rx="210" ry="150" fill="url(#hg)"/></g>
+    <g class="late" id="plate"><rect class="plate" x="-1200" y="652" width="2800" height="20"/><line class="flow" x1="-1200" y1="662" x2="1600" y2="662"/></g>
+    <g class="late lay"><rect class="mo" x="-1200" y="236" width="2800" height="18"/><line class="edge" x1="-1200" y1="236" x2="1600" y2="236"/></g><g class="late lay"><rect class="si" x="-1200" y="254" width="2800" height="26"/></g><g class="late lay"><rect class="mo" x="-1200" y="280" width="2800" height="18"/><line class="edge" x1="-1200" y1="280" x2="1600" y2="280"/></g><g class="late lay"><rect class="si" x="-1200" y="298" width="2800" height="26"/></g><g class="late lay"><rect class="mo" x="-1200" y="324" width="2800" height="18"/><line class="edge" x1="-1200" y1="324" x2="1600" y2="324"/></g><g class="late lay"><rect class="si" x="-1200" y="342" width="2800" height="26"/></g><g class="late lay"><rect class="mo" x="-1200" y="368" width="2800" height="18"/><line class="edge" x1="-1200" y1="368" x2="1600" y2="368"/></g><g class="late lay"><rect class="si" x="-1200" y="386" width="2800" height="26"/></g><g class="late lay"><rect class="mo" x="-1200" y="412" width="2800" height="18"/><line class="edge" x1="-1200" y1="412" x2="1600" y2="412"/></g><g class="late lay"><rect class="si" x="-1200" y="430" width="2800" height="26"/></g>
+    <text class="dim late lay" x="170" y="470" text-anchor="middle">⋮</text>
+    <g class="late" id="through"><line class="b-in" x1="170" y1="236" x2="196" y2="434"/><circle cx="196" cy="434" r="20" fill="url(#hg)"/></g>
+    <line class="surf" x1="-1200" y1="236" x2="1600" y2="236"/>
+    <g ><line class="b-glow draw" pathLength="1" x1="-174.2" y1="-320" x2="170.0" y2="236" stroke-width="16" opacity=".55"/><line class="b-core draw" pathLength="1" x1="-174.2" y1="-320" x2="170.0" y2="236" stroke-width="5"/><line class="b-pulse" x1="-174.2" y1="-320" x2="170.0" y2="236" stroke-width="2"/></g>
+    <g id="refl"><line class="b-glow draw out" pathLength="1" x1="170.0" y1="236" x2="514.2" y2="-320" stroke-width="16" opacity=".55"/><line class="b-core draw out" pathLength="1" x1="170.0" y1="236" x2="514.2" y2="-320" stroke-width="5"/><line class="b-pulse back" x1="170.0" y1="236" x2="514.2" y2="-320" stroke-width="2"/></g>
+    <circle cx="170" cy="236" r="26" fill="#A78BFF" opacity=".5" filter="url(#blur)"/>
+    <a class="late row" data-n="4" href="module-4.html"><rect class="zone" x="-1200" y="40" width="2800" height="150"/><circle class="ring" cx="257" cy="96" r="15"/><text class="bn" x="257" y="101" text-anchor="middle">4</text><text class="mt" x="236" y="93" text-anchor="end">The reflected band</text><text class="mk" x="236" y="110" text-anchor="end">0.64 nm wide</text></a>
+    <a class="late row" data-n="1" href="module-1.html"><rect class="zone" x="-1200" y="190" width="2800" height="46"/><circle class="ring" cx="352" cy="236" r="15"/><text class="bn" x="352" y="241" text-anchor="middle">1</text><text class="mt" x="330" y="208" text-anchor="end">One surface</text><text class="mk" x="330" y="225" text-anchor="end">reflects 0.16%</text></a>
+    <a class="late row" data-n="2" href="module-2.html"><rect class="zone" x="-1200" y="236" width="2800" height="44"/><circle class="ring" cx="30" cy="259" r="15"/><text class="bn" x="30" y="264" text-anchor="middle">2</text><text class="mt" x="52" y="258" text-anchor="start">One thin film</text><text class="mk" x="52" y="275" text-anchor="start">reflects 0.61%</text></a>
+    <a class="late row" data-n="3" href="module-3.html"><rect class="zone" x="-1200" y="280" width="2800" height="132"/><circle class="ring" cx="352" cy="346" r="15"/><text class="bn" x="352" y="351" text-anchor="middle">3</text><text class="mt" x="330" y="343" text-anchor="end">Forty pairs</text><text class="mk" x="330" y="360" text-anchor="end">reflect 74.2%</text></a>
+    <a class="late row" data-n="5" href="module-5.html"><rect class="zone" x="-1200" y="412" width="2800" height="62"/><circle class="ring" cx="196" cy="434" r="15"/><text class="bn" x="196" y="439" text-anchor="middle">5</text><text class="mt" x="218" y="431" text-anchor="start">The light that stays</text><text class="mk" x="218" y="448" text-anchor="start">25.8% ends as heat</text></a>
+    <a class="late row" data-n="6" href="module-6.html"><rect class="zone" x="-1200" y="474" width="2800" height="92"/><circle class="ring" cx="170" cy="524" r="15"/><text class="bn" x="170" y="529" text-anchor="middle">6</text><text class="mt" x="192" y="521" text-anchor="start">The temperature</text><text class="mk" x="192" y="538" text-anchor="start">154 K above the back</text></a>
+    <g class="late row soon" data-n="7"><rect class="zone" x="-1200" y="566" width="2800" height="58"/><circle class="ring" cx="30" cy="598" r="15"/><text class="bn" x="30" y="603" text-anchor="middle">7</text><text class="mt" x="52" y="595" text-anchor="start">The surface moves</text><text class="mk" x="52" y="612" text-anchor="start">in preparation</text></g>
+    <g class="late row soon" data-n="8"><rect class="zone" x="-1200" y="624" width="2800" height="66"/><circle class="ring" cx="352" cy="662" r="15"/><text class="bn" x="352" y="667" text-anchor="middle">8</text><text class="mt" x="330" y="636" text-anchor="end">The cooling</text><text class="mk" x="330" y="653" text-anchor="end">in preparation</text></g>
+  </svg>
+  <div class="eyebrow">Lithography Lessons</div>
+  <div class="tip">touch a number</div>
+  <div id="cover"><h1>An EUV mirror</h1><p>from its first surface to its temperature</p><div class="go">Touch to begin</div></div>
+  <button id="skip" type="button">Skip</button>
+  <div class="sbar"><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
+</section>
 <main>
-  <div class="bar"><div class="eyebrow">Lithography Lessons</div><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
-  <section class="hero">
-  <h1>An EUV mirror, from its first surface to its temperature</h1>
-    <p class="tag">One mirror, eight questions. Each number opens a module.</p>
-    <svg class="map" viewBox="0 0 328 416" role="img" aria-labelledby="mapt"><title id="mapt">The mirror cut through, with the eight modules marked where each one looks.</title>
-    <defs><clipPath id="mg"><rect x="4" y="240" width="128" height="144"/></clipPath></defs>
-    <line class="beam draw" pathLength="1" x1="24" y1="4" x2="68" y2="78" stroke-width="7"/><line class="beam draw out" pathLength="1" x1="68" y1="78" x2="112" y2="4" stroke-width="5.2" opacity=".85"/>
-    <rect class="mo" x="4" y="78" width="128" height="11"/><rect class="si" x="4" y="89" width="128" height="17"/><rect class="mo" x="4" y="106" width="128" height="11"/><rect class="si" x="4" y="117" width="128" height="17"/><rect class="mo" x="4" y="134" width="128" height="11"/><rect class="si" x="4" y="145" width="128" height="17"/><rect class="mo" x="4" y="162" width="128" height="11"/><rect class="si" x="4" y="173" width="128" height="17"/><rect class="mo" x="4" y="190" width="128" height="11"/><rect class="si" x="4" y="201" width="128" height="17"/>
-    <line class="through" x1="69" y1="84" x2="83" y2="200"/><circle class="heat" cx="84" cy="204" r="5"/>
-    <text class="dim" x="68" y="234" text-anchor="middle">⋮</text>
-    <rect class="glass" x="4" y="240" width="128" height="144"/>
-    <ellipse class="hot" cx="68" cy="240" rx="62" ry="78" opacity="0.2" clip-path="url(#mg)"/><ellipse class="hot" cx="68" cy="240" rx="42" ry="50" opacity="0.28" clip-path="url(#mg)"/><ellipse class="hot" cx="68" cy="240" rx="22" ry="24" opacity="0.4" clip-path="url(#mg)"/>
-    <path class="grow" d="M116 322 v32 M111 328 l5 -6 l5 6 M111 348 l5 6 l5 -6"/>
-    <text class="dim" x="12" y="374">glass</text>
-    <rect class="cool" x="4" y="385" width="128" height="9"/>
-    <a class="row" style="--i:4" href="module-4.html"><line class="lead-l" x1="99" y1="26" x2="158" y2="26"/><circle class="dot" cx="99" cy="26" r="2.6"/><rect class="hit" x="142" y="2" width="186" height="48"/><circle class="badge" cx="158" cy="26" r="12"/><text class="bn" x="158" y="30.5" text-anchor="middle">4</text><text class="mt" x="178" y="24">The reflected band</text><text class="mk" x="178" y="40">0.64 nm wide</text></a>
-    <a class="row" style="--i:1" href="module-1.html"><line class="lead-l" x1="128" y1="78" x2="158" y2="78"/><circle class="dot" cx="128" cy="78" r="2.6"/><rect class="hit" x="142" y="54" width="186" height="48"/><circle class="badge" cx="158" cy="78" r="12"/><text class="bn" x="158" y="82.5" text-anchor="middle">1</text><text class="mt" x="178" y="76">One surface</text><text class="mk" x="178" y="92">reflects 0.16%</text></a>
-    <a class="row" style="--i:2" href="module-2.html"><line class="lead-l" x1="122" y1="83.5" x2="158" y2="130"/><circle class="dot" cx="122" cy="83.5" r="2.6"/><rect class="hit" x="142" y="106" width="186" height="48"/><circle class="badge" cx="158" cy="130" r="12"/><text class="bn" x="158" y="134.5" text-anchor="middle">2</text><text class="mt" x="178" y="128">One thin film</text><text class="mk" x="178" y="144">reflects 0.61%</text></a>
-    <a class="row" style="--i:3" href="module-3.html"><line class="lead-l" x1="122" y1="148" x2="158" y2="182"/><circle class="dot" cx="122" cy="148" r="2.6"/><rect class="hit" x="142" y="158" width="186" height="48"/><circle class="badge" cx="158" cy="182" r="12"/><text class="bn" x="158" y="186.5" text-anchor="middle">3</text><text class="mt" x="178" y="180">Forty pairs</text><text class="mk" x="178" y="196">reflect 74.2%</text></a>
-    <a class="row" style="--i:5" href="module-5.html"><line class="lead-l" x1="84" y1="204" x2="158" y2="234"/><circle class="dot" cx="84" cy="204" r="2.6"/><rect class="hit" x="142" y="210" width="186" height="48"/><circle class="badge" cx="158" cy="234" r="12"/><text class="bn" x="158" y="238.5" text-anchor="middle">5</text><text class="mt" x="178" y="232">The light that stays</text><text class="mk" x="178" y="248">25.8% ends as heat</text></a>
-    <a class="row" style="--i:6" href="module-6.html"><line class="lead-l" x1="104" y1="270" x2="158" y2="286"/><circle class="dot" cx="104" cy="270" r="2.6"/><rect class="hit" x="142" y="262" width="186" height="48"/><circle class="badge" cx="158" cy="286" r="12"/><text class="bn" x="158" y="290.5" text-anchor="middle">6</text><text class="mt" x="178" y="284">The temperature</text><text class="mk" x="178" y="300">154 K above the back</text></a>
-    <g class="row soon" style="--i:7"><line class="lead-l" x1="116" y1="338" x2="158" y2="338"/><circle class="dot" cx="116" cy="338" r="2.6"/><rect class="hit" x="142" y="314" width="186" height="48"/><circle class="badge" cx="158" cy="338" r="12"/><text class="bn" x="158" y="342.5" text-anchor="middle">7</text><text class="mt" x="178" y="336">The surface moves</text><text class="mk" x="178" y="352">in preparation</text></g>
-    <g class="row soon" style="--i:8"><line class="lead-l" x1="128" y1="389" x2="158" y2="390"/><circle class="dot" cx="128" cy="389" r="2.6"/><rect class="hit" x="142" y="366" width="186" height="48"/><circle class="badge" cx="158" cy="390" r="12"/><text class="bn" x="158" y="394.5" text-anchor="middle">8</text><text class="mt" x="178" y="388">The cooling</text><text class="mk" x="178" y="404">in preparation</text></g>
-    </svg>
-    <div class="jump"><a href="module-1.html">Start from module 1</a><a href="#why">Why this mirror</a></div>
-  </section>
-  <p class="lead" id="why">The most advanced chips are printed with light of 13.5 nm. No material is transparent to it, so the machine that prints them steers the light with mirrors only. Each mirror returns about three quarters of the light and keeps the rest as heat.</p>
+  <p class="lead">The most advanced chips are printed with light of 13.5 nm. No material is transparent to it, so the machine that prints them steers the light with mirrors only. Each mirror returns about three quarters of the light and keeps the rest as heat.</p>
   <p>This project follows one such mirror all the way: why a single surface reflects almost nothing, how 40 pairs of thin layers bring that to 74%, where the remaining light ends up, and how hot it makes the glass. Each idea comes with the reason it is there, an experiment to move with your hands, a full explanation and the formulas with their origin.</p>
   <h2>The problem in one picture</h2>
   <p>Between the source and the wafer the light meets a chain of mirrors. With the ideal mirror of these lessons, which reflects 74.2%, ten reflections leave 5% of the light. Everything else has become heat in the mirrors, most of it in the first ones.</p>
@@ -163,38 +159,41 @@ a.mod:hover { border-color: var(--accent); }
     <line class="beam" x1="84" y1="294" x2="276" y2="325" stroke-width="1.9" opacity="0.41"/>
     <line class="beam" x1="276" y1="325" x2="84" y2="356" stroke-width="1.7" opacity="0.39"/>
     <line class="beam" x1="84" y1="356" x2="276" y2="387" stroke-width="1.6" opacity="0.38"/>
+    <line class="b-pulse" x1="84" y1="46" x2="276" y2="77" stroke-width="2"/>
     <circle class="src" cx="84" cy="46" r="9"/>
     <text x="84" y="24" text-anchor="middle">source: 100%</text>
     <line class="mir" x1="280" y1="65" x2="280" y2="89"/>
-    <circle class="heat" cx="298" cy="77" r="11.0"/>
     <text class="num" x="316" y="81" text-anchor="start">74%</text>
     <line class="mir" x1="80" y1="96" x2="80" y2="120"/>
-    <circle class="heat" cx="62" cy="108" r="9.8"/>
     <text class="num" x="44" y="112" text-anchor="end">55%</text>
     <line class="mir" x1="280" y1="127" x2="280" y2="151"/>
-    <circle class="heat" cx="298" cy="139" r="8.7"/>
     <text class="num" x="316" y="143" text-anchor="start">41%</text>
     <line class="mir" x1="80" y1="158" x2="80" y2="182"/>
-    <circle class="heat" cx="62" cy="170" r="7.8"/>
     <text class="num" x="44" y="174" text-anchor="end">30%</text>
     <line class="mir" x1="280" y1="189" x2="280" y2="213"/>
-    <circle class="heat" cx="298" cy="201" r="7.0"/>
     <text class="num" x="316" y="205" text-anchor="start">22%</text>
     <line class="mir" x1="80" y1="220" x2="80" y2="244"/>
-    <circle class="heat" cx="62" cy="232" r="6.3"/>
     <text class="num" x="44" y="236" text-anchor="end">17%</text>
     <line class="mir" x1="280" y1="251" x2="280" y2="275"/>
-    <circle class="heat" cx="298" cy="263" r="5.7"/>
     <text class="num" x="316" y="267" text-anchor="start">12%</text>
     <line class="mir" x1="80" y1="282" x2="80" y2="306"/>
-    <circle class="heat" cx="62" cy="294" r="5.2"/>
     <text class="num" x="44" y="298" text-anchor="end">9%</text>
     <line class="mir" x1="280" y1="313" x2="280" y2="337"/>
-    <circle class="heat" cx="298" cy="325" r="4.7"/>
     <text class="num" x="316" y="329" text-anchor="start">7%</text>
     <line class="mir" x1="80" y1="344" x2="80" y2="368"/>
-    <circle class="heat" cx="62" cy="356" r="4.3"/>
     <text class="num" x="44" y="360" text-anchor="end">5%</text>
+    <g class="breath">
+    <circle class="heat" cx="298" cy="77" r="11.0"/>
+    <circle class="heat" cx="62" cy="108" r="9.8"/>
+    <circle class="heat" cx="298" cy="139" r="8.7"/>
+    <circle class="heat" cx="62" cy="170" r="7.8"/>
+    <circle class="heat" cx="298" cy="201" r="7.0"/>
+    <circle class="heat" cx="62" cy="232" r="6.3"/>
+    <circle class="heat" cx="298" cy="263" r="5.7"/>
+    <circle class="heat" cx="62" cy="294" r="5.2"/>
+    <circle class="heat" cx="298" cy="325" r="4.7"/>
+    <circle class="heat" cx="62" cy="356" r="4.3"/>
+    </g>
     <rect class="wafer" x="246" y="389" width="60" height="8" rx="2"/>
     <text x="276" y="413" text-anchor="middle">wafer</text>
     </svg>
@@ -207,11 +206,13 @@ a.mod:hover { border-color: var(--accent); }
     <svg viewBox="0 0 360 500" role="img" aria-labelledby="f2t"><title id="f2t">A disc of glass on a cooled plate, with a magnified view of the 40 pairs of layers on its surface.</title>
     <defs><clipPath id="gl"><rect x="30" y="92" width="300" height="54"/></clipPath></defs>
     <rect class="glass" x="30" y="92" width="300" height="54"/>
+    <g class="breath">
     <ellipse class="hot" cx="180" cy="92" rx="95" ry="46" opacity="0.22" clip-path="url(#gl)"/>
     <ellipse class="hot" cx="180" cy="92" rx="62" ry="30" opacity="0.3" clip-path="url(#gl)"/>
     <ellipse class="hot" cx="180" cy="92" rx="34" ry="16" opacity="0.45" clip-path="url(#gl)"/>
+    </g>
     <rect class="cool" x="30" y="147" width="300" height="9"/>
-    <line class="beam" x1="132" y1="14" x2="178" y2="90" stroke-width="7"/><line class="beam" x1="182" y1="90" x2="228" y2="14" stroke-width="5.2" opacity=".85"/>
+    <line class="beam" x1="132" y1="14" x2="178" y2="90" stroke-width="7"/><line class="b-pulse" x1="132" y1="14" x2="178" y2="90" stroke-width="2"/><line class="beam" x1="182" y1="90" x2="228" y2="14" stroke-width="5.2" opacity=".85"/>
     <text x="122" y="26" text-anchor="end">light, 100%</text>
     <text x="238" y="26">74% comes back</text>
     <text x="326" y="140" text-anchor="end">26% stays as heat</text>
@@ -236,25 +237,6 @@ a.mod:hover { border-color: var(--accent); }
     </svg>
     <figcaption>Above: the mirror cut through, with the spot of light and the heat it leaves. Below: the surface magnified. The layers are drawn far thicker than they are: the real stack would be invisible at the scale of the glass.</figcaption>
   </figure>
-  <h2>The structure of the project</h2>
-  <p>The modules form one chain: each starts from the number the one before it produced, shown here under its title. They can be read in order or opened where you need them.</p>
-  <div class="part">Part 1 · The optics: how much light comes back</div>
-  <ul class="list">
-    <li><a class="mod" href="module-1.html"><span class="n">1</span><b>How much EUV light does a single surface reflect?</b><span class="what">Refractive index, absorption, the Fresnel formula.</span><span class="key"><strong>0.16%</strong> <em>one surface reflects</em></span></a></li>
-    <li><a class="mod" href="module-2.html"><span class="n">2</span><b>What do two surfaces close together do?</b><span class="what">Interference, the phase a layer adds, the Airy formula.</span><span class="key"><strong>0.61%</strong> <em>one film reflects</em></span></a></li>
-    <li><a class="mod" href="module-3.html"><span class="n">3</span><b>How do 80 weak surfaces make a 74% mirror?</b><span class="what">The Bragg condition, saturation, the transfer-matrix method.</span><span class="key"><strong>74.2%</strong> <em>forty pairs reflect</em></span></a></li>
-    <li><a class="mod" href="module-4.html"><span class="n">4</span><b>How narrow is the peak, and what moves it?</b><span class="what">Bandwidth, period, angle, the share of molybdenum.</span><span class="key"><strong>0.64 nm</strong> <em>width of the peak</em></span></a></li>
-  </ul>
-  <div class="part">Part 2 · The energy: where the rest goes</div>
-  <ul class="list">
-    <li><a class="mod" href="module-5.html"><span class="n">5</span><b>Where does the light that does not come back go?</b><span class="what">The standing wave, the field inside the stack, absorption.</span><span class="key"><strong>25.8%</strong> <em>ends as heat</em></span></a></li>
-    <li><a class="mod" href="module-6.html"><span class="n">6</span><b>How hot does the mirror get?</b><span class="what">Heat flux, conduction, the temperature of a cooled disc.</span><span class="key"><strong>154 K</strong> <em>above the cooled back</em></span></a></li>
-  </ul>
-  <div class="part">Part 3 · The mechanics: what the heat does</div>
-  <ul class="list">
-    <li><div class="mod soon"><span class="n">7</span><b>How much does the hot surface move?</b><span class="what">Thermal expansion, the bump under the spot, the error it puts on the reflected wave.</span><span class="key"><em>In preparation.</em></span></div></li>
-    <li><div class="mod soon"><span class="n">8</span><b>How should the mirror be cooled?</b><span class="what">Cooling from the back, from the edge, through channels in the glass.</span><span class="key"><em>In preparation.</em></span></div></li>
-  </ul>
   <h2>How each module is made</h2>
   <ul class="how">
     <li><strong>An index of ideas.</strong> Every module opens on the list of its ideas, each with a line on what it explains and which experiment it holds. Any of them can be opened directly.</li>
@@ -265,12 +247,17 @@ a.mod:hover { border-color: var(--accent); }
   </ul>
   <p class="foot">All numbers are computed in the page for an ideal mirror: 40 pairs with perfectly sharp, smooth boundaries, at 13.5 nm and 6° from perpendicular. Real mirrors reflect somewhat less. Optical constants from the CXRO database (Henke, Gullikson, Davis; Lawrence Berkeley National Laboratory).</p>
 </main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
 // Italian strings keyed by their English source; the choice is shared with the lesson pages.
 const IT = {
+  
+  "Skip": "Salta",
+  "Touch to begin": "Tocca per iniziare",
+  "touch a number": "tocca un numero",
+  "An EUV mirror": "Uno specchio EUV",
+  "from its first surface to its temperature": "dalla prima superficie alla sua temperatura",
   "The mirror cut through, with the eight modules marked where each one looks.": "Lo specchio in sezione, con gli otto moduli segnati nel punto che ciascuno guarda.",
-  "One mirror, eight questions. Each number opens a module.": "Uno specchio, otto domande. Ogni numero apre un modulo.",
-  "Why this mirror": "Perché questo specchio",
   "The reflected band": "La banda riflessa",
   "0.64 nm wide": "larga 0,64 nm",
   "One surface": "Una superficie",
@@ -362,7 +349,7 @@ const IT = {
 const LANG_KEY = "litho-lang";
 let lang = "en";
 try { lang = localStorage.getItem(LANG_KEY) || ((navigator.language || "").toLowerCase().startsWith("it") ? "it" : "en"); } catch (e) {}
-const tEls = [...document.querySelectorAll("h1, h2, p, figcaption, title, svg text, .how li, .part, .jump a, .mod b, .mod .what, .mod strong, .mod em, .eyebrow")].map(e => [e, e.innerHTML]);
+const tEls = [...document.querySelectorAll("h1, h2, p, figcaption, title, svg text, .how li, .part, .jump a, .mod b, .mod .what, .mod strong, .mod em, .eyebrow, #cover .go, #skip, .tip")].map(e => [e, e.innerHTML]);
 function translateDom() {
   document.documentElement.lang = lang;
   tEls.forEach(([e, en]) => e.innerHTML = (lang === "it" && IT[en]) || en);
@@ -370,6 +357,46 @@ function translateDom() {
 }
 [...document.getElementById("t-lang").children].forEach(b => b.onclick = () => { lang = b.dataset.l; try { localStorage.setItem(LANG_KEY, lang); } catch (e) {} translateDom(); });
 translateDom();
+
+// Opening sequence. Without GSAP, or once seen in this session, the page simply shows the map.
+(function () {
+  const root = document.documentElement, $ = (q) => [...document.querySelectorAll(q)];
+  const stage = document.getElementById("stage"), SEEN = "litho-intro-seen";
+  let seen = false; try { seen = !!sessionStorage.getItem(SEEN); } catch (e) {}
+  if (!window.gsap) { root.classList.remove("intro"); return; }
+  const lays = $(".stage .lay"), rows = $(".stage .row").sort((a, b) => a.dataset.n - b.dataset.n);
+  const mapUi = $(".stage .tip");
+  gsap.set([...lays, ...rows, "#glass", "#heat", "#plate", "#through", ...mapUi], { autoAlpha: 0 });
+  gsap.set(rows, { y: 8 });
+  gsap.set(["#cover", "#skip"], { autoAlpha: 1 });
+  root.classList.remove("intro");
+  const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" }, onComplete: done });
+  // After the touch the whole sequence runs in 5 s: a dart at first, slowing towards the map.
+  let run = null;
+  // 1. the light
+  tl.to("#cover", { autoAlpha: 0, duration: .8 }).to("#refl", { opacity: 0, duration: .9 }, "<");
+  // 2. one surface
+  tl.to(lays[0], { autoAlpha: 1, duration: .9 }).to("#through", { autoAlpha: 1, duration: 1 }, "<.2")
+    .to("#refl", { opacity: .1, duration: 1 }, "<");
+  // 3. forty pairs
+  tl.to(lays.slice(1), { autoAlpha: 1, duration: .5, stagger: .22 })
+    .to("#refl", { opacity: 1, duration: 2.2, ease: "power1.in" }, "<");
+  // 4. the heat
+  tl.to(["#glass", "#plate"], { autoAlpha: 1, duration: .9 })
+    .fromTo("#heat", { autoAlpha: 0, scale: .2, transformOrigin: "170px 474px" }, { autoAlpha: 1, scale: 1, duration: 2.2, ease: "power1.out" }, "<.2");
+  // 5. the map
+  tl.to("#skip", { autoAlpha: 0, duration: .5 }).to(rows, { autoAlpha: 1, y: 0, duration: .6, stagger: .28 }).to(mapUi, { autoAlpha: 1, duration: .6 }, "-=.3");
+  function done() { if (run) run.kill(); document.body.classList.remove("locked"); try { sessionStorage.setItem(SEEN, "1"); } catch (e) {} }
+  function open() { tl.pause(0); document.body.classList.add("locked"); scrollTo(0, 0); }
+  function finish() { tl.progress(1); done(); }
+  stage.addEventListener("click", (e) => {
+    if (tl.progress() === 1 || e.target.closest("#skip, .sbar")) return;
+    if (run || matchMedia("(prefers-reduced-motion: reduce)").matches) return finish();
+    run = gsap.to(tl, { progress: 1, duration: 5, ease: "power2.out", onComplete: finish });
+  });
+  document.getElementById("skip").onclick = finish;
+  if (seen || location.hash) finish(); else open();
+})();
 </script>
 </body>
 </html>
