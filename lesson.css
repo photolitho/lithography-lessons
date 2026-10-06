@@ -78,7 +78,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; }
 .lab.full #c-RD { height: 120px !important; }
 body.has-full { overflow: hidden; }
 
-.formula { font-family: var(--mono); font-size: 19px; background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 6px 28px; align-items: center; }
+/* One formula per row: two formulas side by side read as a single expression. */
+.formula { font-family: var(--mono); font-size: 19px; background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .frac { display: inline-flex; flex-direction: column; text-align: center; vertical-align: middle; margin: 0 .25em; }
 .frac > span:first-child { border-bottom: 1.5px solid currentColor; padding: 0 .35em 2px; }
 .frac > span:last-child { padding: 2px .35em 0; }
