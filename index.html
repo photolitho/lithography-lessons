@@ -89,16 +89,65 @@ a.mod:hover { border-color: var(--accent); }
 .mod.soon .n, .mod.soon b { color: var(--muted); }
 .how { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; max-width: 62ch; }
 .foot { font-size: 13px; color: var(--muted); }
+.hero { height: calc(100svh - 76px - env(safe-area-inset-top, 0px)); min-height: 620px; display: flex; flex-direction: column; gap: 14px; }
+.hero .tag { color: var(--muted); }
+.map { display: block; width: 100%; max-width: 520px; height: 0; margin: 0 auto; flex: 1 1 0; min-height: 0; }
+.hero .jump { justify-content: center; }
+.map .lead-l { stroke: var(--muted); stroke-width: 1; }
+.map .dot { fill: var(--ink); }
+.map .through { stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; opacity: .45; stroke-dasharray: 2 5; }
+.map .grow { stroke: var(--muted); stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.map .badge { fill: var(--surface); stroke: var(--accent); stroke-width: 1.6; }
+.map .hit { fill: transparent; }
+.map text.bn { font: 600 13px var(--mono); fill: var(--accent); }
+.map text.mt { font: 700 14px var(--display); }
+.map text.mk { font: 400 11.5px var(--mono); fill: var(--muted); }
+.map a { cursor: pointer; }
+.map a:hover .badge, .map a:focus-visible .badge { fill: var(--accent); }
+.map a:hover .bn, .map a:focus-visible .bn { fill: var(--accent-ink); }
+.map a:hover .mt, .map a:focus-visible .mt { fill: var(--accent); }
+.map a:focus-visible { outline: none; }
+.map .soon .badge { stroke: var(--muted); stroke-dasharray: 3 3; }
+.map .soon .bn, .map .soon .mt { fill: var(--muted); }
+.map .row { animation: row-in .45s both; animation-delay: calc(var(--i) * 90ms + 450ms); }
+.map .draw { stroke-dasharray: 1; animation: draw .5s both; }
+.map .draw.out { animation-delay: .3s; }
+@keyframes row-in { from { opacity: 0; } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .map .row, .map .draw { animation: none; } }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 </style>
 </head>
 <body>
 <main>
   <div class="bar"><div class="eyebrow">Lithography Lessons</div><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
+  <section class="hero">
   <h1>An EUV mirror, from its first surface to its temperature</h1>
-  <p class="lead">The most advanced chips are printed with light of 13.5 nm. No material is transparent to it, so the machine that prints them steers the light with mirrors only. Each mirror returns about three quarters of the light and keeps the rest as heat.</p>
+    <p class="tag">One mirror, eight questions. Each number opens a module.</p>
+    <svg class="map" viewBox="0 0 328 416" role="img" aria-labelledby="mapt"><title id="mapt">The mirror cut through, with the eight modules marked where each one looks.</title>
+    <defs><clipPath id="mg"><rect x="4" y="240" width="128" height="144"/></clipPath></defs>
+    <line class="beam draw" pathLength="1" x1="24" y1="4" x2="68" y2="78" stroke-width="7"/><line class="beam draw out" pathLength="1" x1="68" y1="78" x2="112" y2="4" stroke-width="5.2" opacity=".85"/>
+    <rect class="mo" x="4" y="78" width="128" height="11"/><rect class="si" x="4" y="89" width="128" height="17"/><rect class="mo" x="4" y="106" width="128" height="11"/><rect class="si" x="4" y="117" width="128" height="17"/><rect class="mo" x="4" y="134" width="128" height="11"/><rect class="si" x="4" y="145" width="128" height="17"/><rect class="mo" x="4" y="162" width="128" height="11"/><rect class="si" x="4" y="173" width="128" height="17"/><rect class="mo" x="4" y="190" width="128" height="11"/><rect class="si" x="4" y="201" width="128" height="17"/>
+    <line class="through" x1="69" y1="84" x2="83" y2="200"/><circle class="heat" cx="84" cy="204" r="5"/>
+    <text class="dim" x="68" y="234" text-anchor="middle">⋮</text>
+    <rect class="glass" x="4" y="240" width="128" height="144"/>
+    <ellipse class="hot" cx="68" cy="240" rx="62" ry="78" opacity="0.2" clip-path="url(#mg)"/><ellipse class="hot" cx="68" cy="240" rx="42" ry="50" opacity="0.28" clip-path="url(#mg)"/><ellipse class="hot" cx="68" cy="240" rx="22" ry="24" opacity="0.4" clip-path="url(#mg)"/>
+    <path class="grow" d="M116 322 v32 M111 328 l5 -6 l5 6 M111 348 l5 6 l5 -6"/>
+    <text class="dim" x="12" y="374">glass</text>
+    <rect class="cool" x="4" y="385" width="128" height="9"/>
+    <a class="row" style="--i:4" href="module-4.html"><line class="lead-l" x1="99" y1="26" x2="158" y2="26"/><circle class="dot" cx="99" cy="26" r="2.6"/><rect class="hit" x="142" y="2" width="186" height="48"/><circle class="badge" cx="158" cy="26" r="12"/><text class="bn" x="158" y="30.5" text-anchor="middle">4</text><text class="mt" x="178" y="24">The reflected band</text><text class="mk" x="178" y="40">0.64 nm wide</text></a>
+    <a class="row" style="--i:1" href="module-1.html"><line class="lead-l" x1="128" y1="78" x2="158" y2="78"/><circle class="dot" cx="128" cy="78" r="2.6"/><rect class="hit" x="142" y="54" width="186" height="48"/><circle class="badge" cx="158" cy="78" r="12"/><text class="bn" x="158" y="82.5" text-anchor="middle">1</text><text class="mt" x="178" y="76">One surface</text><text class="mk" x="178" y="92">reflects 0.16%</text></a>
+    <a class="row" style="--i:2" href="module-2.html"><line class="lead-l" x1="122" y1="83.5" x2="158" y2="130"/><circle class="dot" cx="122" cy="83.5" r="2.6"/><rect class="hit" x="142" y="106" width="186" height="48"/><circle class="badge" cx="158" cy="130" r="12"/><text class="bn" x="158" y="134.5" text-anchor="middle">2</text><text class="mt" x="178" y="128">One thin film</text><text class="mk" x="178" y="144">reflects 0.61%</text></a>
+    <a class="row" style="--i:3" href="module-3.html"><line class="lead-l" x1="122" y1="148" x2="158" y2="182"/><circle class="dot" cx="122" cy="148" r="2.6"/><rect class="hit" x="142" y="158" width="186" height="48"/><circle class="badge" cx="158" cy="182" r="12"/><text class="bn" x="158" y="186.5" text-anchor="middle">3</text><text class="mt" x="178" y="180">Forty pairs</text><text class="mk" x="178" y="196">reflect 74.2%</text></a>
+    <a class="row" style="--i:5" href="module-5.html"><line class="lead-l" x1="84" y1="204" x2="158" y2="234"/><circle class="dot" cx="84" cy="204" r="2.6"/><rect class="hit" x="142" y="210" width="186" height="48"/><circle class="badge" cx="158" cy="234" r="12"/><text class="bn" x="158" y="238.5" text-anchor="middle">5</text><text class="mt" x="178" y="232">The light that stays</text><text class="mk" x="178" y="248">25.8% ends as heat</text></a>
+    <a class="row" style="--i:6" href="module-6.html"><line class="lead-l" x1="104" y1="270" x2="158" y2="286"/><circle class="dot" cx="104" cy="270" r="2.6"/><rect class="hit" x="142" y="262" width="186" height="48"/><circle class="badge" cx="158" cy="286" r="12"/><text class="bn" x="158" y="290.5" text-anchor="middle">6</text><text class="mt" x="178" y="284">The temperature</text><text class="mk" x="178" y="300">154 K above the back</text></a>
+    <g class="row soon" style="--i:7"><line class="lead-l" x1="116" y1="338" x2="158" y2="338"/><circle class="dot" cx="116" cy="338" r="2.6"/><rect class="hit" x="142" y="314" width="186" height="48"/><circle class="badge" cx="158" cy="338" r="12"/><text class="bn" x="158" y="342.5" text-anchor="middle">7</text><text class="mt" x="178" y="336">The surface moves</text><text class="mk" x="178" y="352">in preparation</text></g>
+    <g class="row soon" style="--i:8"><line class="lead-l" x1="128" y1="389" x2="158" y2="390"/><circle class="dot" cx="128" cy="389" r="2.6"/><rect class="hit" x="142" y="366" width="186" height="48"/><circle class="badge" cx="158" cy="390" r="12"/><text class="bn" x="158" y="394.5" text-anchor="middle">8</text><text class="mt" x="178" y="388">The cooling</text><text class="mk" x="178" y="404">in preparation</text></g>
+    </svg>
+    <div class="jump"><a href="module-1.html">Start from module 1</a><a href="#why">Why this mirror</a></div>
+  </section>
+  <p class="lead" id="why">The most advanced chips are printed with light of 13.5 nm. No material is transparent to it, so the machine that prints them steers the light with mirrors only. Each mirror returns about three quarters of the light and keeps the rest as heat.</p>
   <p>This project follows one such mirror all the way: why a single surface reflects almost nothing, how 40 pairs of thin layers bring that to 74%, where the remaining light ends up, and how hot it makes the glass. Each idea comes with the reason it is there, an experiment to move with your hands, a full explanation and the formulas with their origin.</p>
-  <div class="jump"><a href="#map">See the modules</a><a href="module-1.html">Start from module 1</a></div>
   <h2>The problem in one picture</h2>
   <p>Between the source and the wafer the light meets a chain of mirrors. With the ideal mirror of these lessons, which reflects 74.2%, ten reflections leave 5% of the light. Everything else has become heat in the mirrors, most of it in the first ones.</p>
   <figure>
@@ -187,7 +236,7 @@ a.mod:hover { border-color: var(--accent); }
     </svg>
     <figcaption>Above: the mirror cut through, with the spot of light and the heat it leaves. Below: the surface magnified. The layers are drawn far thicker than they are: the real stack would be invisible at the scale of the glass.</figcaption>
   </figure>
-  <h2 id="map">The structure of the project</h2>
+  <h2>The structure of the project</h2>
   <p>The modules form one chain: each starts from the number the one before it produced, shown here under its title. They can be read in order or opened where you need them.</p>
   <div class="part">Part 1 · The optics: how much light comes back</div>
   <ul class="list">
@@ -219,6 +268,24 @@ a.mod:hover { border-color: var(--accent); }
 <script>
 // Italian strings keyed by their English source; the choice is shared with the lesson pages.
 const IT = {
+  "The mirror cut through, with the eight modules marked where each one looks.": "Lo specchio in sezione, con gli otto moduli segnati nel punto che ciascuno guarda.",
+  "One mirror, eight questions. Each number opens a module.": "Uno specchio, otto domande. Ogni numero apre un modulo.",
+  "Why this mirror": "Perché questo specchio",
+  "The reflected band": "La banda riflessa",
+  "0.64 nm wide": "larga 0,64 nm",
+  "One surface": "Una superficie",
+  "reflects 0.16%": "riflette lo 0,16%",
+  "One thin film": "Un film sottile",
+  "reflects 0.61%": "riflette lo 0,61%",
+  "Forty pairs": "Quaranta coppie",
+  "reflect 74.2%": "riflettono il 74,2%",
+  "The light that stays": "La luce che resta",
+  "25.8% ends as heat": "25,8% in calore",
+  "The temperature": "La temperatura",
+  "154 K above the back": "154 K sopra il retro",
+  "The surface moves": "La deformazione",
+  "in preparation": "in preparazione",
+  "The cooling": "Il raffreddamento",
   "Light bouncing along ten mirrors, weaker after each one, with the heat left in each mirror.": "Luce che rimbalza lungo dieci specchi, più debole dopo ciascuno, con il calore lasciato in ogni specchio.",
   "source: 100%": "sorgente: 100%",
   "wafer": "wafer",
@@ -267,7 +334,6 @@ const IT = {
   "An EUV mirror, from its first surface to its temperature": "Uno specchio EUV, dalla prima superficie alla sua temperatura",
   "The most advanced chips are printed with light of 13.5 nm. No material is transparent to it, so the machine that prints them steers the light with mirrors only. Each mirror returns about three quarters of the light and keeps the rest as heat.": "I chip più avanzati sono stampati con luce a 13,5 nm. Nessun materiale è trasparente a questa luce, quindi la macchina che li stampa la guida solo con specchi. Ogni specchio restituisce circa tre quarti della luce e trattiene il resto come calore.",
   "This project follows one such mirror all the way: why a single surface reflects almost nothing, how 40 pairs of thin layers bring that to 74%, where the remaining light ends up, and how hot it makes the glass. Each idea comes with the reason it is there, an experiment to move with your hands, a full explanation and the formulas with their origin.": "Questo progetto segue uno di questi specchi fino in fondo: perché una singola superficie non riflette quasi nulla, come 40 coppie di strati sottili portano quel valore al 74%, dove finisce la luce restante, e quanto scalda il vetro. Ogni idea arriva con il motivo per cui è lì, un esperimento da muovere con le mani, una spiegazione completa e le formule con la loro origine.",
-  "See the modules": "Vedi i moduli",
   "Start from module 1": "Inizia dal modulo 1",
   "The problem in one picture": "Il problema in un'immagine",
   "Between the source and the wafer the light meets a chain of mirrors. With the ideal mirror of these lessons, which reflects 74.2%, ten reflections leave 5% of the light. Everything else has become heat in the mirrors, most of it in the first ones.": "Tra la sorgente e il wafer la luce incontra una catena di specchi. Con lo specchio ideale di queste lezioni, che riflette il 74,2%, dieci riflessioni lasciano il 5% della luce. Tutto il resto è diventato calore negli specchi, la maggior parte nei primi.",
