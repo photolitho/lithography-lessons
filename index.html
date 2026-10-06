@@ -33,7 +33,7 @@ body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--b
 main { max-width: 720px; margin: 0 auto; padding: 36px 16px calc(48px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 22px; }
 main > * { min-width: 0; }
 .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; cursor: pointer; }
 .lang button { font: 500 11px var(--mono); border: 0; background: none; color: var(--muted); padding: 3px 8px; border-radius: 999px; cursor: pointer; }
 .lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .eyebrow { font: 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
@@ -355,7 +355,8 @@ function translateDom() {
   tEls.forEach(([e, en]) => e.innerHTML = (lang === "it" && IT[en]) || en);
   [...document.getElementById("t-lang").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
 }
-[...document.getElementById("t-lang").children].forEach(b => b.onclick = () => { lang = b.dataset.l; try { localStorage.setItem(LANG_KEY, lang); } catch (e) {} translateDom(); });
+// One control: a press anywhere on it switches to the other language.
+document.getElementById("t-lang").onclick = () => { lang = lang === "it" ? "en" : "it"; try { localStorage.setItem(LANG_KEY, lang); } catch (e) {} translateDom(); };
 translateDom();
 
 // Opening sequence. Without GSAP, or once seen in this session, the page simply shows the map.

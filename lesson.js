@@ -362,10 +362,11 @@ function startLesson(config) {
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw);
   new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
-  [...$("t-lang").children].forEach(b => b.onclick = () => {
-    lang = b.dataset.l; try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+  // One control: a press anywhere on it switches to the other language.
+  $("t-lang").onclick = () => {
+    lang = lang === "it" ? "en" : "it"; try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
     translateDom(); if (st.mode === "home") goHome(true); else show(pos(), true);
-  });
+  };
   translateDom();
   if (st.mode === "guided" || st.mode === "explore") enter(st.mode); else goHome();
 }
