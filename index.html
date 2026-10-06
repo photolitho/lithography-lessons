@@ -96,10 +96,8 @@ svg .brace { fill: none; stroke: var(--ink); stroke-width: 1.2; }
 #cover p { max-width: none; margin-top: 14px; font: 500 clamp(17px, 4.6vw, 22px) var(--display); color: #C9C2EA; text-wrap: balance; }
 #cover .go { margin-top: 34px; font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #A78BFF; animation: breath 2s ease-in-out infinite; }
 .sbar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 0 14px calc(8px + env(safe-area-inset-bottom, 0px)); }
-#skip { font: 500 12px var(--mono); color: #C9C2EA; background: rgba(255,255,255,.08); border: 0; border-radius: 999px; padding: 6px 11px; text-decoration: none; cursor: pointer; }
 .sbar .lang { border-color: rgba(255,255,255,.2); } .sbar .lang button { background: none; color: #B9B3D6; padding: 6px 11px; font-size: 12px; }
 .sbar .lang button[aria-pressed="true"] { background: #F4F2FF; color: #07060E; }
-#skip { position: absolute; right: 14px; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); opacity: 0; visibility: hidden; }
 html.intro .stage .late, html.intro .tip { opacity: 0; }
 body.locked { overflow: hidden; }
 .draw { stroke-dasharray: 1; animation: draw .7s both; } .draw.out { animation-delay: .45s; }
@@ -138,7 +136,6 @@ body.locked { overflow: hidden; }
   <div class="eyebrow">Lithography Lessons</div>
   <div class="tip">touch a number</div>
   <div id="cover"><h1>An EUV mirror</h1><p>from its first surface to its temperature</p><div class="go">Touch to begin</div></div>
-  <button id="skip" type="button">Skip</button>
   <div class="sbar"><span class="lang" id="t-lang" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="it">IT</button></span></div>
 </section>
 <main>
@@ -252,7 +249,7 @@ body.locked { overflow: hidden; }
 // Italian strings keyed by their English source; the choice is shared with the lesson pages.
 const IT = {
   
-  "Skip": "Salta",
+  
   "Touch to begin": "Tocca per iniziare",
   "touch a number": "tocca un numero",
   "An EUV mirror": "Uno specchio EUV",
@@ -349,7 +346,7 @@ const IT = {
 const LANG_KEY = "litho-lang";
 let lang = "en";
 try { lang = localStorage.getItem(LANG_KEY) || ((navigator.language || "").toLowerCase().startsWith("it") ? "it" : "en"); } catch (e) {}
-const tEls = [...document.querySelectorAll("h1, h2, p, figcaption, title, svg text, .how li, .part, .jump a, .mod b, .mod .what, .mod strong, .mod em, .eyebrow, #cover .go, #skip, .tip")].map(e => [e, e.innerHTML]);
+const tEls = [...document.querySelectorAll("h1, h2, p, figcaption, title, svg text, .how li, .part, .jump a, .mod b, .mod .what, .mod strong, .mod em, .eyebrow, #cover .go, .tip")].map(e => [e, e.innerHTML]);
 function translateDom() {
   document.documentElement.lang = lang;
   tEls.forEach(([e, en]) => e.innerHTML = (lang === "it" && IT[en]) || en);
@@ -369,7 +366,7 @@ translateDom();
   const mapUi = $(".stage .tip");
   gsap.set([...lays, ...rows, "#glass", "#heat", "#plate", "#through", ...mapUi], { autoAlpha: 0 });
   gsap.set(rows, { y: 8 });
-  gsap.set(["#cover", "#skip"], { autoAlpha: 1 });
+  gsap.set("#cover", { autoAlpha: 1 });
   root.classList.remove("intro");
   const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" }, onComplete: done });
   // After the touch the whole sequence runs in 5 s: a dart at first, slowing towards the map.
@@ -386,16 +383,15 @@ translateDom();
   tl.to(["#glass", "#plate"], { autoAlpha: 1, duration: .9 })
     .fromTo("#heat", { autoAlpha: 0, scale: .2, transformOrigin: "170px 474px" }, { autoAlpha: 1, scale: 1, duration: 2.2, ease: "power1.out" }, "<.2");
   // 5. the map
-  tl.to("#skip", { autoAlpha: 0, duration: .5 }).to(rows, { autoAlpha: 1, y: 0, duration: .6, stagger: .28 }).to(mapUi, { autoAlpha: 1, duration: .6 }, "-=.3");
+  tl.to(rows, { autoAlpha: 1, y: 0, duration: .6, stagger: .28 }).to(mapUi, { autoAlpha: 1, duration: .6 }, "-=.3");
   function done() { if (run) run.kill(); document.body.classList.remove("locked"); try { sessionStorage.setItem(SEEN, "1"); } catch (e) {} }
   function open() { tl.pause(0); document.body.classList.add("locked"); scrollTo(0, 0); }
   function finish() { tl.progress(1); done(); }
   stage.addEventListener("click", (e) => {
-    if (tl.progress() === 1 || e.target.closest("#skip, .sbar")) return;
+    if (tl.progress() === 1 || e.target.closest(".sbar")) return;
     if (run || matchMedia("(prefers-reduced-motion: reduce)").matches) return finish();
     run = gsap.to(tl, { progress: 1, duration: 5, ease: "power2.out", onComplete: finish });
   });
-  document.getElementById("skip").onclick = finish;
   if (seen || location.hash) finish(); else open();
 })();
 </script>
