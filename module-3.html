@@ -37,30 +37,31 @@
   <p>Two quick counts show that the answer is not obvious. Adding intensities, forty times the 0.61% of one film would be about 25%: that count ignores interference and repeated reflections, so it predicts nothing. Adding the 80 arrows of 0.04 end to end would give a reflected amplitude of 3.2 against an incoming amplitude of 1, a reflectance of 3.2² = 10.24: more than ten times the light that arrives, impossible for a mirror that only returns what it receives.</p>
 </section>
 
-<section class="step" data-id="bragg" data-sum="Why the period must be about half a wavelength. Experiment: period, arrows and reflectance.">
+<section class="step" data-id="bragg" data-sum="Why the period must be about half a wavelength. Experiment: period, waves and reflectance.">
   <h1>Lining up all the arrows: the Bragg condition</h1>
   <p class="why">Module 2 ended with one film reflecting 0.61% when its two reflections line up. A mirror needs many more reflections lined up at once. This step finds the condition that does it for every pair, and with it the first design number of the mirror: the period.</p>
   <p>Call one molybdenum layer plus one silicon layer a pair, and its total thickness the period <span class="mono">D</span>. Each pair repeats the one above it, one period deeper. Light reflected one pair deeper travels an extra round trip through one period.</p>
-  <p>If that extra round trip is exactly one full turn, the reflection from every pair arrives with its arrow pointing the same way as that of the pair above, and the contributions of the pairs add along one direction. If it is not, the arrow of each pair is turned a little against the one above and the chain curls up.</p>
+  <p>If that extra round trip is exactly one full turn, the reflection from every pair arrives with its arrow pointing the same way as that of the pair above, so the crests of the two waves arrive together and the contributions of the pairs add up. If it is not, each pair arrives a little out of step with the one above, and the sum is smaller.</p>
   <div class="formula"><span>2 · D · n̄ · cos θ = λ</span></div>
   <p>In the formula, <span class="mono">n̄</span> is the average index of the pair, <span class="mono">θ</span> the angle of the light from the perpendicular and <span class="mono">λ</span> its wavelength in vacuum. The left side is the length of the extra round trip as the light counts it. When it equals one wavelength, the arrow has made one full turn.</p>
   <div class="lab">
-    <div class="figbar"><div class="picks"><span class="cap">Highlight pair</span><div class="pickset" id="g-pair" role="group"><button aria-pressed="false">1</button><button aria-pressed="true">2</button><button aria-pressed="false">3</button><button aria-pressed="false">4</button><button aria-pressed="false">5</button><button aria-pressed="false">6</button></div></div><button class="linkbtn" id="b-full" type="button">Full screen</button></div>
-    <div class="toggle" id="t-grp"><button data-g="0" aria-pressed="true">Every surface</button><button data-g="1" aria-pressed="false">Grouped by pair</button></div>
+    <div class="toggle" id="t-scene"><button data-s="0" aria-pressed="true">One pair deeper</button><button data-s="1" aria-pressed="false">All together</button></div>
+    <div class="figbar"><button class="linkbtn" id="b-act" type="button">Inside a pair</button><span class="picks"><button class="linkbtn" id="b-play" type="button">Pause</button><button class="linkbtn" id="b-full" type="button">Full screen</button></span></div>
     <canvas id="c-chain" style="height:340px"></canvas>
     <div class="ctrl"><label for="s-D">Period D</label><input type="range" id="s-D" min="6.4" max="7.6" step="0.005" value="6.6"><output id="o-D"></output></div>
     <canvas id="c-RD" style="height:180px"></canvas>
     <div class="reads"><span><b>round trip through one pair</b><span id="r-turn"></span></span><span><b>R of 40 pairs</b><span class="big" id="r-RD"></span></span></div>
     <div class="tries"><span class="cap">Try</span>
-      <button class="chip" data-set="s-D:6.6" data-note="One round trip is 0.942 turns. The arrow of each pair is turned against the one above, the chain curls up, and 40 pairs reflect 2.6%.">D = 6.60 nm</button>
-      <button class="chip" data-set="s-D:7" data-note="One round trip is 0.999 turns: grouped by pair, the six arrows point the same way and their chain is straight. Yet the full calculation gives 72.9% here, which is not its maximum.">D = 7.00 nm</button>
+      <button class="chip" data-set="s-D:6.6" data-note="One round trip is 0.942 turns. The wave of each pair arrives a little out of step with the one above, the sum is smaller, and 40 pairs reflect 2.6%.">D = 6.60 nm</button>
+      <button class="chip" data-set="s-D:7 t-scene:1" data-note="One round trip is 0.999 turns: the six waves come out with their crests together, and the sum reaches the dashed line. Yet the full calculation gives 72.9% here, which is not its maximum.">D = 7.00 nm</button>
       <button class="chip" data-set="s-D:6.945" data-note="The maximum of the full calculation: 74.3%. One round trip is 0.991 turns, a little less than the full turn of the simple count.">D = 6.945 nm</button>
       <div class="note" hidden></div>
     </div>
-    <div class="cap">Every pair has two surfaces, and each sends some light back: <span class="mo">blue</span> where molybdenum begins, <span class="si">orange</span> where silicon begins. Each ray has its arrow, as in module 2. The length of an arrow is an amplitude. Its angle is a phase, not a direction in which light travels.</div>
-    <div class="cap">Highlighting a pair changes nothing in the mirror: every surface keeps reflecting. It shows the two arrows of that pair and their sum, and the thick line marks its extra round trip compared with the pair above. Grouped by pair draws one arrow per pair, and the total stays the same.</div>
-    <div class="cap">This is a simplified picture: only the first return from each surface, with rays at an exaggerated angle and all arrows turned together so that the first pair points to the right. Light coming back meets the surfaces above again; those further bounces are left out here and included in the full calculation below.</div>
-    <div class="cap">Reflectance of 40 pairs against the period, from the full calculation built later in this module. The arrows above are a simplified picture of the first six pairs: their sum is not this reflectance.</div>
+    <div class="cap">One pair deeper. The mirror is on the right, with <span class="mo">blue</span> for molybdenum and <span class="si">orange</span> for silicon. The light sent back by pair 3 goes one period further down and back than that of pair 2: the thick stretch. Outside the mirror the two returned waves are drawn one above the other. The gap between their crests is what that extra trip leaves over from a whole turn.</div>
+    <div class="cap">Inside a pair. A pair sends light back from two surfaces, where molybdenum begins and where silicon begins. What the pair returns is those two waves added together, not a reflection from a new surface.</div>
+    <div class="cap">All together. The waves sent back by the first six pairs, outside the mirror, each at its real size, and below them their sum at the same scale. The dots show each wave where the vertical line crosses it. The dashed lines are the height six pairs would reach in step. Build the sum adds the returns one at a time: it takes the calculation apart, and every surface keeps reflecting throughout.</div>
+    <div class="cap">This is a simplified picture: only the first return from each surface, drawn as if the light came in perpendicular. Inside the mirror the dashed lines show the path of the light, not the wave itself. Light coming back meets the surfaces above again; those further bounces are left out here and included in the full calculation below.</div>
+    <div class="cap">Reflectance of 40 pairs against the period, from the full calculation built later in this module. The waves above are a simplified picture of the first six pairs: their sum is not this reflectance.</div>
     <div class="cap">13.5 nm, 6° from perpendicular, s polarization. Molybdenum takes 40% of each period.</div>
   </div>
   <div class="after" hidden>
@@ -243,21 +244,33 @@
 <script src="lesson.js"></script>
 <script>
 Object.assign(IT, {
-  "Highlight pair": "Evidenzia la coppia",
-  "Every surface": "Ogni superficie",
-  "Grouped by pair": "Raggruppa per coppia",
+  "One pair deeper": "Una coppia più giù",
+  "All together": "Tutte insieme",
+  "Inside a pair": "Dentro una coppia",
+  "Back to the comparison": "Torna al confronto",
+  "Build the sum": "Costruisci la somma",
+  "Add pair": "Aggiungi la coppia",
+  "Pause": "Pausa",
+  "Play": "Avvia",
   "Full screen": "Schermo intero",
   "Close": "Chiudi",
-  "pairs 1–6": "coppie 1–6",
-  "their arrows": "le loro frecce",
-  "all the arrows added": "tutte le frecce sommate",
+  "light coming in": "luce in arrivo",
+  "← sent back by pair": "← rimandata dalla coppia",
+  "← from where Mo begins, pair 2": "← da dove comincia il Mo, coppia 2",
+  "← from where Si begins, pair 2": "← da dove comincia il Si, coppia 2",
+  "← pair 2: the two added": "← coppia 2: le due sommate",
+  "gap between crests": "scarto fra le creste",
+  "of a turn": "di giro",
+  "one period more, down and back": "un periodo in più, giù e su",
+  "first returns added": "primi ritorni sommati",
+  "← sent back by each pair": "← rimandata da ogni coppia",
   "sum": "somma",
   "of six pairs in step": "di sei coppie in fase",
   "How do 80 weak surfaces make a 74% mirror?": "Come fanno 80 superfici deboli a dare uno specchio al 74%?",
   "Lining up all the arrows: the Bragg condition": "Allineare tutte le frecce: la condizione di Bragg",
   "Call one molybdenum layer plus one silicon layer a pair, and its total thickness the period <span class=\"mono\">D</span>. Each pair repeats the one above it, one period deeper. Light reflected one pair deeper travels an extra round trip through one period.": "Chiama coppia uno strato di molibdeno più uno di silicio, e periodo <span class=\"mono\">D</span> il suo spessore totale. Ogni coppia ripete quella sopra, un periodo più in profondità. La luce riflessa una coppia più sotto percorre in più un'andata e ritorno attraverso un periodo.",
   "In the formula, <span class=\"mono\">n̄</span> is the average index of the pair, <span class=\"mono\">θ</span> the angle of the light from the perpendicular and <span class=\"mono\">λ</span> its wavelength in vacuum. The left side is the length of the extra round trip as the light counts it. When it equals one wavelength, the arrow has made one full turn.": "Nella formula, <span class=\"mono\">n̄</span> è l'indice medio della coppia, <span class=\"mono\">θ</span> l'angolo della luce dalla perpendicolare e <span class=\"mono\">λ</span> la sua lunghezza d'onda nel vuoto. Il membro di sinistra è la lunghezza del giro in più così come la conta la luce. Quando è uguale a una lunghezza d'onda, la freccia ha fatto un giro completo.",
-  "Reflectance of 40 pairs against the period, from the full calculation built later in this module. The arrows above are a simplified picture of the first six pairs: their sum is not this reflectance.": "Riflettanza di 40 coppie in funzione del periodo, dal calcolo completo costruito più avanti in questo modulo. Le frecce qui sopra sono un quadro semplificato delle prime sei coppie: la loro somma non è questa riflettanza.",
+  "Reflectance of 40 pairs against the period, from the full calculation built later in this module. The waves above are a simplified picture of the first six pairs: their sum is not this reflectance.": "Riflettanza di 40 coppie in funzione del periodo, dal calcolo completo costruito più avanti in questo modulo. Le onde qui sopra sono un quadro semplificato delle prime sei coppie: la loro somma non è questa riflettanza.",
   "Period D": "Periodo D",
   "round trip through one pair": "andata e ritorno in una coppia",
   "R of 40 pairs": "R di 40 coppie",
@@ -328,9 +341,10 @@ Object.assign(IT, {
   "Forty pairs with molybdenum on top, 2.78 and 4.18 nm, silicon substrate, 13.5 nm, 6°, s polarization, ideal boundaries.": "Quaranta coppie con il molibdeno in cima, 2,78 e 4,18 nm, substrato di silicio, 13,5 nm, 6°, polarizzazione s, confini ideali.",
   "about 25%": "circa il 25%",
   "turns": "giri",
-  "Every pair has two surfaces, and each sends some light back: <span class=\"mo\">blue</span> where molybdenum begins, <span class=\"si\">orange</span> where silicon begins. Each ray has its arrow, as in module 2. The length of an arrow is an amplitude. Its angle is a phase, not a direction in which light travels.": "Ogni coppia ha due superfici, e ciascuna rimanda indietro un po' di luce: <span class=\"mo\">blu</span> dove comincia il molibdeno, <span class=\"si\">arancione</span> dove comincia il silicio. Ogni raggio ha la sua freccia, come nel modulo 2. La lunghezza di una freccia è un'ampiezza. Il suo angolo è una fase, non una direzione in cui viaggia la luce.",
-  "Highlighting a pair changes nothing in the mirror: every surface keeps reflecting. It shows the two arrows of that pair and their sum, and the thick line marks its extra round trip compared with the pair above. Grouped by pair draws one arrow per pair, and the total stays the same.": "Evidenziare una coppia non cambia nulla nello specchio: ogni superficie continua a riflettere. Mostra le due frecce di quella coppia e la loro somma, e la linea spessa segna la sua andata e ritorno in più rispetto alla coppia sopra. Raggruppa per coppia disegna una freccia per coppia, e il totale resta lo stesso.",
-  "This is a simplified picture: only the first return from each surface, with rays at an exaggerated angle and all arrows turned together so that the first pair points to the right. Light coming back meets the surfaces above again; those further bounces are left out here and included in the full calculation below.": "È un quadro semplificato: solo il primo ritorno da ogni superficie, con i raggi a un angolo esagerato e tutte le frecce ruotate insieme in modo che la prima coppia punti a destra. La luce che torna indietro incontra di nuovo le superfici sopra; quei rimbalzi ulteriori qui sono lasciati fuori e sono inclusi nel calcolo completo qui sotto.",
+  "One pair deeper. The mirror is on the right, with <span class=\"mo\">blue</span> for molybdenum and <span class=\"si\">orange</span> for silicon. The light sent back by pair 3 goes one period further down and back than that of pair 2: the thick stretch. Outside the mirror the two returned waves are drawn one above the other. The gap between their crests is what that extra trip leaves over from a whole turn.": "Una coppia più giù. Lo specchio è a destra, <span class=\"mo\">blu</span> per il molibdeno e <span class=\"si\">arancione</span> per il silicio. La luce rimandata dalla coppia 3 fa un periodo in più, giù e su, rispetto a quella della coppia 2: il tratto spesso. Fuori dallo specchio le due onde rimandate sono disegnate una sopra l'altra. Lo scarto fra le loro creste è ciò che quel tratto in più lascia rispetto a un giro intero.",
+  "Inside a pair. A pair sends light back from two surfaces, where molybdenum begins and where silicon begins. What the pair returns is those two waves added together, not a reflection from a new surface.": "Dentro una coppia. Una coppia rimanda luce da due superfici, dove comincia il molibdeno e dove comincia il silicio. Ciò che la coppia rimanda è la somma di quelle due onde, non una riflessione da una nuova superficie.",
+  "All together. The waves sent back by the first six pairs, outside the mirror, each at its real size, and below them their sum at the same scale. The dots show each wave where the vertical line crosses it. The dashed lines are the height six pairs would reach in step. Build the sum adds the returns one at a time: it takes the calculation apart, and every surface keeps reflecting throughout.": "Tutte insieme. Le onde rimandate dalle prime sei coppie, fuori dallo specchio, ciascuna alla sua grandezza reale, e sotto la loro somma alla stessa scala. I punti mostrano ogni onda dove la linea verticale la attraversa. Le linee tratteggiate sono l'altezza che sei coppie raggiungerebbero in fase. Costruisci la somma aggiunge i ritorni uno alla volta: scompone il calcolo, e ogni superficie continua a riflettere per tutto il tempo.",
+  "This is a simplified picture: only the first return from each surface, drawn as if the light came in perpendicular. Inside the mirror the dashed lines show the path of the light, not the wave itself. Light coming back meets the surfaces above again; those further bounces are left out here and included in the full calculation below.": "È un quadro semplificato: solo il primo ritorno da ogni superficie, disegnato come se la luce arrivasse perpendicolare. Dentro lo specchio le linee tratteggiate mostrano il percorso della luce, non l'onda stessa. La luce che torna indietro incontra di nuovo le superfici sopra; quei rimbalzi ulteriori qui sono lasciati fuori e sono inclusi nel calcolo completo qui sotto.",
   "With the arrows lined up, adding pairs should keep adding reflection. Add them and watch two things: the reflectance, and how much light gets down to each pair.": "Con le frecce allineate, aggiungere coppie dovrebbe continuare ad aggiungere riflessione. Aggiungile e guarda due cose: la riflettanza, e quanta luce scende fino a ogni coppia.",
   "added by the last pair": "aggiunto dall'ultima coppia",
   "going down at the last pair": "in discesa all'ultima coppia",
@@ -351,7 +365,7 @@ Object.assign(IT, {
   "A stack is the product of its layers' matrices, in order from the top. Under the last layer is the substrate, where light only goes down. Choose its electric amplitude as 1 for now, so that there <span class=\"mono\">(E, H) = (1, η<sub>s</sub>)</span>; the common scale cancels in the end. Multiplying through gives the pair <span class=\"mono\">(B, C)</span> at the top surface, and from it the reflection:": "Uno stack è il prodotto delle matrici dei suoi strati, in ordine dall'alto. Sotto l'ultimo strato c'è il substrato, dove la luce scende soltanto. Per ora scegli uguale a 1 la sua ampiezza elettrica, così lì <span class=\"mono\">(E, H) = (1, η<sub>s</sub>)</span>; la scala comune alla fine si semplifica. Moltiplicando tutto si ottiene la coppia <span class=\"mono\">(B, C)</span> alla superficie superiore, e da questa la riflessione:",
   "A uniform layer with flat, parallel, sharp faces. One wavelength and one polarization. E and H are the parts of the fields parallel to the surfaces. As written, η = ñ·cos θ is for s polarization; for p polarization η = ñ / cos θ. For p this bookkeeping gives r with the opposite sign to the formula of module 1, and the same R.": "Uno strato uniforme con facce piane, parallele e nette. Una sola lunghezza d'onda e una sola polarizzazione. E e H sono le parti dei campi parallele alle superfici. Così com'è scritta, η = ñ·cos θ vale per la polarizzazione s; per la p, η = ñ / cos θ. Per la p questo modo di tenere i conti dà r con segno opposto rispetto alla formula del modulo 1, e la stessa R.",
   "The order matters, as the matrices said it would. With silicon on top the light crosses 4.18 nm of silicon twice before meeting the first strong surface, which costs 1.4% of it: 74.2% × 0.986 = 73.2%, close to the 73.0% of the full calculation. The factor alone is an estimate and not the whole story: the small reflection at the vacuum–silicon surface also adds, as a wave, to the reflection of the stack below.": "L'ordine conta, come avevano detto le matrici. Con il silicio in cima la luce attraversa due volte 4,18 nm di silicio prima di incontrare la prima superficie forte, e questo ne costa l'1,4%: 74,2% × 0,986 = 73,2%, vicino al 73,0% del calcolo completo. Il solo fattore è una stima e non tutta la storia: anche la piccola riflessione alla superficie tra vuoto e silicio si somma, come onda, alla riflessione dello stack sottostante.",
-  "Why the period must be about half a wavelength. Experiment: period, arrows and reflectance.": "Perché il periodo deve essere circa mezza lunghezza d'onda. Esperimento: periodo, frecce e riflettanza.",
+  "Why the period must be about half a wavelength. Experiment: period, waves and reflectance.": "Perché il periodo deve essere circa mezza lunghezza d'onda. Esperimento: periodo, onde e riflettanza.",
   "Why 40 pairs are enough. Experiment: the light at each depth, with and without absorption.": "Perché 40 coppie bastano. Esperimento: la luce a ogni profondità, con e senza assorbimento.",
   "What a 2×2 matrix does, and why order matters. Experiment: two matrices in either order.": "Cosa fa una matrice 2×2, e perché l'ordine conta. Esperimento: due matrici nei due ordini.",
   "Where the matrix of a layer comes from. Experiment: the method against the Fresnel and Airy formulas.": "Da dove viene la matrice di uno strato. Esperimento: il metodo a confronto con le formule di Fresnel e di Airy.",
@@ -374,7 +388,7 @@ Object.assign(IT, {
   "Mo on top, 40 pairs": "Mo in cima, 40 coppie",
   "Si on top, 40 pairs": "Si in cima, 40 coppie",
   "1 pair": "1 coppia",
-  "One round trip is 0.942 turns. The arrow of each pair is turned against the one above, the chain curls up, and 40 pairs reflect 2.6%.": "Un'andata e ritorno vale 0,942 giri. La freccia di ogni coppia è ruotata rispetto a quella sopra, la catena si arrotola, e 40 coppie riflettono il 2,6%.",
+  "One round trip is 0.942 turns. The wave of each pair arrives a little out of step with the one above, the sum is smaller, and 40 pairs reflect 2.6%.": "Un'andata e ritorno vale 0,942 giri. L'onda di ogni coppia arriva un po' sfasata rispetto a quella sopra, la somma è più piccola, e 40 coppie riflettono il 2,6%.",
   "The maximum of the full calculation: 74.3%. One round trip is 0.991 turns, a little less than the full turn of the simple count.": "Il massimo del calcolo completo: 74,3%. Un'andata e ritorno vale 0,991 giri, un po' meno del giro completo del conto semplice.",
   "Most of the light goes through: 80.7% is still going down at the last pair, and the mirror reflects 11.2%.": "La maggior parte della luce passa: all'ultima coppia ne sta ancora scendendo l'80,7%, e lo specchio riflette l'11,2%.",
   "Only 0.9% of the light is still going down at the last pair, and that pair adds 0.12 points.": "All'ultima coppia sta ancora scendendo solo lo 0,9% della luce, e quella coppia aggiunge 0,12 punti.",
@@ -392,8 +406,8 @@ Object.assign(IT, {
   "Module 2 showed what two surfaces can do together. This module puts 80 of them together and gets the mirror the rest of the project is about: its period, its number of pairs, its 74.2%, and the method that computes them. Modules 4 and 5 use that method again and again.": "Il modulo 2 ha mostrato cosa possono fare due superfici insieme. Questo modulo ne mette insieme 80 e ottiene lo specchio di cui si occupa il resto del progetto: il suo periodo, il suo numero di coppie, il suo 74,2%, e il metodo che li calcola. I moduli 4 e 5 usano quel metodo di continuo.",
   "Two quick counts show that the answer is not obvious. Adding intensities, forty times the 0.61% of one film would be about 25%: that count ignores interference and repeated reflections, so it predicts nothing. Adding the 80 arrows of 0.04 end to end would give a reflected amplitude of 3.2 against an incoming amplitude of 1, a reflectance of 3.2² = 10.24: more than ten times the light that arrives, impossible for a mirror that only returns what it receives.": "Due conti rapidi mostrano che la risposta non è ovvia. Sommando le intensità, quaranta volte lo 0,61% di un film farebbe circa il 25%: quel conto ignora l'interferenza e le riflessioni ripetute, quindi non prevede nulla. Sommando le 80 frecce da 0,04 una dopo l'altra si avrebbe un'ampiezza riflessa di 3,2 contro un'ampiezza in arrivo di 1, cioè una riflettanza di 3,2² = 10,24: più di dieci volte la luce che arriva, impossibile per uno specchio che restituisce solo ciò che riceve.",
   "Module 2 lined up two reflections and got 0.61%. A real EUV mirror stacks 40 pairs of molybdenum and silicon layers: 80 surfaces, each as weak as before. Six ideas build the answer, five of them with an experiment. Open any of them, in any order.": "Il modulo 2 ha allineato due riflessioni e ha ottenuto 0,61%. Uno specchio EUV vero impila 40 coppie di strati di molibdeno e silicio: 80 superfici, ciascuna debole come prima. Sei idee costruiscono la risposta, cinque delle quali con un esperimento. Aprine una qualsiasi, in qualsiasi ordine.",
-  "If that extra round trip is exactly one full turn, the reflection from every pair arrives with its arrow pointing the same way as that of the pair above, and the contributions of the pairs add along one direction. If it is not, the arrow of each pair is turned a little against the one above and the chain curls up.": "Se quell'andata e ritorno in più vale esattamente un giro completo, la riflessione di ogni coppia arriva con la freccia orientata come quella della coppia sopra, e i contributi delle coppie si sommano lungo una sola direzione. Se non è così, la freccia di ogni coppia è un po' ruotata rispetto a quella sopra e la catena si arrotola.",
-  "One round trip is 0.999 turns: grouped by pair, the six arrows point the same way and their chain is straight. Yet the full calculation gives 72.9% here, which is not its maximum.": "Un'andata e ritorno vale 0,999 giri: raggruppate per coppia, le sei frecce puntano nello stesso verso e la loro catena è dritta. Eppure qui il calcolo completo dà 72,9%, che non è il suo massimo.",
+  "If that extra round trip is exactly one full turn, the reflection from every pair arrives with its arrow pointing the same way as that of the pair above, so the crests of the two waves arrive together and the contributions of the pairs add up. If it is not, each pair arrives a little out of step with the one above, and the sum is smaller.": "Se quell'andata e ritorno in più vale esattamente un giro completo, la riflessione di ogni coppia arriva con la freccia orientata come quella della coppia sopra, quindi le creste delle due onde arrivano insieme e i contributi delle coppie si sommano. Se non è così, ogni coppia arriva un po' sfasata rispetto a quella sopra, e la somma è più piccola.",
+  "One round trip is 0.999 turns: the six waves come out with their crests together, and the sum reaches the dashed line. Yet the full calculation gives 72.9% here, which is not its maximum.": "Un'andata e ritorno vale 0,999 giri: le sei onde escono con le creste insieme, e la somma arriva alla linea tratteggiata. Eppure qui il calcolo completo dà 72,9%, che non è il suo massimo.",
   "The Bragg condition is not among its requirements: it only estimates where the contributions of successive pairs reinforce one another, and the exact optimum comes from the full calculation. Small absorption is not one either: absorption is carried by the complex index inside δ and η, and no approximation is made about it. If the mirror warms up and every layer grows thicker, change the thicknesses and multiply the matrices again.": "La condizione di Bragg non è tra i suoi requisiti: stima soltanto dove i contributi di coppie successive si rinforzano, e l'ottimo esatto viene dal calcolo completo. Non lo è nemmeno un assorbimento piccolo: l'assorbimento è portato dall'indice complesso dentro δ e η, e su di esso non si fa alcuna approssimazione. Se lo specchio si scalda e ogni strato diventa più spesso, si cambiano gli spessori e si moltiplicano di nuovo le matrici.",
   "The bars show both. At 40 pairs, switching absorption off changes the light going down only a little: in this tuned stack, reflection alone already keeps most of the light out of the deep pairs. The light coming back up grows at every depth, and the upward bar of the first pair is the reflectance. Each bar is the power of one travelling wave. Down minus up is the net power going down, apart from a small interference term inside the absorbing layers, at most 0.2% of the incoming power here.": "Le barre mostrano entrambe le cose. A 40 coppie, togliere l'assorbimento cambia solo di poco la luce che scende: in questo stack accordato la riflessione da sola tiene già la maggior parte della luce lontana dalle coppie profonde. La luce che risale cresce a ogni profondità, e la barra in salita della prima coppia è la riflettanza. Ogni barra è la potenza di una sola onda viaggiante. Discesa meno salita è la potenza netta che scende, a parte un piccolo termine di interferenza dentro gli strati assorbenti, qui al più lo 0,2% della potenza in arrivo.",
   "Above: the power of the wave travelling down (upper bars) and of the wave travelling back up (lower bars) just above each pair of the stack you have built, as shares of the incoming power. The top of the mirror is on the left. Below: reflectance against the number of pairs. Solid: the selected case. Dashed: the other one.": "Sopra: la potenza dell'onda che scende (barre in alto) e di quella che risale (barre in basso) appena sopra ogni coppia dello stack che hai costruito, come quote della potenza in arrivo. La cima dello specchio è a sinistra. Sotto: riflettanza in funzione del numero di coppie. Linea piena: il caso selezionato. Tratteggiata: l'altro.",
@@ -426,80 +440,85 @@ startLesson({
     /* ---------- Bragg condition ---------- */
     const RDcurve = []; for (let D = 6.4; D <= 7.6001; D += 0.01) RDcurve.push([D, 100 * tmm(stack(40, D), 1, nSi, LAM0, TH, "s").R]);
     const turnsAt = D => 2 * (qMo[0] * 0.4 * D + qSi[0] * 0.6 * D) / LAM0, R40 = D => tmm(stack(40, D), 1, nSi, LAM0, TH, "s").R;
-    // The simple picture: one arrow per surface, a Fresnel reflection turned by the layers above it (first returns only:
-    // further bounces and what is lost crossing the surfaces above are left out). The arrow of a pair is the sum of its two.
-    // The first pair starts at the vacuum surface, so it differs a little from the others. All arrows are turned together
-    // so that the arrow of the first pair points to the right; their relative phases are unchanged.
+    // The simple picture: one wave per surface, a Fresnel reflection turned by the layers above it (first returns only:
+    // further bounces and what is lost crossing the surfaces above are left out). The wave of a pair is the sum of its two.
+    // The first pair starts at the vacuum surface, so it differs a little from the others. All amplitudes are turned together
+    // so that the first pair has phase zero; their relative phases are unchanged.
     const contrib = D => { const dMo = 0.4 * D, dSi = 0.6 * D, pts = [[0, 0]]; let ph = [1, 0], z = [0, 0];
       for (let j = 0; j < 12; j++) { const r = j === 0 ? fres(q0, qMo) : j % 2 ? fres(qMo, qSi) : fres(qSi, qMo); z = C.add(z, C.mul(r, ph)); pts.push(z); ph = C.mul(ph, j % 2 ? turnOf(qSi, dSi) : turnOf(qMo, dMo)); }
       const c0 = C.sub(pts[2], pts[0]), a0 = Math.atan2(c0[1], c0[0]), rot = [Math.cos(a0), -Math.sin(a0)];
       const u = pts.slice(1).map((q, i) => C.mul(C.sub(q, pts[i]), rot)), c = []; for (let j = 0; j < 6; j++) c.push(C.add(u[2 * j], u[2 * j + 1]));
       return { u, c }; };
-    let LMAX = 0; for (let D = 6.4; D <= 7.6001; D += 0.05) LMAX = Math.max(LMAX, contrib(D).c.reduce((s, v) => s + Math.hypot(v[0], v[1]), 0));
-    let sel = 1, full = false, geo = null, grouped = false;
-    draws.bragg = () => {
-      const D = +$("s-D").value, dMo = 0.4 * D, dSi = 0.6 * D, R = R40(D), cm = css("--mo"), cs = css("--si"), mu = css("--muted");
-      $("o-D").textContent = fmt(D, 3) + " nm"; $("r-turn").textContent = fmt(turnsAt(D), 3) + " " + t("turns"); $("r-RD").textContent = pct(R, 1);
-      $("b-full").textContent = t(full ? "Close" : "Full screen");
-      const { u, c } = contrib(D), len = c.map(v => Math.hypot(v[0], v[1])), L = len.reduce((a, b) => a + b, 0), sum = c.reduce((a, v) => C.add(a, v), [0, 0]);
-      const ink = css("--ink"), ac = css("--accent"), ln = css("--line"), cv = $("c-chain"), lab = cv.closest(".lab"), narrow = lab.getBoundingClientRect().width < 600;
-      // The figure takes the room it is given: taller on a phone, where the panels stack, and the whole screen when expanded.
-      let H = narrow ? 540 : 340;
-      if (full) { const kids = [...lab.children].filter(e => e !== cv && !e.hidden && getComputedStyle(e).display !== "none"), st = getComputedStyle(lab);
-        H = Math.max(H, innerHeight - kids.reduce((s, e) => s + e.getBoundingClientRect().height, 0) - parseFloat(st.paddingTop) - parseFloat(st.paddingBottom) - 14 * kids.length - 2); }
-      cv.style.height = H + "px";
-      const { ctx, w, h } = prep(cv), T = 20, mono = "12px " + css("--mono");
-      const hs = narrow ? Math.round(h * .5) : h, P1 = { x: 0, w: narrow ? w * .6 : w * .28 }, P2 = { x: narrow ? w * .63 : w * .3, w: narrow ? w * .37 : w * .2 };
-      const P3 = narrow ? { x: 0, y: hs + 12, w, h: h - hs - 12 } : { x: w * .54, y: 0, w: w * .46, h };
+    // Vertical scales that do not change with the period: the tallest single pair, and the tallest sum of six.
+    let LMAX = 0, CMAX = 0; for (let D = 6.4; D <= 7.6001; D += 0.05) { const k = contrib(D).c.map(v => Math.hypot(v[0], v[1])); LMAX = Math.max(LMAX, k.reduce((s, v) => s + v, 0)); CMAX = Math.max(CMAX, ...k); }
+    // Two scenes of one story: why the return of a deeper pair shifts (with a closer look inside a pair), then how the returns add.
+    // The waves move while the step is on screen; one oscillation takes PERIOD milliseconds.
+    const PERIOD = 3200; let scene = 0, inside = false, built = 0, full = false, run = !matchMedia("(prefers-reduced-motion: reduce)").matches, clock = 0, raf = 0, last = 0;
+    const frame = now => { raf = 0; if (!run || !$("c-chain").offsetParent) return; clock = (clock + Math.min(100, now - last) / PERIOD) % 1; last = now; draws.bragg(true); };
+    draws.bragg = moving => {
+      const D = +$("s-D").value, dMo = 0.4 * D, R = R40(D), cm = css("--mo"), cs = css("--si"), mu = css("--muted");
+      const ink = css("--ink"), ac = css("--accent"), ln = css("--line"), cv = $("c-chain"), lab = cv.closest(".lab"), amp = 30, step = 2 * amp + 38, yA = 82 + amp;
+      if (moving !== true) {
+        $("o-D").textContent = fmt(D, 3) + " nm"; $("r-turn").textContent = fmt(turnsAt(D), 3) + " " + t("turns"); $("r-RD").textContent = pct(R, 1);
+        $("b-full").textContent = t(full ? "Close" : "Full screen"); $("b-play").textContent = t(run ? "Pause" : "Play");
+        $("b-act").textContent = scene ? (built > 0 && built < 6 ? t("Add pair") + " " + (built + 1) : t("Build the sum")) : t(inside ? "Back to the comparison" : "Inside a pair");
+        // Each scene takes the height its rows need, and the whole screen when expanded.
+        let H = scene ? 500 : inside ? yA + 2 * step + amp + 12 : yA + step + amp + 60;
+        if (full && scene) { const kids = [...lab.children].filter(e => e !== cv && !e.hidden && getComputedStyle(e).display !== "none"), st = getComputedStyle(lab);
+          H = Math.max(H, innerHeight - kids.reduce((s, e) => s + e.getBoundingClientRect().height, 0) - parseFloat(st.paddingTop) - parseFloat(st.paddingBottom) - 14 * kids.length - 2); }
+        cv.style.height = H + "px";
+        plot($("c-RD"), { x: [6.4, 7.6], y: [0, 80], xt: [6.4, 6.8, 7.2, 7.6], xf: v => fmt(v, 1), yt: [0, 20, 40, 60, 80], yf: v => v + "%", vline: D, xlabel: t("period D (nm)"),
+          series: [{ pts: RDcurve, color: cm }], marks: [{ x: D, y: 100 * R, color: cm }] });
+      }
+      const { u, c } = contrib(D), len = c.map(v => Math.hypot(v[0], v[1])), L = len.reduce((a, b) => a + b, 0);
+      const { ctx, w, h } = prep(cv), mono = "12px " + css("--mono"), tau = 2 * Math.PI * clock, lam = LAM0 / q0[0], k0 = 2 * Math.PI / lam;
       const text = (s, x, y, col, al, bl, bold) => { ctx.font = (bold ? "600 " : "") + mono; ctx.fillStyle = col; ctx.textAlign = al || "left"; ctx.textBaseline = bl || "top"; ctx.fillText(s, x, y); };
-      text(t("pairs 1–6"), P1.x, 0, mu); text(t("their arrows"), P2.x, 0, mu); text(t("all the arrows added"), P3.x, P3.y, mu);
-      // Panel 1: the six pairs, to scale with the period. Every surface sends back its ray, whichever pair is highlighted.
-      const xs = P1.x + 18, sw = P1.w - 18, y0 = T + 26, pp = D / 7.6 * (hs - y0 - 4) / 6, yt = T + 3, ta = Math.min(.45, (sw - 22) / (2 * (y0 - yt + 5.4 * pp)));
-      for (let j = 0; j < 6; j++) { ctx.globalAlpha = j === sel ? .9 : .38; ctx.fillStyle = cm; ctx.fillRect(xs, y0 + j * pp, sw, .4 * pp); ctx.fillStyle = cs; ctx.fillRect(xs, y0 + (j + .4) * pp, sw, .6 * pp);
-        ctx.globalAlpha = 1; text(j + 1, P1.x + 2, y0 + (j + .5) * pp, j === sel ? ink : mu, "left", "middle", j === sel); }
-      if (pp >= 26) { text("Mo", xs + sw - 4, y0 + .2 * pp, sel === 0 ? css("--surface") : cm, "right", "middle"); text("Si", xs + sw - 4, y0 + .7 * pp, sel === 0 ? css("--surface") : cs, "right", "middle"); }
-      const xin = xs + 8, xAt = y => xin + (y - yt) * ta, ySurf = i => y0 + (Math.floor(i / 2) + (i % 2 ? .4 : 0)) * pp, yEnd = ySurf(11);
-      ctx.strokeStyle = mu; ctx.lineWidth = 1.5; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.beginPath(); ctx.moveTo(xin, yt); ctx.lineTo(xAt(yEnd), yEnd); ctx.stroke();
-      for (let i = 0; i < 12; i++) { const y = ySurf(i), x = xAt(y), on = Math.floor(i / 2) === sel; ctx.globalAlpha = on ? 1 : .6; arrow(ctx, x, y, x + (y - yt) * ta, yt, i % 2 ? cs : cm, on ? 2.5 : 1.2); }
-      ctx.globalAlpha = 1;
-      // The extra round trip of the highlighted pair, compared with the pair above it: one period down and back.
-      if (sel > 0) { const ya = ySurf(2 * sel - 2), yb = ySurf(2 * sel), xb = xAt(yb); ctx.strokeStyle = ink; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(xAt(ya), ya); ctx.lineTo(xb, yb); ctx.lineTo(xb + (yb - ya) * ta, ya); ctx.stroke(); }
-      // Panel 2: level with each pair, the arrows of its two surfaces. Their sum is shown for the highlighted pair, or for all when grouped.
-      const rr = Math.max(7, Math.min(pp / 2 - 3, (P2.w - 26) / 6)), s2 = (rr - 1) / Math.max(...len, ...u.map(v => Math.hypot(v[0], v[1]))), x1 = P2.x + rr + 2, x2 = x1 + 2 * rr + 4, x3 = x2 + 2 * rr + 16;
-      const dial = (x, y, v, col, wd, ring) => { ctx.strokeStyle = ring; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(x, y, rr, 0, 7); ctx.stroke(); arrow(ctx, x, y, x + v[0] * s2, y - v[1] * s2, col, wd); };
-      for (let j = 0; j < 6; j++) { const cy = y0 + (j + .5) * pp, on = j === sel;
-        ctx.strokeStyle = on ? ink : ln; ctx.lineWidth = on ? 1.5 : 1; ctx.beginPath(); ctx.moveTo(xs + sw + 2, cy); ctx.lineTo(x1 - rr - 1, cy); ctx.stroke();
-        ctx.globalAlpha = grouped && !on ? .45 : 1; dial(x1, cy, u[2 * j], cm, on ? 3 : 2, on ? ink : ln); dial(x2, cy, u[2 * j + 1], cs, on ? 3 : 2, on ? ink : ln); ctx.globalAlpha = 1;
-        if (on || grouped) { text("=", x2 + rr + 8, cy, on ? ink : mu, "center", "middle"); dial(x3, cy, c[j], on ? ink : mu, on ? 3.5 : 2.5, on ? ink : ln); } }
-      // Panel 3: the arrows head to tail, at a scale that does not change with the period, and their sum.
-      const R3 = { x: P3.x + 4, y: P3.y + T, w: P3.w - 8, h: P3.h - T - 34 }, s3 = Math.min((R3.w - 12) * .94 / LMAX, (R3.h - 30) / (.66 * LMAX)), ox = R3.x + 6;
-      const ch = [[0, 0]]; u.forEach(v => ch.push(C.add(ch[ch.length - 1], v)));
-      const ys = ch.map(q => q[1]), oy = R3.y + R3.h / 2 + (Math.min(...ys) + Math.max(...ys)) / 2 * s3, X = q => ox + q[0] * s3, Y = q => oy - q[1] * s3, mids = [];
-      ctx.globalAlpha = .5; arrow(ctx, X(ch[0]), Y(ch[0]), X(ch[12]), Y(ch[12]), ac, 6); ctx.globalAlpha = 1;
-      for (let j = 0; j < 6; j++) { const a = ch[2 * j], m = ch[2 * j + 1], b = ch[2 * j + 2], on = j === sel, ang = Math.atan2(c[j][1], c[j][0]);
-        ctx.globalAlpha = grouped ? .35 : 1; arrow(ctx, X(a), Y(a), X(m), Y(m), cm, on && !grouped ? 3.5 : 2); arrow(ctx, X(m), Y(m), X(b), Y(b), cs, on && !grouped ? 3.5 : 2); ctx.globalAlpha = 1;
-        if (grouped || on) { if (!grouped) ctx.setLineDash([5, 4]); arrow(ctx, X(a), Y(a), X(b), Y(b), on ? ink : mu, on ? (grouped ? 4 : 2) : 2.5); ctx.setLineDash([]); }
-        const mx = (X(a) + X(b)) / 2, my = (Y(a) + Y(b)) / 2; text(j + 1, mx - 15 * Math.sin(ang), my - 15 * Math.cos(ang), on ? ink : mu, "center", "middle", on); mids.push([mx, my]); }
-      // Below: the length of the sum against the length the six pairs would reach in step.
-      const by = P3.y + P3.h - 8, S = Math.hypot(sum[0], sum[1]);
-      ctx.lineCap = "round"; ctx.strokeStyle = ln; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(ox, by); ctx.lineTo(ox + L * s3, by); ctx.stroke();
-      ctx.strokeStyle = ac; ctx.beginPath(); ctx.moveTo(ox, by); ctx.lineTo(ox + S * s3, by); ctx.stroke();
-      text(t("sum") + ": " + pct(S / L, 0) + " " + t("of six pairs in step"), ox, by - 7, ac, "left", "bottom");
-      geo = { y0, pp, hs, P3, mids, narrow };
-      plot($("c-RD"), { x: [6.4, 7.6], y: [0, 80], xt: [6.4, 6.8, 7.2, 7.6], xf: v => fmt(v, 1), yt: [0, 20, 40, 60, 80], yf: v => v + "%", vline: D, xlabel: t("period D (nm)"),
-        series: [{ pts: RDcurve, color: cm }], marks: [{ x: D, y: 100 * R, color: cm }] });
+      const seg = (xa, ya, xb, yb, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.lineCap = "round"; ctx.setLineDash(dash || []); ctx.beginPath(); ctx.moveTo(xa, ya); ctx.lineTo(xb, yb); ctx.stroke(); ctx.setLineDash([]); };
+      const dot = (x, y, r, col) => { ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); };
+      // A returned wave of complex amplitude v outside the mirror, at distance z from its surface (z negative), at this instant.
+      const val = (v, z) => v[0] * Math.cos(k0 * z + tau) + v[1] * Math.sin(k0 * z + tau);
+      const crest = (v, zNear) => { const z = (Math.atan2(v[1], v[0]) - tau) / k0; return z + Math.round((zNear - z) / lam) * lam; };
+      const wave = (v, xa, xb, zOf, y, k, col, wd) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.lineJoin = ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(xa, y - k * val(v, zOf(xa)));
+        for (let x = xa; x < xb;) { x = Math.min(x + 2, xb); ctx.lineTo(x, y - k * val(v, zOf(x))); } ctx.stroke(); };
+      if (!scene) {
+        // Left: outside the mirror, where the returned waves are compared. Right: the first four pairs, to scale with the period.
+        const xL = 8, xs = xL + (w - xL) * .52, px = (w - xs - 4) / (4 * 7.6), X = z => xs + z * px, zOf = x => (x - xs) / px, zs = i => Math.floor(i / 2) * D + (i % 2 ? dMo : 0), k = amp / CMAX;
+        const rows = inside ? [[u[2], [2], t("← from where Mo begins, pair 2"), cm, 2.2], [u[3], [3], t("← from where Si begins, pair 2"), cs, 2.2], [c[1], [2, 3], t("← pair 2: the two added"), ink, 3]]
+          : [[c[1], [2, 3], t("← sent back by pair") + " 2", ink, 2.4], [c[2], [4, 5], t("← sent back by pair") + " 3", ink, 2.4]];
+        const yEnd = yA + (rows.length - 1) * step + amp + 6;
+        for (let j = 0; j < 4; j++) { ctx.globalAlpha = .18; ctx.fillStyle = cm; ctx.fillRect(X(j * D), 18, dMo * px, yEnd - 18); ctx.fillStyle = cs; ctx.fillRect(X(j * D + dMo), 18, (D - dMo) * px, yEnd - 18); ctx.globalAlpha = 1; text(j + 1, X((j + .5) * D), 0, mu, "center"); }
+        seg(xs, 18, xs, yEnd, mu, 1); text(t("light coming in"), xL, 22, mu); arrow(ctx, xL, 46, X(4 * D) - 2, 46, mu, 1.5);
+        rows.forEach(([v, surf, label, col, wd], i) => { const y = yA + i * step; text(label, xL, y - amp - 18, mu); seg(xL, y, xs, y, ln, 1);
+          seg(xs, y, X(zs(surf[surf.length - 1])), y, mu, 1.5, [4, 4]);
+          // The extra trip of pair 3: one period further down, and back.
+          if (!inside && i === 1) seg(X(zs(3)), y, X(zs(5)), y, ink, 4);
+          for (const s of surf) dot(X(zs(s)), y, 4.5, s % 2 ? cs : cm);
+          wave(v, xL, xs, zOf, y, k, col, wd); });
+        if (!inside) { const yB = yA + step, za = crest(c[1], zOf(xL + (xs - xL) * .45)), xa = X(za), xb = X(crest(c[2], za)), yg = yB + amp + 12, g = turnsAt(D) - Math.round(turnsAt(D));
+          seg(xa, yA - len[1] * k, xa, yg, ink, 1, [3, 3]); dot(xa, yA - len[1] * k, 4, ink); dot(xb, yB - len[2] * k, 4, ink); seg(xa, yg, xb, yg, ac, 4);
+          text(t("gap between crests") + ": " + fmt(Math.abs(g), 3) + " " + t("of a turn"), xL, yg + 10, ac);
+          seg(xL + 2, yg + 35, xL + 16, yg + 35, ink, 4); text(t("one period more, down and back"), xL + 24, yg + 28, ink); }
+      } else {
+        // The six returns outside the mirror, each at its real size, and their sum at the same scale. While the sum is being built,
+        // only the first few are added; the others are still drawn, fainter.
+        const xL = 20, xR = xL + (w - xL) * .5, px = (w - xL) / (2.6 * lam), zOf = x => (x - w) / px, yp = 24, A = (h - yp - 104) / (2 + 12 * CMAX / LMAX), k = A / LMAX, hl = 2 * CMAX * k + 10, ysum = yp + 6 * hl + 34 + A;
+        const n = built || 6, sum = c.slice(0, n).reduce((a, v) => C.add(a, v), [0, 0]);
+        text(t("← sent back by each pair"), xL, 2, mu); seg(xR, yp, xR, ysum + A, ln, 1);
+        for (let j = 0; j < 6; j++) { const y = yp + (j + .5) * hl, newest = built > 0 && j === n - 1; ctx.globalAlpha = j < n ? 1 : .28;
+          text(j + 1, 2, y, newest ? ink : mu, "left", "middle", newest); seg(xL, y, w, y, ln, 1); wave(c[j], xL, w, zOf, y, k, newest ? ink : mu, newest ? 2.8 : 1.8); dot(xR, y - k * val(c[j], zOf(xR)), 3.5, newest ? ink : mu); }
+        ctx.globalAlpha = 1;
+        text(n < 6 ? t("first returns added") + ": " + n : t("sum") + ": " + pct(Math.hypot(sum[0], sum[1]) / L, 0) + " " + t("of six pairs in step"), xL, ysum - A - 22, ac);
+        seg(xL, ysum, w, ysum, ln, 1); for (const s of [-1, 1]) seg(xL, ysum + s * L * k, w, ysum + s * L * k, mu, 1, [5, 4]);
+        wave(sum, xL, w, zOf, ysum, k, ac, 3.2); dot(xR, ysum - k * val(sum, zOf(xR)), 5, ac);
+      }
+      if (run && !raf) { if (moving !== true) last = performance.now(); raf = requestAnimationFrame(frame); }
     };
     $("s-D").oninput = draws.bragg;
-    const pick = j => { sel = j; [...$("g-pair").children].forEach((b, i) => b.setAttribute("aria-pressed", i === j)); draws.bragg(); };
-    [...$("g-pair").children].forEach((b, i) => b.onclick = () => pick(i));
-    $("c-chain").style.cursor = "pointer";
-    $("c-chain").onclick = e => { if (!geo) return; const r = e.currentTarget.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-      const inSum = geo.narrow ? y > geo.hs : x > geo.P3.x;
-      if (inSum) { let k = 0, best = 1e9; geo.mids.forEach((m, i) => { const d = Math.hypot(m[0] - x, m[1] - y); if (d < best) { best = d; k = i; } }); pick(k); }
-      else { const j = Math.floor((y - geo.y0) / geo.pp); if (j >= 0 && j < 6) pick(j); } };
+    toggle("t-scene", d => { scene = +d.s; inside = false; built = 0; draws.bragg(); });
+    $("b-act").onclick = () => { if (scene) built = built > 0 && built < 6 ? built + 1 : 1; else inside = !inside; draws.bragg(); };
     const setFull = v => { full = v; const lab = $("c-chain").closest(".lab"); lab.classList.toggle("full", v); document.body.classList.toggle("has-full", v); if (v) lab.scrollTop = 0; draws.bragg(); };
     $("b-full").onclick = () => setFull(!full);
-    toggle("t-grp", d => { grouped = d.g === "1"; draws.bragg(); });
+    $("b-play").onclick = () => { run = !run; draws.bragg(); };
     addEventListener("keydown", e => { if (e.key === "Escape" && full) setFull(false); });
     dragX($("c-RD"), $("s-D"), 6.4, 7.6);
 
