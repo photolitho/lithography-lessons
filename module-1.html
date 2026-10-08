@@ -84,20 +84,22 @@
   <p class="why">A mirror reflects at boundaries between materials. To say how much, a material must first be turned into a number. This step introduces the first half of that number, the half that, as long as absorption is left out, decides whether a boundary reflects at all.</p>
   <p>To light, every material is a number: the refractive index <span class="mono">n</span>. Vacuum has <span class="mono">n = 1</span>. Glass, in visible light, has <span class="mono">n = 1.5</span>.</p>
   <p>What the number means: inside the material the wave keeps its rhythm, but its crests travel at speed <span class="mono">c/n</span> instead of <span class="mono">c</span>, so they sit closer together or further apart. The wavelength inside is <span class="mono">λ/n</span>.</p>
-  <p>The figure below shows it. It draws a beam of light from the side, with its crests as lines across it; one crest in four is thicker, so you can follow it. Start with «Head-on»: the crests reach the surface one after the other, at the same rhythm above and below it, but below it they move more slowly, so they bunch up: <span class="mono">λ/n</span> apart instead of <span class="mono">λ</span>.</p>
-  <p>Then switch to «At an angle». Now one end of each crest reaches the material before the other. That end slows down first, while the other end is still moving fast above the surface: the crest bends at the surface, and the whole beam turns. It is what happens to a row of people walking arm in arm from a pavement onto sand, at an angle: whoever steps onto the sand first slows down first, and the row turns. The ray is the direction the crests move in, always perpendicular to them, so it turns with them.</p>
+  <p>The figure below shows it in two ways. «Wave» draws a single wave as a sine curve along its path, as in the first step. «Crests» draws a whole beam seen from the side, with its crests as lines across it. In both, some crests are marked, so you can follow them. Start with «Head-on»: the crests reach the surface one after the other, at the same rhythm above and below it, but below it they move more slowly, so they bunch up: <span class="mono">λ/n</span> apart instead of <span class="mono">λ</span>.</p>
+  <p>Then switch to «At an angle»: the wave turns at the surface and goes on, shorter, in a new direction. «Crests» shows why. One end of each crest reaches the material before the other. That end slows down first, while the other end is still moving fast above the surface: the crest bends at the surface, and the whole beam turns. It is what happens to a row of people walking arm in arm from a pavement onto sand, at an angle: whoever steps onto the sand first slows down first, and the row turns. The ray is the direction the crests move in, always perpendicular to them, so it turns with them.</p>
   <div class="lab">
     <canvas id="c-snell" style="height:290px"></canvas>
+    <div class="toggle" id="t-view"><button data-v="0" aria-pressed="true">Wave</button><button data-v="1" aria-pressed="false">Crests</button></div>
     <div class="toggle" id="t-inc"><button data-a="0" aria-pressed="true">Head-on</button><button data-a="30" aria-pressed="false">At an angle</button></div>
     <div class="ctrl"><label for="s-n2">n</label><input type="range" id="s-n2" min="0.7" max="1.6" step="0.01" value="1.5"><output id="o-n2"></output></div>
     <div class="reads"><span><b>wavelength below</b><span id="r-lamin"></span></span><span><b>angle below</b><span id="r-th2b"></span></span></div>
     <div class="tries"><span class="cap">Try</span>
-      <button class="chip" data-set="t-inc:0 s-n2:1.5" data-note="Follow the thick crest: below the surface it moves more slowly, and the crests bunch up to two thirds of the distance above. The direction does not change.">Head-on, n = 1.5</button>
-      <button class="chip" data-set="t-inc:1 s-n2:1.5" data-note="The left end of each crest enters first and slows first, while the right end still runs above: the crest bends at the surface and the beam turns toward the vertical, away from the dashed line.">At an angle, n = 1.5</button>
+      <button class="chip" data-set="t-view:0 t-inc:0 s-n2:1.5" data-note="Follow a dot: below the surface the crest moves more slowly, and the wave is squeezed to two thirds of its length. The direction does not change.">Wave, head-on</button>
+      <button class="chip" data-set="t-view:0 t-inc:1 s-n2:1.5" data-note="The wave reaches the surface, turns toward the vertical and goes on shorter, λ/n instead of λ. The dashed line is where it would go without the material.">Wave, at an angle</button>
+      <button class="chip" data-set="t-view:1 t-inc:1 s-n2:1.5" data-note="The left end of each crest enters first and slows first, while the right end still runs above: the crest bends at the surface and the beam turns toward the vertical, away from the dashed line.">Crests, at an angle</button>
       <button class="chip" data-set="t-inc:1 s-n2:0.92" data-note="Close to molybdenum in EUV light. Below the surface the crests are faster and further apart: the end that enters first speeds up, and the beam turns away from the vertical.">At an angle, n = 0.92</button>
       <div class="note" hidden></div>
     </div>
-    <div class="cap">A beam of light seen from the side. Lines: crests; the thick one is the same crest all the way across. Arrows: one wavelength on each side. Dashed: the direction the beam would keep without the material.</div>
+    <div class="cap">Wave: one wave along its path; the dots ride on every other crest. Crests: a beam seen from the side; each line is a crest, and the thick ones are one in four. Arrows: one wavelength on each side. Dashed: the direction the beam would keep without the material.</div>
   </div>
   <p>Move <span class="mono">n</span> and watch the reflected ray and the ray that enters. The angles are measured from the dashed vertical, the perpendicular to the surface.</p>
   <div class="lab">
@@ -407,19 +409,23 @@ Object.assign(IT, {
   "n": "n",
   "reflected light": "luce riflessa",
   "angle of the ray that enters": "angolo del raggio che entra",
-  "The figure below shows it. It draws a beam of light from the side, with its crests as lines across it; one crest in four is thicker, so you can follow it. Start with «Head-on»: the crests reach the surface one after the other, at the same rhythm above and below it, but below it they move more slowly, so they bunch up: <span class=\"mono\">λ/n</span> apart instead of <span class=\"mono\">λ</span>.": "La figura qui sotto lo mostra. Disegna un fascio di luce visto di lato, con le sue creste come linee che lo attraversano; una cresta su quattro è più spessa, così puoi seguirla. Comincia con «Di fronte»: le creste arrivano alla superficie una dopo l'altra, con lo stesso ritmo sopra e sotto, ma sotto si muovono più lente, quindi si avvicinano: distano <span class=\"mono\">λ/n</span> invece di <span class=\"mono\">λ</span>.",
-  "Then switch to «At an angle». Now one end of each crest reaches the material before the other. That end slows down first, while the other end is still moving fast above the surface: the crest bends at the surface, and the whole beam turns. It is what happens to a row of people walking arm in arm from a pavement onto sand, at an angle: whoever steps onto the sand first slows down first, and the row turns. The ray is the direction the crests move in, always perpendicular to them, so it turns with them.": "Poi passa a «Di sbieco». Ora un'estremità di ogni cresta raggiunge il materiale prima dell'altra. Quell'estremità rallenta per prima, mentre l'altra corre ancora veloce sopra la superficie: la cresta si piega sulla superficie, e tutto il fascio gira. È ciò che succede a una fila di persone che camminano a braccetto da un marciapiede alla sabbia, di sbieco: chi mette piede sulla sabbia per primo rallenta per primo, e la fila gira. Il raggio è la direzione in cui si muovono le creste, sempre perpendicolare a esse, quindi gira con loro.",
+  "The figure below shows it in two ways. «Wave» draws a single wave as a sine curve along its path, as in the first step. «Crests» draws a whole beam seen from the side, with its crests as lines across it. In both, some crests are marked, so you can follow them. Start with «Head-on»: the crests reach the surface one after the other, at the same rhythm above and below it, but below it they move more slowly, so they bunch up: <span class=\"mono\">λ/n</span> apart instead of <span class=\"mono\">λ</span>.": "La figura qui sotto lo mostra in due modi. «Onda» disegna una singola onda come una sinusoide lungo il suo percorso, come nel primo passo. «Creste» disegna un intero fascio visto di lato, con le sue creste come linee che lo attraversano. In entrambi alcune creste sono segnate, così puoi seguirle. Comincia con «Di fronte»: le creste arrivano alla superficie una dopo l'altra, con lo stesso ritmo sopra e sotto, ma sotto si muovono più lente, quindi si avvicinano: distano <span class=\"mono\">λ/n</span> invece di <span class=\"mono\">λ</span>.",
+  "Then switch to «At an angle»: the wave turns at the surface and goes on, shorter, in a new direction. «Crests» shows why. One end of each crest reaches the material before the other. That end slows down first, while the other end is still moving fast above the surface: the crest bends at the surface, and the whole beam turns. It is what happens to a row of people walking arm in arm from a pavement onto sand, at an angle: whoever steps onto the sand first slows down first, and the row turns. The ray is the direction the crests move in, always perpendicular to them, so it turns with them.": "Poi passa a «Di sbieco»: l'onda gira sulla superficie e prosegue, più corta, in una nuova direzione. «Creste» mostra perché. Un'estremità di ogni cresta raggiunge il materiale prima dell'altra. Quell'estremità rallenta per prima, mentre l'altra corre ancora veloce sopra la superficie: la cresta si piega sulla superficie, e tutto il fascio gira. È ciò che succede a una fila di persone che camminano a braccetto da un marciapiede alla sabbia, di sbieco: chi mette piede sulla sabbia per primo rallenta per primo, e la fila gira. Il raggio è la direzione in cui si muovono le creste, sempre perpendicolare a esse, quindi gira con loro.",
   "Head-on": "Di fronte",
   "At an angle": "Di sbieco",
   "wavelength below": "lunghezza d'onda sotto",
   "angle below": "angolo sotto",
-  "Head-on, n = 1.5": "Di fronte, n = 1,5",
-  "At an angle, n = 1.5": "Di sbieco, n = 1,5",
+  "Wave": "Onda",
+  "Crests": "Creste",
+  "Wave, head-on": "Onda, di fronte",
+  "Wave, at an angle": "Onda, di sbieco",
+  "Crests, at an angle": "Creste, di sbieco",
+  "Follow a dot: below the surface the crest moves more slowly, and the wave is squeezed to two thirds of its length. The direction does not change.": "Segui un punto: sotto la superficie la cresta si muove più lenta, e l'onda si accorcia a due terzi della sua lunghezza. La direzione non cambia.",
+  "The wave reaches the surface, turns toward the vertical and goes on shorter, λ/n instead of λ. The dashed line is where it would go without the material.": "L'onda arriva alla superficie, gira verso la verticale e prosegue più corta, λ/n invece di λ. La linea tratteggiata è dove andrebbe senza il materiale.",
   "At an angle, n = 0.92": "Di sbieco, n = 0,92",
-  "Follow the thick crest: below the surface it moves more slowly, and the crests bunch up to two thirds of the distance above. The direction does not change.": "Segui la cresta spessa: sotto la superficie si muove più lenta, e le creste si stringono a due terzi della distanza che hanno sopra. La direzione non cambia.",
   "The left end of each crest enters first and slows first, while the right end still runs above: the crest bends at the surface and the beam turns toward the vertical, away from the dashed line.": "L'estremità sinistra di ogni cresta entra per prima e rallenta per prima, mentre quella destra corre ancora sopra: la cresta si piega sulla superficie e il fascio gira verso la verticale, staccandosi dalla linea tratteggiata.",
   "Close to molybdenum in EUV light. Below the surface the crests are faster and further apart: the end that enters first speeds up, and the beam turns away from the vertical.": "Vicino al molibdeno nella luce EUV. Sotto la superficie le creste sono più veloci e più distanti: l'estremità che entra per prima accelera, e il fascio si allontana dalla verticale.",
-  "A beam of light seen from the side. Lines: crests; the thick one is the same crest all the way across. Arrows: one wavelength on each side. Dashed: the direction the beam would keep without the material.": "Un fascio di luce visto di lato. Linee: creste; quella spessa è sempre la stessa cresta, da una parte all'altra. Frecce: una lunghezza d'onda per lato. Tratteggiata: la direzione che il fascio manterrebbe senza il materiale.",
+  "Wave: one wave along its path; the dots ride on every other crest. Crests: a beam seen from the side; each line is a crest, and the thick ones are one in four. Arrows: one wavelength on each side. Dashed: the direction the beam would keep without the material.": "Onda: una singola onda lungo il suo percorso; i punti viaggiano su una cresta ogni due. Creste: un fascio visto di lato; ogni linea è una cresta, e quelle spesse sono una su quattro. Frecce: una lunghezza d'onda per lato. Tratteggiata: la direzione che il fascio manterrebbe senza il materiale.",
   "The reflected ray is drawn brighter than it really is, so you can see it.": "Il raggio riflesso è disegnato più luminoso del vero, per renderlo visibile.",
   "<strong>Light reflects only where the two indices differ.</strong> With <span class=\"mono\">n = 1</span> the light does not notice the boundary: it goes straight through and nothing comes back.": "<strong>La luce si riflette solo dove i due indici sono diversi.</strong> Con <span class=\"mono\">n = 1</span> la luce non si accorge del confine: va dritta e non torna indietro niente.",
   "Notice which way the ray bends too: with <span class=\"mono\">n</span> above 1 it moves toward the vertical, with <span class=\"mono\">n</span> below 1 it moves away. At 13.5 nm molybdenum and silicon are both below 1.": "Nota anche da che parte piega il raggio: con <span class=\"mono\">n</span> sopra 1 si avvicina alla verticale, con <span class=\"mono\">n</span> sotto 1 se ne allontana. A 13,5 nm molibdeno e silicio stanno entrambi sotto 1.",
@@ -701,11 +707,11 @@ startLesson({
     // A beam seen from the side, with its crests drawn across it. Below the surface the crests move at c/n, so they sit λ/n apart.
     // Head-on they only bunch up; at an angle one end of each crest enters first and slows first, so the crest kinks and the beam turns.
     // One crest in four is drawn thick, so it can be followed across the surface.
-    let inc = 0, raf = 0, t0 = 0;
+    let inc = 0, view = 0, raf = 0, t0 = 0;
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const beam = now => {
       const c = $("c-snell"), n = +$("s-n2").value, th1 = inc * Math.PI / 180, th2 = Math.asin(Math.sin(th1) / n);
-      const { ctx, w, h } = prep(c), cy = h * .5, cx = w * .5, lam = Math.max(24, Math.min(34, w / 16)), acc = css("--accent"), ink = css("--ink"), mut = css("--muted");
+      const { ctx, w, h } = prep(c), cy = h * .5, cx = w * .5, lam = view ? Math.max(24, Math.min(34, w / 16)) : Math.max(44, Math.min(70, w / 6)), acc = css("--accent"), ink = css("--ink"), mut = css("--muted");
       const u = still ? 1.4 : ((now - t0) / 1600) % 4;
       ctx.globalAlpha = Math.min(.4, Math.abs(n - 1) * .75); ctx.fillStyle = acc; ctx.fillRect(0, cy, w, h - cy); ctx.globalAlpha = 1;
       ctx.strokeStyle = mut; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
@@ -719,7 +725,7 @@ startLesson({
         const kx = Math.sin(th), ky = Math.cos(th);
         for (let j = -60; j <= 60; j++) {
           const d = (j + u) * sp, px = cx + d * kx, py = cy + d * ky, thick = ((j % 4) + 4) % 4 === 0;
-          ctx.strokeStyle = acc; ctx.globalAlpha = thick ? 1 : .45; ctx.lineWidth = thick ? 4 : 1.6;
+          ctx.strokeStyle = acc; ctx.globalAlpha = view ? (thick ? 1 : .45) : .14; ctx.lineWidth = view && thick ? 4 : 1.6;
           ctx.beginPath(); ctx.moveTo(px - far * ky, py + far * kx); ctx.lineTo(px + far * ky, py - far * kx); ctx.stroke();
         }
         ctx.restore(); ctx.globalAlpha = 1;
@@ -729,6 +735,17 @@ startLesson({
       const rl = Math.min(cy, h - cy) * .92;
       if (inc && Math.abs(n - 1) > .02) { ctx.strokeStyle = mut; ctx.lineWidth = 1.3; ctx.setLineDash([5, 5]); ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + rl * Math.sin(th1), cy + rl * Math.cos(th1)); ctx.stroke(); ctx.setLineDash([]); }
       ctx.setLineDash([4, 5]); ctx.strokeStyle = mut; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx, cy - rl); ctx.lineTo(cx, cy + rl); ctx.stroke(); ctx.setLineDash([]);
+      // Wave view: one wave as a sine curve along the middle of the beam, swinging across its path.
+      // Its crests sit on the crest lines; a dot rides on every other crest.
+      if (!view) {
+        const amp = Math.min(22, half * Math.cos(th1) * .4), pts = [], dots = [];
+        const along = (th, sp, s0, s1) => { const kx = Math.sin(th), ky = Math.cos(th);
+          for (let s = s0; s <= s1; s += 1.5) { const c = Math.cos(2 * Math.PI * (s / sp - u)); pts.push([cx + s * kx + amp * c * ky, cy + s * ky - amp * c * kx]); }
+          for (let j = -60; j <= 60; j++) { const s = (j + u) * sp; if (((j % 2) + 2) % 2 === 0 && s >= s0 && s <= s1) dots.push([cx + s * kx + amp * ky, cy + s * ky - amp * kx]); } };
+        along(th1, lam, -far, 0); along(th2, lam / n, 0, far);
+        ctx.strokeStyle = acc; ctx.lineWidth = 3; ctx.lineJoin = "round"; ctx.beginPath(); pts.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.stroke();
+        ctx.fillStyle = ink; dots.forEach(q => { ctx.beginPath(); ctx.arc(q[0], q[1], 5, 0, 7); ctx.fill(); });
+      }
       // Rulers beside the beam: one wavelength above, one below.
       ctx.font = "13px " + css("--mono");
       const ruler = (th, len, top, label) => {
@@ -750,6 +767,7 @@ startLesson({
     draws.n = (d => () => { d(); if (!raf) { if (!t0) t0 = performance.now(); raf = requestAnimationFrame(frame); } else beam(performance.now()); })(draws.n);
     $("s-n2").oninput = () => beam(performance.now());
     toggle("t-inc", d => { inc = +d.a; beam(performance.now()); });
+    toggle("t-view", d => { view = +d.v; beam(performance.now()); });
 
     /* ---------- complex plane ---------- */
     draws.complex = () => {
