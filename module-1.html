@@ -416,6 +416,9 @@ Object.assign(IT, {
   "wavelength below": "lunghezza d'onda sotto",
   "angle below": "angolo sotto",
   "Wave": "Onda",
+  "Vacuum": "Vuoto",
+  "Material": "Materiale",
+  "crests at speed": "creste a velocità",
   "Crests": "Creste",
   "Wave, head-on": "Onda, di fronte",
   "Wave, at an angle": "Onda, di sbieco",
@@ -687,7 +690,7 @@ startLesson({
       ray(-th, true, 1); ray(th, true, Math.min(1, Math.sqrt(R) * 4)); ray(th2, false, 1 - R);
       $("r-th2").textContent = fmt(th2 * 180 / Math.PI, 1) + "°";
       ctx.fillStyle = css("--muted"); ctx.font = "12px " + css("--mono"); ctx.textBaseline = "top"; ctx.textAlign = "left";
-      ctx.fillText(t("vacuum") + "  n = 1", 8, 8); ctx.fillText(t("material") + "  n = " + fmt(n, 2), 8, cy + 8);
+      ctx.fillText(t("Vacuum") + ": n = 1", 8, 8); ctx.fillText(t("Material") + ": n = " + fmt(n, 2), 8, cy + 8);
       // Each angle: an arc from the perpendicular to the ray, and its value just outside the ray.
       const deg = a => fmt(a * 180 / Math.PI, 1) + "°", ink = css("--ink"), ra = 36, rt = 50;
       const angle = (a0, a1, label, ta, align, base) => {
@@ -696,10 +699,10 @@ startLesson({
         ctx.fillText(label, cx + rt * Math.cos(ta), cy + rt * Math.sin(ta));
       };
       const up = -Math.PI / 2, down = Math.PI / 2, off = .2;
-      angle(up - th, up, "θ₁ " + deg(th), up - th - off, "right", "bottom");
+      angle(up - th, up, "θ₁ = " + deg(th), up - th - off, "right", "bottom");
       angle(up, up + th, deg(th), up + th + off, "left", "bottom");
-      if (th2 > .01) angle(down - th2, down, "θ₂ " + deg(th2), down - th2 - off, "left", "top");
-      else { ctx.fillStyle = ink; ctx.font = "13px " + css("--mono"); ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillText("θ₂ " + deg(th2), cx + 8, cy + rt); }
+      if (th2 > .01) angle(down - th2, down, "θ₂ = " + deg(th2), down - th2 - off, "left", "top");
+      else { ctx.fillStyle = ink; ctx.font = "13px " + css("--mono"); ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillText("θ₂ = " + deg(th2), cx + 8, cy + rt); }
     };
     $("s-n").oninput = draws.n;
 
@@ -758,8 +761,11 @@ startLesson({
       ruler(th1, lam, true, "λ"); ruler(th2, lam / n, false, "λ/n");
       ctx.font = "12px " + css("--mono"); ctx.textBaseline = "middle";
       const tag = (s, x, y, right) => { const tw = ctx.measureText(s).width, x0 = right ? x - tw : x; ctx.fillStyle = css("--surface"); ctx.fillRect(x0 - 4, y - 9, tw + 8, 18); ctx.fillStyle = ink; ctx.textAlign = "left"; ctx.fillText(s, x0, y); };
-      tag(t("vacuum") + "  n = 1  · c", 6, 14); tag(t("material") + "  n = " + fmt(n, 2) + "  · c/n", 6, h - 14);
-      if (inc) { tag("θ₁ " + fmt(th1 * 180 / Math.PI, 1) + "°", w - 6, 14, true); tag("θ₂ " + fmt(th2 * 180 / Math.PI, 1) + "°", w - 6, h - 14, true); }
+      // Each side: what it is and its index, then how fast its crests move.
+      const label = (a, b, y0) => { tag(a, 6, y0); ctx.font = "11px " + css("--mono"); const tw = ctx.measureText(b).width; ctx.fillStyle = css("--surface"); ctx.fillRect(2, y0 + 7, tw + 8, 17); ctx.fillStyle = mut; ctx.fillText(b, 6, y0 + 16); ctx.font = "12px " + css("--mono"); };
+      label(t("Vacuum") + ": n = 1", t("crests at speed") + " c", 14);
+      label(t("Material") + ": n = " + fmt(n, 2), t("crests at speed") + " " + fmt(1 / n, 2) + " c", h - 30);
+      if (inc) { tag("θ₁ = " + fmt(th1 * 180 / Math.PI, 1) + "°", w - 6, 14, true); tag("θ₂ = " + fmt(th2 * 180 / Math.PI, 1) + "°", w - 6, h - 14, true); }
       $("o-n2").textContent = fmt(n, 2); $("r-lamin").textContent = fmt(1 / n, 2) + " λ"; $("r-th2b").textContent = fmt(th2 * 180 / Math.PI, 1) + "°";
     };
     // The loop runs only while the step is on screen; with reduced motion the figure stays still.
