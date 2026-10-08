@@ -742,10 +742,21 @@ startLesson({
       // Its crests sit on the crest lines; a dot rides on every other crest.
       if (!view) {
         const amp = Math.min(22, half * Math.cos(th1) * .4), pts = [], dots = [];
-        const along = (th, sp, s0, s1) => { const kx = Math.sin(th), ky = Math.cos(th);
-          for (let s = s0; s <= s1; s += 1.5) { const c = Math.cos(2 * Math.PI * (s / sp - u)); pts.push([cx + s * kx + amp * c * ky, cy + s * ky - amp * c * kx]); }
-          for (let j = -60; j <= 60; j++) { const s = (j + u) * sp; if (((j % 2) + 2) % 2 === 0 && s >= s0 && s <= s1) dots.push([cx + s * kx + amp * ky, cy + s * ky - amp * kx]); } };
-        along(th1, lam, -far, 0); along(th2, lam / n, 0, far);
+        // The axis of the wave follows the ray, with the corner at the surface rounded over a few pixels (a quadratic
+        // Bézier from T before the corner to T after it), so the swing, always across the axis, stays continuous.
+        const k1 = [Math.sin(th1), Math.cos(th1)], k2 = [Math.sin(th2), Math.cos(th2)], T = 14;
+        const axis = s => {
+          if (s <= -T) return [cx + s * k1[0], cy + s * k1[1], k1];
+          if (s >= T) return [cx + s * k2[0], cy + s * k2[1], k2];
+          const f = (s + T) / (2 * T), a = [cx - T * k1[0], cy - T * k1[1]], b = [cx + T * k2[0], cy + T * k2[1]];
+          const x = (1 - f) * (1 - f) * a[0] + 2 * f * (1 - f) * cx + f * f * b[0], y = (1 - f) * (1 - f) * a[1] + 2 * f * (1 - f) * cy + f * f * b[1];
+          const dx = 2 * (1 - f) * (cx - a[0]) + 2 * f * (b[0] - cx), dy = 2 * (1 - f) * (cy - a[1]) + 2 * f * (b[1] - cy), m = Math.hypot(dx, dy);
+          return [x, y, [dx / m, dy / m]];
+        };
+        const at = (s, c) => { const [x, y, k] = axis(s); return [x + amp * c * k[1], y - amp * c * k[0]]; };
+        const phase = s => s < 0 ? s / lam : s * n / lam;
+        for (let s = -far; s <= far; s += 1.5) pts.push(at(s, Math.cos(2 * Math.PI * (phase(s) - u))));
+        for (let j = -60; j <= 60; j++) if (((j % 2) + 2) % 2 === 0) { const s = j + u; dots.push(at(s < 0 ? s * lam : s * lam / n, 1)); }
         ctx.strokeStyle = acc; ctx.lineWidth = 3; ctx.lineJoin = "round"; ctx.beginPath(); pts.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.stroke();
         ctx.fillStyle = ink; dots.forEach(q => { ctx.beginPath(); ctx.arc(q[0], q[1], 5, 0, 7); ctx.fill(); });
       }
